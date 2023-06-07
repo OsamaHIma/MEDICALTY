@@ -133,7 +133,7 @@ const Account = () => {
           )}
           {isEditing && (
             <div
-              className="absolute bottom-0 right-0 p-1 bg-blue-500 rounded-full cursor-pointer"
+              className="absolute bottom-0 right-0 p-1 bg-green-500 rounded-full cursor-pointer"
               onClick={handleProfilePictureEditClick}
             >
               <svg
@@ -156,7 +156,7 @@ const Account = () => {
           <p className="px-4 w-full rounded-tr-md rounded-tl-md dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
             <HiOutlineMail
               size={24}
-              className="inline-block mr-2 text-blue-500"
+              className="inline-block mr-2 text-green-500"
             />
             {user.email}
           </p>
@@ -164,13 +164,13 @@ const Account = () => {
             <p className="px-4 w-full dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
               <MdSupervisorAccount
                 size={24}
-                className="inline-block mr-2 text-blue-500"
+                className="inline-block mr-2 text-green-500"
               />
               Admin
             </p>
           ) : (
             <p className="px-4 w-full dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
-              <MdGroup size={24} className="inline-block mr-2 text-blue-500" />
+              <MdGroup size={24} className="inline-block mr-2 text-green-500" />
               Employee
             </p>
           )}
@@ -182,7 +182,7 @@ const Account = () => {
             Personal Information
           </h3>
           <div className="flex items-center mb-4">
-            <MdPermIdentity size={24} className="text-blue-500 mr-2" />
+            <MdPermIdentity size={24} className="text-green-500 mr-2" />
             {isEditing ? (
               <input
                 className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
@@ -196,7 +196,7 @@ const Account = () => {
             )}
           </div>
           <div className="flex items-center mb-4">
-            <MdEmail size={24} className="text-blue-500 mr-2" />
+            <MdEmail size={24} className="text-green-500 mr-2" />
             {isEditing ? (
               <input
                 type="email"
@@ -211,7 +211,7 @@ const Account = () => {
             )}
           </div>
           <div className="flex items-center mb-4">
-            <MdDateRange size={24} className="text-blue-500 mr-2" />
+            <MdDateRange size={24} className="text-green-500 mr-2" />
             {isEditing ? (
               <input
                 type="date"
@@ -228,7 +228,7 @@ const Account = () => {
             )}
           </div>
           <div className="flex items-center mb-4">
-            <IoIosPin size={24} className="text-blue-500 mr-2" />
+            <IoIosPin size={24} className="text-green-500 mr-2" />
             {isEditing ? (
               <input
                 type="text"
@@ -243,7 +243,7 @@ const Account = () => {
             )}
           </div>
           <div className="flex items-center mb-4">
-            <MdAccountCircle size={24} className="text-blue-500 mr-2" />
+            <MdAccountCircle size={24} className="text-green-500 mr-2" />
             {isEditing ? (
               <input
                 className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
@@ -257,7 +257,7 @@ const Account = () => {
             )}
           </div>
           <div className="flex items-center mb-4">
-            <MdPhone size={24} className="text-blue-500 mr-2" />
+            <MdPhone size={24} className="text-green-500 mr-2" />
             {isEditing ? (
               <input
                 className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
@@ -276,7 +276,7 @@ const Account = () => {
             Professional Information
           </h3>
           <div className="flex items-center mb-4">
-            <MdBusiness size={24} className="text-blue-500 mr-2" />
+            <MdBusiness size={24} className="text-green-500 mr-2" />
             {isEditing ? (
               <input
                 className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
@@ -292,7 +292,7 @@ const Account = () => {
             )}
           </div>
           <div className="flex items-center mb-4">
-            <MdWork size={24} className="text-blue-500 mr-2" />
+            <MdWork size={24} className="text-green-500 mr-2" />
             {isEditing ? (
               <input
                 className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
@@ -306,7 +306,7 @@ const Account = () => {
             )}
           </div>
           <div className="flex items-center mb-4">
-            <MdAttachMoney size={24} className="text-blue-500 mr-2" />
+            <MdAttachMoney size={24} className="text-green-500 mr-2" />
             {isEditing ? (
               <input
                 type="number"

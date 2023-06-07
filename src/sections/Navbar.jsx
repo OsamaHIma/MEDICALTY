@@ -63,9 +63,9 @@ const Navbar = () => {
       <div className="flex flex-1 md:flex-[0.4] w-full md:w-auto justify-center mt-2">
         <button onClick={() => collapseSidebar()} className="mr-3">
           {collapsed ? (
-            <FiMenu className="text-2xl" />
+            <FiMenu className="text-2xl text-gray-500 dark:text-green-200" />
           ) : (
-            <BiChevronLeft className="text-2xl" />
+            <BiChevronLeft className="text-2xl text-gray-500 dark:text-green-200" />
           )}
         </button>
         <input
@@ -99,7 +99,7 @@ const Navbar = () => {
         )}
         <button
           type="button"
-          className="bg-blue-500 p-2 !rounded-r-md flex items-center justify-center"
+          className="bg-green-500 p-2 !rounded-r-md flex items-center justify-center"
           onClick={handleSearch}
         >
           <FiSearch className="text-slate-50 text-[35px]" />
@@ -127,14 +127,14 @@ const Navbar = () => {
         </div>
         {showMenu && (
           <div className="absolute bg-gradient-to-tr from-slate-50 to-slate-200 dark:text-slate-900 shadow-md p-2 rounded-md mt-2 top-[80%] right-[10%] z-10">
-            <button className="block w-full text-left p-1 rounded-md hover:bg-gray-100">
+            <button className="block w-full text-left p-1 rounded-md hover:bg-green-100">
               <Link href="/dashboard/profile">Profile</Link>
             </button>
-            <button className="block w-full text-left p-1 rounded-md hover:bg-gray-100">
+            <button className="block w-full text-left p-1 rounded-md hover:bg-green-100">
               <Link href="/dashboard/account">My account</Link>
             </button>
             <button
-              className="block w-full text-left p-1 rounded-md hover:bg-gray-100"
+              className="block w-full text-left p-1 rounded-md hover:bg-green-100"
               onClick={handleSignOut}
             >
               Logout

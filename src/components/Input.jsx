@@ -1,13 +1,12 @@
 "use client";
 import PropTypes from "prop-types";
-import { useState } from "react";
 import { useProSidebar } from "react-pro-sidebar";
 
 const Input = ({
   upperCase = false,
   rounded = "rounded-md",
   inputBgColor = "bg-white dark:bg-slate-700",
-  labelBgColor = "bg-blue-500",
+  labelBgColor = "bg-green-500",
   labelText = "Label Text",
   type = "text",
   typeOfSelectData,
@@ -21,31 +20,23 @@ const Input = ({
   selectData,
   ...inputProps
 }) => {
-  const [selectedName, setSelectedName] = useState();
-
-  const handleSelectChange = (event) => {
-    setSelectedName(event.target.value);
-  };
-
   const renderSelect = () => (
     <select
       placeholder={placeHolder}
       name="workers"
       className={`mx-2 flex-1 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
       {...inputProps}
-      // value={selectedName}
-      // onChange={handleSelectChange}
     >
       {typeOfSelectData === "normal"
         ? selectData &&
           selectData.map((option, index) => (
-            <option key={index} value={option.value} >
+            <option key={index} value={option.value}>
               {option.label}
             </option>
           ))
         : selectData &&
           selectData.map((name, index) => (
-            <option key={index} value={name} >
+            <option key={index} value={name}>
               {name}
             </option>
           ))}
@@ -83,7 +74,9 @@ const Input = ({
         required={required}
         {...inputProps}
       />
-      <div className={`text-blue-600 pr-2 ${ClassesForTheIcon}`}>{icon}</div>
+      {icon && (
+        <div className={`text-green-400 pr-2 ${ClassesForTheIcon}`}>{icon}</div>
+      )}
     </>
   );
 

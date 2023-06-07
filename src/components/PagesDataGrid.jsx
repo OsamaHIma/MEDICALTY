@@ -84,13 +84,13 @@ const PagesDataGrid = () => {
 
   return (
     <div className="h-[245px]" style={{ width: width }}>
-      <div className="bg-blue-500 text-white dark:text-slate-900 p-4 rounded-tr-lg rounded-tl-lg">
+      <div className="bg-green-500 text-white dark:text-slate-900 p-4 rounded-tr-lg rounded-tl-lg">
         <div className="flex gap-5 items-center mt-2">
           <h1 className="text-lg font-bold">Show</h1>
           <select
             value={pageSize}
             onChange={handlePageSizeChange}
-            className="text-white px-3 py-2 rounded-md border-2 border-solid border-slate-700 bg-blue-500"
+            className="text-white px-3 py-2 rounded-md border-2 border-solid border-slate-700 bg-green-500"
           >
             <option value={5}>5</option>
             <option value={10}>10</option>

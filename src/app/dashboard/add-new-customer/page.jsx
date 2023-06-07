@@ -1,91 +1,86 @@
 "use client";
+import { useEffect, useState } from "react";
+import {
+  FaUser,
+  FaUsers,
+  FaBuilding,
+  FaPhone,
+  FaEnvelope,
+  FaGlobe,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 import ButtonComponent from "@/components/Button";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
-import PagesDataGrid from "@/components/PagesDataGrid";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
-import {
-  BsCalendar,
-  BsFillEnvelopeFill,
-  BsFillPersonLinesFill,
-} from "react-icons/bs";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-  FaYoutube,
-} from "react-icons/fa";
-import { FiMapPin } from "react-icons/fi";
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 
-const Customers = () => {
+const Customer = () => {
+
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
     if (session) {
       setToken(session.user.token);
-      console.log(session.user)
     }
   }, [session]);
 
-  const defaultFields = {
-    company_id: "",
+  const [isValid, setIsValid] = useState("");
+  const defaultProps = {
+    customer_number: "",
+    customer_title: "",
     first_name: "",
     last_name: "",
     company_name: "",
-    phone: "",
+    phone_number: "",
+    phone_number_type: "",
     email: "",
+    email_type: "",
     website: "",
-    facebook_link: "",
-    tweeter_link: "",
-    youtube_link: "",
-    linkedin_link: "",
-    instgram_link: "",
-    address_1: "",
-    address_2: "",
-    town: "",
-    interrupt: "",
-    zipcode: "",
+    location_name: "",
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    state: "",
+    postal_code: "",
     country: "",
   };
-  const [formFields, setFormFields] = useState(defaultFields);
 
+  const [formFields, setFormFields] = useState(defaultProps);
   const {
-    company_id,
+    customer_number,
+    customer_title,
     first_name,
     last_name,
     company_name,
-    phone,
+    phone_number,
+    phone_number_type,
     email,
+    email_type,
     website,
-    facebook_link,
-    tweeter_link,
-    youtube_link,
-    linkedin_link,
-    instgram_link,
-    address_1,
-    address_2,
-    town,
-    interrupt,
-    zipcode,
+    location_name,
+    address_line_1,
+    address_line_2,
+    city,
+    state,
+    postal_code,
     country,
   } = formFields;
 
   const onChange = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
+    console.log(formFields);
   };
 
   const resetFormFields = () => {
-    setFormFields(defaultFields);
+    setFormFields(defaultProps);
   };
 
   const handlePostRequest = async () => {
     try {
-      console.log(formFields);
-      const response = await fetch("/api/customer", {
+      console.log(token);
+      const response = await fetch("/api/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,27 +89,23 @@ const Customers = () => {
         body: JSON.stringify(formFields),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        toast.success("Customer added successfully");
+        toast.success("Data successfully sent");
         resetFormFields();
+        setIsValid("");
       } else {
-        toast.error(`Failed to added Customer: ${data.message}`);
-        console.error(data);
+        toast.error("Failed to send data");
+        setIsValid("");
       }
     } catch (error) {
-      toast.error(`${error.method}: ${error.message}`);
-      console.error("Error:", error);
+      toast.error(`${error.name}: ${error.message}`);
     }
   };
 
-  const [isValid, setIsValid] = useState("");
-
-  const handleSubmit = (event) => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
+
     if (!event.target.checkValidity()) {
-      event.stopPropagation();
       setIsValid("not-validated");
       toast.error("Please fill in all required fields");
       return;
@@ -126,220 +117,140 @@ const Customers = () => {
 
   return (
     <section>
-      <Header
-        headerText="Customers"
-        chooseInput
-        chooseInputText="Choose Customer"
-      />
+      <Header headerText="Add New Customer" />
+
       <form
-        className={`px-10 flex flex-col gap-6 ${isValid}`}
-        onSubmit={handleSubmit}
+        className={`${isValid} px-10`}
+        onSubmit={handleFormSubmit}
         noValidate
       >
-        <div className="flex flex-row gap-[52px] flex-wrap justify-between">
-          <div className="flex flex-col gap-[23px] flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px] mb-20">
+          <div className="flex flex-col gap-6 flex-1 md:w-full">
             <Input
-              name="company_id"
-              value={company_id}
+              labelText="Customer Number"
+              name="customer_number"
+              value={customer_number}
               onChange={onChange}
-              labelText="Company ID"
-              placeHolder="Company ID - from the system"
-              icon={<BsFillPersonLinesFill />}
-              type="number"
+              type="tel"
             />
-            <Input
-              name="first_name"
-              value={first_name}
-              onChange={onChange}
-              labelText="First Name"
-              placeHolder="Customer First Name"
-              icon={<BsFillPersonLinesFill />}
-            />
-            <div className="flex gap-3">
-              <div className="w-[33%]">
-                <Input
-                  name="phone"
-                  value={phone}
-                  onChange={onChange}
-                  labelText="Main Phone"
-                  icon={<BsFillPersonLinesFill />}
-                  type="tel"
-                  ClassesForTheLabel="!text-[14px]"
-                />
-              </div>
-              <div className="w-[67%]">
-                <Input
-                  name="phone"
-                  value={phone}
-                  onChange={onChange}
-                  labelText="Phone Number"
-                  placeHolder="Phone Number"
-                  icon={<BsFillPersonLinesFill />}
-                />
-              </div>
+            <div className="grid grid-cols-1 gap-[52px] md:grid-cols-2 md:gap-3 flex-1">
+              <Input
+                labelText="Customer Title"
+                name="customer_title"
+                value={customer_title}
+                onChange={onChange}
+              />
+              <Input
+                labelText="First Name"
+                name="first_name"
+                value={first_name}
+                onChange={onChange}
+                icon={<FaUser />}
+              />
             </div>
             <Input
-              name="address_2"
-              value={address_2}
-              onChange={onChange}
-              labelText="Address 2"
-              placeHolder="customer address"
-              icon={<FiMapPin />}
-            />
-            <Input
-              name="address_1"
-              value={address_1}
-              onChange={onChange}
-              labelText="Address 1"
-              placeHolder="customer address"
-              icon={<FiMapPin />}
-            />
-            <div className="flex gap-3">
-              <div className="w-[33%]">
-                <Input
-                  name="town"
-                  value={town}
-                  onChange={onChange}
-                  labelText="Town/City"
-                  placeHolder="Town/City"
-                  icon={<BsFillPersonLinesFill />}
-                />
-              </div>
-              <div className="w-[67%]">
-                <Input
-                  name="interrupt"
-                  value={interrupt}
-                  onChange={onChange}
-                  labelText="Interrupt"
-                  icon={<BsFillPersonLinesFill />}
-                />
-              </div>
-            </div>
-            <Input
-              name="company_name"
-              value={company_name}
-              onChange={onChange}
-              labelText="Company Name"
-              placeHolder="the name of client company"
-              icon={<BsCalendar />}
-            />
-            <Input
+              labelText="Last Name"
               name="last_name"
               value={last_name}
               onChange={onChange}
-              labelText="Last Name"
-              placeHolder="Last Name of client"
-              icon={<BsCalendar />}
+              icon={<FaUser />}
             />
-          </div>
-          <div className="flex flex-col gap-[23px] flex-1">
             <Input
+              labelText="Company Name"
+              name="company_name"
+              value={company_name}
+              onChange={onChange}
+              icon={<FaBuilding />}
+            />
+            <Input
+              labelText="Phone Number"
+              name="phone_number"
+              value={phone_number}
+              onChange={onChange}
+              type="tel"
+              icon={<FaPhone />}
+            />
+            <Input
+              labelText="Phone Number Type"
+              name="phone_number_type"
+              value={phone_number_type}
+              onChange={onChange}
+            />
+            <Input
+              labelText="Email"
               name="email"
               value={email}
               onChange={onChange}
-              labelText="Email"
-              icon={<BsFillEnvelopeFill />}
               type="email"
+              icon={<FaEnvelope />}
             />
-
-            <div className="flex gap-3">
-              <div className="w-[33%]">
-                <Input
-                  name="zipcode"
-                  value={zipcode}
-                  onChange={onChange}
-                  labelText="Zip Code"
-                  icon={<BsFillEnvelopeFill />}
-                />
-              </div>
-              <div className="w-[67%]">
-                <Input
-                  name="country"
-                  value={country}
-                  onChange={onChange}
-                  labelText="Country"
-                />
-              </div>
-            </div>
             <Input
+              labelText="Email Type"
+              name="email_type"
+              value={email_type}
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="flex flex-col gap-6 flex-1 md:w-full">
+            <Input
+              labelText="Website"
               name="website"
               value={website}
+              type="ulr"
               onChange={onChange}
-              labelText="Website"
-              placeHolder="the name of site attributed to"
-              icon={<BsFillPersonLinesFill />}
+              icon={<FaGlobe />}
             />
             <Input
-              name="tweeter_link"
-              value={tweeter_link}
+              labelText="Location Name"
+              name="location_name"
+              value={location_name}
               onChange={onChange}
-              labelText="Twitter Link"
-              placeHolder="customer twitter link"
-              icon={<FaTwitter />}
-              type="url"
+              icon={<FaMapMarkerAlt />}
             />
             <Input
-              name="linkedin_link"
-              value={linkedin_link}
+              labelText="Address Line 1"
+              name="address_line_1"
+              value={address_line_1}
               onChange={onChange}
-              labelText="Linkedin Link"
-              placeHolder="linkedin link to client"
-              icon={<FaLinkedin />}
-              type="url"
             />
             <Input
-              name="facebook_link"
-              value={facebook_link}
+              labelText="Address Line 2"
+              name="address_line_2"
+              value={address_line_2}
               onChange={onChange}
-              labelText="Facebook Link"
-              placeHolder="Facebook link"
-              icon={<FaFacebook />}
-              type="url"
             />
             <Input
-              name="youtube_link"
-              value={youtube_link}
+              labelText="City"
+              name="city"
+              value={city}
               onChange={onChange}
-              labelText="Youtube Link"
-              placeHolder="Youtube link"
-              icon={<FaYoutube />}
-              type="url"
             />
             <Input
-              name="instgram_link"
-              value={instgram_link}
+              labelText="State"
+              name="state"
+              value={state}
               onChange={onChange}
-              labelText="Instgram Link"
-              placeHolder="Instgram link"
-              icon={<FaInstagram />}
-              type="url"
+            />
+            <Input
+              labelText="Postal Code"
+              name="postal_code"
+              value={postal_code}
+              onChange={onChange}
+              type="number"
+            />
+            <Input
+              labelText="Country"
+              name="country"
+              value={country}
+              onChange={onChange}
             />
           </div>
         </div>
-        <div className="flex justify-between flex-wrap gap-3">
-          <ButtonComponent
-            content="Cancel"
-            additionalClasses="w-full md:w-auto"
-            onClick={resetFormFields}
-            type="button"
-          />
-          <div className="saveBtns flex flex-wrap gap-2">
-            <ButtonComponent
-              content="save an create another one"
-              additionalClasses="w-full md:w-auto"
-            />
-            <ButtonComponent
-              content="save now"
-              buttonType="filled"
-              additionalClasses="w-full md:w-auto"
-              type="submit"
-            />
-          </div>
-        </div>
-        <PagesDataGrid />
+
+        <ButtonComponent content="Add Customer" />
       </form>
     </section>
   );
 };
-
-export default Customers;
+export default Customer;

@@ -19,12 +19,12 @@ const ProfilePage = () => {
         <span className="text-lg">{user.name}</span>
       </div>
       <div className="flex items-center space-x-4 mb-6">
-        <MdEmail size={24} className="text-blue-500" />
+        <MdEmail size={24} className="text-green-500" />
         <span className="text-lg">{user.email}</span>
       </div>
       {user.phone && (
         <div className="flex items-center space-x-4 mb-6">
-          <MdPhone size={24} className="text-blue-500" />
+          <MdPhone size={24} className="text-green-500" />
           <span className="text-lg">{user.phone}</span>
         </div>
       )}

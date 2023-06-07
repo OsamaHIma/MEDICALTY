@@ -81,8 +81,8 @@ const LoginPage = () => {
           Welcome Back!
           <WavingHandIcon className="text-yellow-500 mx-2 text-3xl" />
         </h1>
-        <h3 className="text-gray-500 text-sm mt-4">
-          Start managing your company better.
+        <h3 className="text-gray-500 text-sm mt-4 dark:text-gray-300">
+          Start managing your hospital better.
         </h3>
       </div>
 

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import { navLinks } from "@/constants";
 import Link from "next/link";
@@ -68,22 +68,18 @@ const CustomSidebar = () => {
   }, [showModal]);
 
   return (
-    <div className="flex !max-w-[256px]">
-      <Sidebar
-        width="256px"
-        defaultCollapsed
-        image="/assets/worker-preview-app-1.png"
-      >
+    <div className="flex relative !max-w-[256px]">
+      <div className="gradient absolute w-96 h-96 bg-gradient-to-r from-blue-300/25 to-green-600/25 blur-[100px] left-0 -z-[1]" />
+      <Sidebar width="256px" defaultCollapsed>
         {!collapsed && (
           <div className="sidebarHeader flex justify-start py-5 px-4">
             <Link href="/">
-              <img src="/assets/sidebar icon.png" alt="logo" />
+              <img src="/assets/MEDICALTY.png" alt="logo" />
             </Link>
           </div>
         )}
 
-        <Menu
-        >
+        <Menu>
           {/* Theme mode toggle buttons */}
           <SubMenu icon={<BsMoonStarsFill />} label="Toggle mode">
             <MenuItem onClick={() => setTheme("dark")} icon={<FiMoon />}>
@@ -99,7 +95,12 @@ const CustomSidebar = () => {
           {navLinks.map((navItem, index) => {
             if (navItem.children) {
               return (
-                <SubMenu key={index} icon={navItem.icon} label={navItem.name} title={navItem.name}>
+                <SubMenu
+                  key={index}
+                  icon={navItem.icon}
+                  label={navItem.name}
+                  title={navItem.name}
+                >
                   {navItem.children.map((submenuItem, submenuIndex) => (
                     <MenuItem
                       key={submenuIndex}
@@ -113,7 +114,12 @@ const CustomSidebar = () => {
               );
             } else {
               return (
-                <MenuItem key={index} component={<Link href={navItem.link} />} icon={navItem.icon} title={navItem.name}>
+                <MenuItem
+                  key={index}
+                  component={<Link href={navItem.link} />}
+                  icon={navItem.icon}
+                  title={navItem.name}
+                >
                   {navItem.name}
                 </MenuItem>
               );

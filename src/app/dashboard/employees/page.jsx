@@ -23,7 +23,7 @@ const EmployeesDataGrid = () => {
 
   // create Status Cell
   const statusColors = {
-    user: ["bg-blue-400/20", "text-blue-500"],
+    user: ["bg-blue-400/20", "text-green-500"],
     admin: ["bg-green-400/20", "text-green-500"],
   };
 

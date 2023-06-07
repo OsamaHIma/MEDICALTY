@@ -119,7 +119,7 @@ const HolidayDays = () => {
         onSubmit={handleSubmit}
         noValidate
       >
-        <div className="flex flex-row gap-[52px] flex-wrap justify-between">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px]">
           <div className="flex flex-col gap-[23px] flex-1">
             <Input
               labelText="Holiday Name"

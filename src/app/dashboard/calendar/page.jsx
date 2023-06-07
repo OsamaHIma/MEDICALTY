@@ -42,7 +42,7 @@ const Calendar = () => {
             <div className="flex justify-between flex-wrap md:flex-nowrap">
                 {/* calendar sidebar */}
                 <div
-                    className="mb-3 flex-1 md:flex-initial md:mb-0 bg-blue-500 p-4 rounded-md min-w-[100px]"
+                    className="mb-3 flex-1 md:flex-initial md:mb-0 bg-green-500 p-4 rounded-md min-w-[100px]"
                 >
                     <h5 className="text-white font-medium mb-4">Events</h5>
                     <ul>

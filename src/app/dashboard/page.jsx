@@ -281,35 +281,35 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Bar Chart */}
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-blue-500 font-semibold mb-4`}>
+            <h2 className={`text-green-500 font-semibold mb-4`}>
               Bar Chart
             </h2>
             <Bar data={barChartData} options={barChartOptions} />
           </div>
           {/* Doughnut Chart */}
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-blue-500 font-semibold mb-4`}>
+            <h2 className={`text-green-500 font-semibold mb-4`}>
               Doughnut Chart
             </h2>
             <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
           </div>
           {/* Line Chart */}
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-blue-500 font-semibold mb-4`}>
+            <h2 className={`text-green-500 font-semibold mb-4`}>
               Line Chart
             </h2>
             <Line data={lineChartData} options={lineChartOptions} />
           </div>
           {/* Pie Chart */}
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-blue-500 font-semibold mb-4`}>
+            <h2 className={`text-green-500 font-semibold mb-4`}>
               Pie Chart
             </h2>
             <Pie data={pieChartData} options={pieChartOptions} />
           </div>
           {/* Polar Area Chart */}
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-blue-500 font-semibold mb-4`}>
+            <h2 className={`text-green-500 font-semibold mb-4`}>
               Polar Area Chart
             </h2>
             <PolarArea
@@ -319,7 +319,7 @@ const Dashboard = () => {
           </div>
           {/* Radar Chart */}
           <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-blue-500 font-semibold mb-4`}>
+            <h2 className={`text-green-500 font-semibold mb-4`}>
               Radar Chart
             </h2>
             <Radar data={radarChartData} options={radarChartOptions} />

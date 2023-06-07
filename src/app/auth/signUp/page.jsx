@@ -15,16 +15,18 @@ export default function Page() {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
+    centerName: "",
     email: "",
-    Company_Name: "",
     password: "",
     password_confirmation: "",
     country: "",
     subscriptionType: "",
+    subscriptionDuration: "",
   });
   const [passwordIcon, setPasswordIcon] = useState(false);
   const [country, setCountry] = useState("");
   const [subscriptionType, setSubscriptionType] = useState("");
+  const [subscriptionDuration, setSubscriptionDuration] = useState("");
 
   const togglePasswordIcon = () => {
     setPasswordIcon(!passwordIcon);
@@ -37,34 +39,55 @@ export default function Page() {
       [name]: value,
     }));
   };
-
   const handleCountryChange = (event) => {
-    setCountry(event.target.value);
+    const { name, value } = event.target;
+    setCountry(value);
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    console.log(formData)
   };
 
   const handleSubscriptionTypeChange = (event) => {
-    setSubscriptionType(event.target.value);
+    const { name, value } = event.target;
+    setSubscriptionType(value);
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+  const handleSubscriptionDurationChange = (event) => {
+    const { name, value } = event.target;
+    setSubscriptionDuration(value);
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    console.log(formData)
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (formData.password !== formData.password_confirmation) {
       toast.error("Passwords do not match.");
       return;
     }
+
     setError(null);
     try {
       signUpSchema.validateSync(
         {
           name: formData.name,
           email: formData.email,
-          Company_Name: formData.Company_Name,
+          centerName: formData.centerName,
           password: formData.password,
-          password_confirmation: formData.password_confirmation,
+          password: formData.password_confirmation,
           country: formData.country,
           subscriptionType: formData.subscriptionType,
+          subscriptionDuration: formData.subscriptionDuration,
         },
-
         { abortEarly: false }
       );
     } catch (error) {
@@ -73,6 +96,7 @@ export default function Page() {
     }
     try {
       setLoading(true);
+      console.log(formData);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/access-tokens/register`,
         {
@@ -101,11 +125,11 @@ export default function Page() {
       <div className="gradient absolute w-96 h-96 bg-gradient-to-r from-green-300/25 to-blue-600/25 blur-[100px] left-[100px] -z-[1]" />
 
       <div>
-        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-200 to-blue-500 text-transparent bg-clip-text">
+        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-200 to-green-500 text-transparent bg-clip-text">
           Welcome to Medicality!
           <MdWavingHand className="text-yellow-500 mx-2 text-3xl" />
         </h1>
-        <h3 className="text-gray-500 text-sm mt-4">
+        <h3 className="text-gray-500 text-sm mt-4 dark:text-gray-300">
           Start managing your hospital better.
         </h3>
       </div>
@@ -127,6 +151,20 @@ export default function Page() {
         </div>
 
         <div className="flex flex-col">
+          <label htmlFor="centerName" className="mb-4 text-md font-bold">
+            Center Name
+          </label>
+          <input
+            type="text"
+            placeholder="Enter Your center name"
+            id="centerName"
+            name="centerName"
+            value={formData.centerName}
+            onChange={handleInputChange}
+            className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
+          />
+        </div>
+        <div className="flex flex-col">
           <label htmlFor="email" className="mb-4 text-md font-bold">
             Email
           </label>
@@ -140,7 +178,6 @@ export default function Page() {
             className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
           />
         </div>
-
         <div className="flex flex-col">
           <label htmlFor="password" className="mb-4 text-md font-bold">
             Password
@@ -169,9 +206,11 @@ export default function Page() {
           </div>
         </div>
         <div className="flex flex-col">
-          <label htmlFor="password_confirmation" className="mb-4 text-md font-bold">
-          Confirm Password
-
+          <label
+            htmlFor="password_confirmation"
+            className="mb-4 text-md font-bold"
+          >
+            Confirm Password
           </label>
           <div className="relative">
             <input
@@ -195,21 +234,6 @@ export default function Page() {
               />
             )}
           </div>
-        </div>
-
-        <div className="flex flex-col">
-          <label htmlFor="Company_Name" className="mb-4 text-md font-bold">
-            Company Name
-          </label>
-          <input
-            type="text"
-            placeholder="Enter Your Company Name"
-            id="Company_Name"
-            name="Company_Name"
-            value={formData.Company_Name}
-            onChange={handleInputChange}
-            className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-          />
         </div>
 
         <div className="flex flex-col">
@@ -245,7 +269,31 @@ export default function Page() {
             className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
           >
             <option value="" disabled hidden>
-              Select your subscription type
+              Select your Subscription Type
+            </option>
+            <option value="medicalCenter">Medical Center</option>
+            <option value="doctor">Doctor</option>
+            <option value="nurse">Nurse</option>
+            <option value="physical">Physical</option>
+          </select>
+          <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+        </div>
+        <div className="flex flex-col">
+          <label
+            htmlFor="subscriptionDuration"
+            className="mb-4 text-md font-bold"
+          >
+            Subscription Duration
+          </label>
+          <select
+            id="subscriptionDuration"
+            name="subscriptionDuration"
+            value={subscriptionDuration}
+            onChange={handleSubscriptionDurationChange}
+            className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
+          >
+            <option value="" disabled hidden>
+              Select your Subscription Duration
             </option>
             <option value="yearly">Yearly</option>
             <option value="monthly">Monthly</option>
@@ -253,7 +301,13 @@ export default function Page() {
           </select>
           <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
         </div>
-
+        {error && (
+          <div className="text-xs  flex flex-col text-red-500 mx-4">
+            {error.map((err, key) => {
+              return <p key={key}>*{err}</p>;
+            })}
+          </div>
+        )}
         <Button
           type="submit"
           content={loading ? <LoadingComponent /> : "Register"}
@@ -263,7 +317,7 @@ export default function Page() {
         <div className="text-center">
           <span className="text-gray-500">
             Already have an account?{" "}
-            <Link href="/login" className="text-blue-500">
+            <Link href="/auth/login" className="text-green-500">
               Log in
             </Link>
           </span>

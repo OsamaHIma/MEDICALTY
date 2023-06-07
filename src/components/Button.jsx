@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const ButtonComponent = ({
   fontColor = "text-white",
   fontWeight = "font-normal",
-  bgColor = "bg-blue-500",
+  bgColor = "bg-green-500",
   capitalize = false,
   upperCase = false,
   content = "Place Holder...",
@@ -21,7 +21,7 @@ const ButtonComponent = ({
     ${
       buttonType === "filled"
         ? `${bgColor} ${fontColor}`
-        : `bg-transparent hover:bg-blue-500 border-2 border-solid border-blue-400 text-blue-400 hover:text-white`
+        : `bg-transparent hover:bg-green-500 border-2 border-solid border-green-400 text-green-400 hover:text-white`
     }
     mx-4 px-4 py-2 flex justify-center items-center transition-all
     ${additionalClasses}
