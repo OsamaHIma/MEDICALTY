@@ -1,5 +1,5 @@
 'use client';
-import ButtonComponent from '@/components/Button';
+import Button from '@/components/Button';
 import Header from '@/components/Header';
 import Input from '@/components/Input';
 import { useEffect, useState } from 'react';
@@ -227,18 +227,18 @@ const Advances = () => {
           required
         />
         <div className="flex justify-between flex-wrap gap-3 my-11">
-          <ButtonComponent
+          <Button
             content="Cancel"
             additionalClasses="w-full md:w-auto"
             type="button"
             onClick={cancelFormSubmit}
           />
           <div className="saveBtns flex flex-wrap gap-2">
-            <ButtonComponent
+            <Button
               content="save an create another one"
               additionalClasses="w-full md:w-auto"
             />
-            <ButtonComponent
+            <Button
               content="save now"
               buttonType="filled"
               additionalClasses="w-full md:w-auto"

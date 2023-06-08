@@ -1,15 +1,33 @@
 "use client";
 import { useState } from "react";
 import { MdVisibilityOff, MdWavingHand, MdVisibility } from "react-icons/md";
-import Button from "@/components/Button";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import LoadingComponent from "@/components/Loading";
 import { signUpSchema } from "@/schema/userSchema";
 import { useRouter } from "next/navigation";
-import { FaChevronDown } from "react-icons/fa";
+import Select from "react-select";
+import Button from "@/components/Button";
+import LoadingComponent from "@/components/Loading";
 
 export default function Page() {
+  const subscriptionDurationOptions = [
+    { value: "free_trial", label: "Free Trial" },
+    { value: "monthly", label: "Monthly" },
+    { value: "yearly", label: "Yearly" },
+  ];
+
+  const subscriptionTypeOptions = [
+    { value: "medical_center", label: "Medical Center" },
+    { value: "doctor", label: "Doctor" },
+    { value: "nurse", label: "Nurse" },
+    { value: "physical_therapy", label: "Physical Therapy" },
+  ];
+
+  const countryOptions = [
+    { value: "egypt", label: "Egypt" },
+    { value: "jordan", label: "Jordan" },
+    { value: "saudi", label: "Saudi" },
+  ];
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -46,7 +64,7 @@ export default function Page() {
       ...prevState,
       [name]: value,
     }));
-    console.log(formData)
+    console.log(formData);
   };
 
   const handleSubscriptionTypeChange = (event) => {
@@ -64,7 +82,7 @@ export default function Page() {
       ...prevState,
       [name]: value,
     }));
-    console.log(formData)
+    console.log(formData);
   };
 
   const handleSubmit = async (event) => {
@@ -121,11 +139,11 @@ export default function Page() {
   };
 
   return (
-    <div className="px-4 flex flex-col mt-24 gap-8 reative">
+    <div className="px-4 flex flex-col mt-24 gap-8 relative">
       <div className="gradient absolute w-96 h-96 bg-gradient-to-r from-green-300/25 to-blue-600/25 blur-[100px] left-[100px] -z-[1]" />
 
       <div>
-        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-200 to-green-500 text-transparent bg-clip-text">
+        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-300 to-green-500 text-transparent bg-clip-text">
           Welcome to Medicality!
           <MdWavingHand className="text-yellow-500 mx-2 text-3xl" />
         </h1>
@@ -235,72 +253,43 @@ export default function Page() {
             )}
           </div>
         </div>
+        <label htmlFor="countryOptions">Select Country</label>
 
-        <div className="flex flex-col">
-          <label htmlFor="country" className="mb-4 text-md font-bold">
-            Country
-          </label>
-          <select
-            id="country"
-            name="country"
-            value={country}
-            onChange={handleCountryChange}
-            className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-          >
-            <option value="" disabled hidden>
-              Select your country
-            </option>
-            <option value="USA">Egypt</option>
-            <option value="Jordan">Jordan</option>
-            <option value="Saudi">Saudi</option>
-          </select>
-          <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
-        </div>
+        <Select
+          options={countryOptions}
+          id="country"
+          name="country"
+          value={country}
+          isClearable
+          isSearchable
+          defaultValue={countryOptions[0]}
+          // onChange={handleCountryChange}
+        />
+        <label htmlFor="subscriptionTypeOptions">Subscription Type</label>
 
-        <div className="flex flex-col">
-          <label htmlFor="subscriptionType" className="mb-4 text-md font-bold">
-            Subscription Type
-          </label>
-          <select
-            id="subscriptionType"
-            name="subscriptionType"
-            value={subscriptionType}
-            onChange={handleSubscriptionTypeChange}
-            className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-          >
-            <option value="" disabled hidden>
-              Select your Subscription Type
-            </option>
-            <option value="medicalCenter">Medical Center</option>
-            <option value="doctor">Doctor</option>
-            <option value="nurse">Nurse</option>
-            <option value="physical">Physical</option>
-          </select>
-          <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
-        </div>
-        <div className="flex flex-col">
-          <label
-            htmlFor="subscriptionDuration"
-            className="mb-4 text-md font-bold"
-          >
-            Subscription Duration
-          </label>
-          <select
-            id="subscriptionDuration"
-            name="subscriptionDuration"
-            value={subscriptionDuration}
-            onChange={handleSubscriptionDurationChange}
-            className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-          >
-            <option value="" disabled hidden>
-              Select your Subscription Duration
-            </option>
-            <option value="yearly">Yearly</option>
-            <option value="monthly">Monthly</option>
-            <option value="free-trail">Free trail</option>
-          </select>
-          <FaChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
-        </div>
+        <Select
+          options={subscriptionTypeOptions}
+          id="subscriptionType"
+          name="subscriptionType"
+          value={subscriptionType}
+          isClearable
+          isSearchable
+          defaultValue={subscriptionTypeOptions[0]}
+
+          // onChange={handleSubscriptionTypeChange}
+        />
+        <label htmlFor="subscriptionDuration">Subscription Duration</label>
+        <Select
+          options={subscriptionDurationOptions}
+          id="subscriptionDuration"
+          name="subscriptionDuration"
+          value={subscriptionDuration}
+          isClearable={true}
+          isSearchable={true}
+          defaultValue={subscriptionDurationOptions[0]}
+
+          // onChange={handleSubscriptionDurationChange}
+        />
         {error && (
           <div className="text-xs  flex flex-col text-red-500 mx-4">
             {error.map((err, key) => {

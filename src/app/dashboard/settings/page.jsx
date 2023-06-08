@@ -1,7 +1,7 @@
 'use client'
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import Input from "@/components/Input.tsx";
 import { useState } from "react";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
@@ -144,7 +144,7 @@ const Settings = () => {
           </div>
         </div>
         <div className="flex !mt-[129px] justify-center items-center">
-          <ButtonComponent
+          <Button
             content="Save Setting"
             buttonType="filled"
             additionalClasses="w-full md:w-auto"
@@ -170,7 +170,7 @@ const Settings = () => {
           />
         </div>
         <div className="flex !my-3 justify-end items-center">
-          <ButtonComponent
+          <Button
             content="Save Setting"
             buttonType="filled"
             additionalClasses="w-full md:w-auto"

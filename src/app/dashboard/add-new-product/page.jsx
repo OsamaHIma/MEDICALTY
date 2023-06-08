@@ -1,5 +1,5 @@
 'use client';
-import ButtonComponent from '@/components/Button';
+import Button from '@/components/Button';
 import Header from '@/components/Header';
 import Input from '@/components/Input';
 import PagesDataGrid from '@/components/PagesDataGrid';
@@ -157,18 +157,18 @@ const AddProductPage = () => {
           </div>
 
           <div className="flex justify-between">
-            <ButtonComponent
+            <Button
               content="Cancel"
               type="button"
               onClick={resetFormFields}
               additionalClasses="w-[10%]"
             />
 
-            <ButtonComponent
+            <Button
               content="save an create another one"
               additionalClasses=" md:w-auto"
             />
-            <ButtonComponent
+            <Button
               type="submit"
               content="save now"
               buttonType="filled"

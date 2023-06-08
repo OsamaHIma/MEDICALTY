@@ -6,7 +6,7 @@ import {
   MdRemoveRedEye as RemoveRedEyeIcon,
   MdWavingHand as WavingHandIcon,
 } from "react-icons/md";
-import Button from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { loginUserSchema } from "@/schema/userSchema";

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { MdOutlineFilterAlt } from "react-icons/md";
 
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import DataGridComponent from "@/components/DataGrid";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -113,7 +113,7 @@ const Department = () => {
       width: 170,
       renderCell: (params) => {
         return (
-          <ButtonComponent
+          <Button
             onClick={(e) => onRowDelete(e, params.row)}
             content="Delete"
             bgColor="!bg-red-500/30"
@@ -274,7 +274,7 @@ const Department = () => {
             Department
           </h1>
           <div className="flex items-center justify-start gap-3">
-            <ButtonComponent
+            <Button
               content="Filter"
               buttonType="filled"
               bgColor="!bg-gray-300"
@@ -287,7 +287,7 @@ const Department = () => {
           </div>
         </div>
         <Link href="/dashboard/add-new-department">
-          <ButtonComponent
+          <Button
             icon={<IoMdAdd />}
             content="Add new department"
             buttonType="filled"

@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import Input from "@/components/Input.tsx";
 import {
   FaUser,
   FaCalendarAlt,
@@ -197,8 +197,8 @@ const Vacation = () => {
           </div>
         </div>
         <div className="flex flex-row gap-4">
-          <ButtonComponent content="Reset" onClick={cancelFormSubmit} />
-          <ButtonComponent content="Submit" type="submit" />
+          <Button content="Reset" onClick={cancelFormSubmit} />
+          <Button content="Submit" type="submit" />
         </div>
       </form>
     </section>

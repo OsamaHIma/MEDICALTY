@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import ButtonComponent from '@/components/Button';
+import Button from '@/components/Button';
 import Header from '@/components/Header';
 import Input from '@/components/Input';
 import { FaUserAlt } from 'react-icons/fa';
@@ -170,7 +170,7 @@ const HolidayDays = () => {
           </div>
         </div>
         <div className="flex !my-[129px] justify-center items-center">
-          <ButtonComponent
+          <Button
             content="Save Holiday"
             buttonType="filled"
             additionalClasses="w-full md:w-auto"

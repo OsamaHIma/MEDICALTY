@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import ButtonComponent from '@/components/Button';
+import Button from '@/components/Button';
 import Header from '@/components/Header';
 import Input from '@/components/Input';
 import {
@@ -234,7 +234,7 @@ const Leave = () => {
             />
           </div>
           <div className="flex justify-between flex-wrap gap-3 !my-11">
-            <ButtonComponent
+            <Button
               content="Cancel"
               type="button"
               additionalClasses="w-full md:w-auto"
@@ -256,7 +256,7 @@ const Leave = () => {
               }}
             />
             <div className="saveBtns flex flex-wrap gap-2">
-              <ButtonComponent
+              <Button
                 content="save an create another one"
                 type="submit"
                 additionalClasses="w-full md:w-auto"
@@ -278,7 +278,7 @@ const Leave = () => {
                   });
                 }}
               />
-              <ButtonComponent
+              <Button
                 content="save now"
                 buttonType="filled"
                 type="submit"

@@ -1,7 +1,7 @@
 "use client";
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import Input from "@/components/Input.tsx";
 import { useEffect, useState } from "react";
 import PagesDataGrid from "@/components/PagesDataGrid";
 import { toast } from "react-toastify";
@@ -117,19 +117,19 @@ const Occupation = () => {
             type="textarea"
           />
           <div className="flex justify-between flex-wrap gap-3 my-11">
-            <ButtonComponent
+            <Button
               content="Cancel"
               type="button"
               additionalClasses="w-full md:w-auto"
               onClick={cancelFormSubmit}
             />
             <div className="saveBtns flex flex-wrap gap-2">
-              <ButtonComponent
+              <Button
                 content="Save and create another one"
                 additionalClasses="w-full md:w-auto"
                 type="submit"
               />
-              <ButtonComponent
+              <Button
                 content="Save now"
                 buttonType="filled"
                 additionalClasses="w-full md:w-auto"

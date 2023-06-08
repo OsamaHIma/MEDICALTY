@@ -1,5 +1,5 @@
 "use client";
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import DataGridComponent from "@/components/DataGrid";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -76,7 +76,7 @@ const Groups = () => {
       width: 170,
       renderCell: (params) => {
         return (
-          <ButtonComponent
+          <Button
             onClick={(e) => onRowDelete(e, params.row)}
             content="Delete"
             bgColor="!bg-red-500/30"
@@ -194,7 +194,7 @@ const Groups = () => {
           </p>
         </div>
         <Link href="/dashboard/add-new-group">
-          <ButtonComponent
+          <Button
             icon={<IoMdAdd />}
             content="Add new group"
             buttonType="filled"

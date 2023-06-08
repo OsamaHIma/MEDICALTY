@@ -1,18 +1,32 @@
+import React from "react";
 import PropTypes from "prop-types";
 
-const ButtonComponent = ({
+type ButtonProps = {
+  fontColor?: string;
+  fontWeight?: string;
+  bgColor?: string;
+  capitalize?: boolean;
+  upperCase?: boolean;
+  content: string | JSX.Element;
+  icon?: JSX.Element;
+  rounded?: string;
+  buttonType?: string;
+  additionalClasses?: string;
+} & JSX.IntrinsicElements['button'];
+
+const Button = ({
   fontColor = "text-white",
   fontWeight = "font-normal",
   bgColor = "bg-green-500",
   capitalize = false,
   upperCase = false,
-  content = "Place Holder...",
+  content,
   icon,
   rounded = "rounded-md",
   buttonType,
   additionalClasses,
   ...buttonProps
-}) => {
+}: ButtonProps) => {
   const buttonClasses = `
     ${upperCase ? "uppercase" : ""}
     ${capitalize ? "capitalize" : ""}
@@ -35,8 +49,9 @@ const ButtonComponent = ({
   );
 };
 
-ButtonComponent.propTypes = {
-  content: PropTypes.string.isRequired || PropTypes.element,
+Button.propTypes = {
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+    .isRequired,
   icon: PropTypes.element,
   rounded: PropTypes.string,
   buttonType: PropTypes.string,
@@ -48,4 +63,4 @@ ButtonComponent.propTypes = {
   additionalClasses: PropTypes.string,
 };
 
-export default ButtonComponent;
+export default Button;

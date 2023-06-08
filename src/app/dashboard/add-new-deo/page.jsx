@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import Input from "@/components/Input.tsx";
 import { FaUserAlt } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
 import { toast } from "react-toastify";
@@ -169,7 +169,7 @@ const Departures = () => {
           />
         </div>
         <div className="flex !my-[129px] justify-center items-center">
-          <ButtonComponent
+          <Button
             content="Submit"
             buttonType="filled"
             additionalClasses="w-full md:w-auto"

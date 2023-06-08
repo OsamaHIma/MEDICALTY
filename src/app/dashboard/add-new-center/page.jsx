@@ -1,7 +1,7 @@
 "use client";
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import Input from "@/components/Input.tsx";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -168,6 +168,7 @@ const AddNewCenter = () => {
                 value={userName}
                 onChange={onChange}
                 required
+
               />
               <Input
                 labelText="Phone number"
@@ -307,18 +308,19 @@ const AddNewCenter = () => {
             />
           </div>
           <div className="flex justify-between flex-wrap gap-3 !my-11">
-            <ButtonComponent
+            <Button
               content="Cancel"
               additionalClasses="w-full md:w-auto"
               type="button"
             />
             <div className="saveBtns flex flex-wrap gap-2">
-              <ButtonComponent
+              <Button
                 content="save an create another one"
                 additionalClasses="w-full md:w-auto"
                 type="submit"
+
               />
-              <ButtonComponent
+              <Button
                 content="save now"
                 buttonType="filled"
                 additionalClasses="w-full md:w-auto"

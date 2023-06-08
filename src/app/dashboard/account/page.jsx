@@ -1,5 +1,5 @@
 "use client";
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { HiOutlineMail } from "react-icons/hi";
@@ -327,20 +327,20 @@ const Account = () => {
       <div className="flex justify-end">
         {isEditing ? (
           <>
-            <ButtonComponent
+            <Button
               additionalClasses="!mr-4"
               onClick={() => setIsEditing(false)}
               content="Cancel"
             />
 
-            <ButtonComponent
+            <Button
               buttonType="filled"
               onClick={handleSaveChanges}
               content="Save Changes"
             />
           </>
         ) : (
-          <ButtonComponent
+          <Button
             buttonType="filled"
             onClick={() => setIsEditing(true)}
             content="Edit Information"

@@ -1,5 +1,5 @@
 'use client';
-import ButtonComponent from '@/components/Button';
+import Button from '@/components/Button';
 import Header from '@/components/Header';
 import Input from '@/components/Input';
 import { FaUser } from 'react-icons/fa';
@@ -124,7 +124,7 @@ const WorkingGroups = () => {
         />
 
         <div className="flex justify-center items-center my-11">
-          <ButtonComponent
+          <Button
             content="Save group"
             buttonType="filled"
             additionalClasses="w-full md:w-auto"

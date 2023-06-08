@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import { MdOutlineFilterAlt } from 'react-icons/md';
 
-import ButtonComponent from '@/components/Button';
+import Button from '@/components/Button';
 import DataGridComponent from '@/components/DataGrid';
 import Link from 'next/link';
 
@@ -177,7 +177,7 @@ const DepartmentTheJobSite = () => {
             Department the job site
           </h1>
           <div className="flex items-center justify-start gap-3">
-            <ButtonComponent
+            <Button
               content="Filter"
               buttonType="filled"
               bgColor="!bg-gray-300"
@@ -188,7 +188,7 @@ const DepartmentTheJobSite = () => {
           </div>
         </div>
         <Link href="/dashboard/add-new-department">
-          <ButtonComponent
+          <Button
             icon={<IoMdAdd />}
             content="Add new department"
             buttonType="filled"

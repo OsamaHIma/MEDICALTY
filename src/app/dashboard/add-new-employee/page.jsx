@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { FaUser, FaUsers, FaCalendarAlt } from 'react-icons/fa';
-import ButtonComponent from '@/components/Button';
+import Button from '@/components/Button';
 import Header from '@/components/Header';
 import Input from '@/components/Input';
 import { toast } from 'react-toastify';
@@ -215,7 +215,7 @@ const Employees = () => {
           </div>
         </div>
 
-        <ButtonComponent
+        <Button
           content="Add Employee"
           type="submit"
           buttonType="filled"

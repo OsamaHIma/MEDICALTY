@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import ButtonComponent from '@/components/Button';
+import Button from '@/components/Button';
 import Header from '@/components/Header';
 import Input from '@/components/Input';
 import { FaUser } from 'react-icons/fa';
@@ -162,7 +162,7 @@ const Mission = () => {
           />
         </div>
         <div className="flex justify-center items-center mb-11">
-          <ButtonComponent
+          <Button
             content="Save"
             buttonType="filled"
             additionalClasses="w-full md:w-auto"

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { MdOutlineFilterAlt } from "react-icons/md";
 
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import DataGridComponent from "@/components/DataGrid";
 import Link from "next/link";
 import axios from "axios";
@@ -127,7 +127,7 @@ const EmployeesDataGrid = () => {
       width: 170,
       renderCell: (params) => {
         return (
-          <ButtonComponent
+          <Button
             onClick={(e) => onRowDelete(e, params.row)}
             content="Delete"
             bgColor="!bg-red-500/30"
@@ -271,7 +271,7 @@ const EmployeesDataGrid = () => {
             Employees
           </h1>
           <div className="flex items-center justify-start gap-3">
-            <ButtonComponent
+            <Button
               content="Filter"
               buttonType="filled"
               bgColor="!bg-gray-300"
@@ -285,7 +285,7 @@ const EmployeesDataGrid = () => {
           </div>
         </div>
         <Link href="/dashboard/add-new-employee">
-          <ButtonComponent
+          <Button
             icon={<IoMdAdd />}
             content="Add new employee"
             buttonType="filled"

@@ -9,9 +9,9 @@ import {
   FaGlobe,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import ButtonComponent from "@/components/Button";
+import Button from "@/components/Button.tsx";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import Input from "@/components/Input.tsx";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 
@@ -248,7 +248,7 @@ const Customer = () => {
           </div>
         </div>
 
-        <ButtonComponent content="Add Customer" />
+        <Button content="Add Customer" />
       </form>
     </section>
   );

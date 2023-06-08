@@ -1,13 +1,32 @@
-"use client";
-import PropTypes from "prop-types";
+import React from "react";
+import PropTypes, { InferProps } from "prop-types";
 import { useProSidebar } from "react-pro-sidebar";
+import Select from "react-select";
+
+type InputProps = {
+  upperCase?: boolean;
+  rounded?: string;
+  inputBgColor?: string;
+  labelBgColor?: string;
+  labelText: string;
+  type?: string;
+  typeOfSelectData?: string;
+  placeHolder?: string;
+  required?: boolean;
+  icon?: React.ReactNode;
+  ClassesForTheDiv?: string;
+  ClassesForTheLabel?: string;
+  ClassesForTheInput?: string;
+  ClassesForTheIcon?: string;
+  selectData?: { value: string; label: string }[] | string[];
+} & JSX.IntrinsicElements['input'];
 
 const Input = ({
   upperCase = false,
   rounded = "rounded-md",
   inputBgColor = "bg-blue-50 dark:bg-slate-700",
   labelBgColor = "bg-green-500",
-  labelText = "Label Text",
+  labelText,
   type = "text",
   typeOfSelectData,
   placeHolder,
@@ -19,28 +38,15 @@ const Input = ({
   ClassesForTheIcon,
   selectData,
   ...inputProps
-}) => {
+}: InputProps) => {
   const renderSelect = () => (
-    <select
+    <Select
       placeholder={placeHolder}
       name="workers"
       className={`mx-2 flex-1 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
+      options={selectData}
       {...inputProps}
-    >
-      {typeOfSelectData === "normal"
-        ? selectData &&
-          selectData.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.label}
-            </option>
-          ))
-        : selectData &&
-          selectData.map((name, index) => (
-            <option key={index} value={name}>
-              {name}
-            </option>
-          ))}
-    </select>
+    />
   );
   const { collapsed } = useProSidebar();
 
@@ -58,8 +64,8 @@ const Input = ({
         id="textarea"
         placeholder={placeHolder}
         className="border border-blue-300 bg-green-50 dark:bg-slate-700 focus:outline-blue-600 flex-1 p-2 rounded-tr-md rounded-br-md resize-none align-middle"
-        cols="20"
-        rows="5"
+        cols={20}
+        rows={5}
         {...inputProps}
       ></textarea>
     </>
@@ -118,17 +124,18 @@ const Input = ({
 Input.propTypes = {
   upperCase: PropTypes.bool,
   rounded: PropTypes.string,
-  bgColor: PropTypes.string,
+  inputBgColor: PropTypes.string,
+  labelBgColor: PropTypes.string,
   labelText: PropTypes.string.isRequired,
   type: PropTypes.string,
   typeOfSelectData: PropTypes.string,
   placeHolder: PropTypes.string,
   required: PropTypes.bool,
-  icon: PropTypes.object,
+  icon: PropTypes.node,
   selectData: PropTypes.array,
   ClassesForTheDiv: PropTypes.string,
   ClassesForTheLabel: PropTypes.string,
-  ClassesForTheInput: PropTypes.string,
+ ClassesForTheInput: PropTypes.string,
   ClassesForTheIcon: PropTypes.string,
 };
 
