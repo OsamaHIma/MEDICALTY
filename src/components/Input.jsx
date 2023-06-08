@@ -5,7 +5,7 @@ import { useProSidebar } from "react-pro-sidebar";
 const Input = ({
   upperCase = false,
   rounded = "rounded-md",
-  inputBgColor = "bg-white dark:bg-slate-700",
+  inputBgColor = "bg-blue-50 dark:bg-slate-700",
   labelBgColor = "bg-green-500",
   labelText = "Label Text",
   type = "text",
@@ -57,7 +57,7 @@ const Input = ({
       <textarea
         id="textarea"
         placeholder={placeHolder}
-        className="border border-blue-300 dark:bg-slate-700 focus:outline-blue-600 flex-1 p-2 rounded-tr-md rounded-br-md resize-none align-middle"
+        className="border border-blue-300 bg-green-50 dark:bg-slate-700 focus:outline-blue-600 flex-1 p-2 rounded-tr-md rounded-br-md resize-none align-middle"
         cols="20"
         rows="5"
         {...inputProps}

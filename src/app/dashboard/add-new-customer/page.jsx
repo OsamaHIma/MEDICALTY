@@ -133,7 +133,7 @@ const Customer = () => {
               onChange={onChange}
               type="tel"
             />
-            <div className="grid grid-cols-1 gap-[52px] md:grid-cols-2 md:gap-3 flex-1">
+            <div className="grid grid-cols-1 gap-[52px] md:grid-cols-2 md:gap-3">
               <Input
                 labelText="Customer Title"
                 name="customer_title"

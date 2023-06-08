@@ -1,13 +1,13 @@
-'use client';
-import { useEffect, useState } from 'react';
-import ButtonComponent from '@/components/Button';
-import Header from '@/components/Header';
-import Input from '@/components/Input';
-import { FaUserAlt } from 'react-icons/fa';
-import { HiOutlineMail } from 'react-icons/hi';
-import { toast } from 'react-toastify';
-import { usePhoto } from '@/context/PhotoContext';
-import { useSession } from 'next-auth/react';
+"use client";
+import { useEffect, useState } from "react";
+import ButtonComponent from "@/components/Button";
+import Header from "@/components/Header";
+import Input from "@/components/Input";
+import { FaUserAlt } from "react-icons/fa";
+import { HiOutlineMail } from "react-icons/hi";
+import { toast } from "react-toastify";
+import { usePhoto } from "@/context/PhotoContext";
+import { useSession } from "next-auth/react";
 
 const Departures = () => {
   const { data: session } = useSession();
@@ -18,15 +18,15 @@ const Departures = () => {
     }
   }, [session]);
   const [departures, setDepartures] = useState({
-    employee_name: '',
-    employee_id: '',
-    Job_number: '',
-    national_number: '',
-    value: '',
-    description: '',
-    specialization: '',
-    image: '',
-    date: '',
+    employee_name: "",
+    employee_id: "",
+    Job_number: "",
+    national_number: "",
+    value: "",
+    description: "",
+    specialization: "",
+    image: "",
+    date: "",
   });
   const { uploadedImage } = usePhoto();
 
@@ -36,59 +36,58 @@ const Departures = () => {
   };
   const resetFormFields = () => {
     setDepartures({
-      employee_name: '',
-      employee_id: '',
-      Job_number: '',
-      national_number: '',
-      value: '',
-      description: '',
-      specialization: '',
-      date: '',
+      employee_name: "",
+      employee_id: "",
+      Job_number: "",
+      national_number: "",
+      value: "",
+      description: "",
+      specialization: "",
+      date: "",
     });
   };
 
   const handlePostRequest = async () => {
-
     try {
-      const response = await fetch('/api/debt', {
-        method: 'POST',
+      const response = await fetch("/api/debt", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ ...departures, image: uploadedImage }),
       });
 
       if (response.ok) {
-        toast.success('Data successfully sent');
+        toast.success("Data sent successfully");
         resetFormFields();
       } else {
-        toast.error('Failed to send data');
+        toast.error("Failed to send data");
       }
     } catch (error) {
       toast.error(`${error.name}: ${error.message}`);
     }
   };
 
-  const [isValid, setIsValid] = useState('');
+  const [isValid, setIsValid] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!event.target.checkValidity() || !uploadedImage) {
       event.stopPropagation();
-      setIsValid('not-validated');
-      toast.error('Please fill in all required fields');
+      setIsValid("not-validated");
+      toast.error("Please fill in all required fields including the image");
       return;
     }
 
-    setIsValid('validated');
+    setIsValid("validated");
     handlePostRequest();
     resetFormFields();
   };
 
   return (
     <section>
-      <Header imageUploader headerText="Departures" />
+      <Header imageUploader headerText="Add New Center" />
       <form
         className={`px-10 flex flex-col gap-6 ${isValid}`}
         onSubmit={handleSubmit}
@@ -158,6 +157,7 @@ const Departures = () => {
             />
           </div>
         </div>
+        
         <div>
           <Input
             labelText="description"

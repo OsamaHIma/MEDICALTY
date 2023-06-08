@@ -1,5 +1,5 @@
 "use client";
-import { AiOutlineError } from "react-icons/ai";
+import { AiOutlineAlert } from "react-icons/ai";
 
 function Error() {
   return (
@@ -8,7 +8,7 @@ function Error() {
       <p className="text-base text-gray-500">
         We're sorry, but something went wrong. Please try again later.
       </p>
-      <AiOutlineError className="mx-auto my-4" />
+      <AiOutlineAlert className="mx-auto my-4" />
     </div>
   );
 }

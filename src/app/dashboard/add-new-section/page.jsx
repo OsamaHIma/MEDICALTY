@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { FaUserAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
-const Add = () => {
+const AddNewSection = () => {
   const { data: session } = useSession();
   const [token, setToken] = useState('');
   useEffect(() => {
@@ -21,10 +21,10 @@ const Add = () => {
   const [formFields, setFormFields] = useState({
     name: '',
     description: '',
-    company_id: '',
+    section_id: '',
   });
 
-  const { name, description, company_id } = formFields;
+  const { name, description, section_id } = formFields;
 
   const onChange = (event) => {
     const { name, value } = event.target;
@@ -35,7 +35,7 @@ const Add = () => {
     setFormFields({
       name: '',
       description: '',
-      company_id: '',
+      section_id: '',
     });
   };
 
@@ -85,18 +85,17 @@ const Add = () => {
   return (
     <section>
       <Header
-        headerText={`Adding the specialization "department"`}
+        headerText={`Adding new section`}
         chooseInput
         chooseInputText="Choose Employee"
         imageUploader
       />
       <div className="px-10 flex flex-col gap-6">
         <form onSubmit={handleSubmit} className={`${isValid}`} noValidate>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px]">
+          <div className="flex flex-row gap-[52px] flex-wrap justify-between">
             <div className="flex flex-col gap-[23px] flex-1">
               <Input
-                labelText="name"
-                placeHolder="name"
+                labelText="Name"
                 icon={<FaUserAlt />}
                 name="name"
                 value={name}
@@ -106,10 +105,9 @@ const Add = () => {
             </div>
             <div className="flex flex-col gap-[23px] mb-5 flex-1">
               <Input
-                labelText="company id"
-                placeHolder="company id"
-                name="company_id"
-                value={company_id}
+                labelText="Section id"
+                name="section_id"
+                value={section_id}
                 onChange={onChange}
                 required
               />
@@ -149,4 +147,5 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default AddNewSection
+    ;
