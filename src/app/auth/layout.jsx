@@ -15,12 +15,12 @@ const Layout = async ({ children }) => {
                 height={250}
                 width={250}
               />
-              <LanguageSwitcher />
+              {/* <LanguageSwitcher /> */}
             </div>
             {children}
           </main>
         </div>
-        <div className="hidden lg:flex min-h-[100vh]  relative   justify-end items-end  w-full  bg-blue-400 ">
+        <div className="hidden lg:flex min-h-[100vh]  relative   justify-end items-end  w-full  bg-green-400 ">
           {/* Image here when provided */}
           <Image
             src="/assets/worker-preview-app-1.png"

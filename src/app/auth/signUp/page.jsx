@@ -311,7 +311,7 @@ export default function Page() {
         <Button
           type="submit"
           content={loading ? <LoadingComponent /> : "Register"}
-          className="bg-gradient-to-r from-green-300 to-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-md font-bold"
+          className="bg-gradient-to-r from-green-300 to-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md text-md font-bold"
         />
 
         <div className="text-center">

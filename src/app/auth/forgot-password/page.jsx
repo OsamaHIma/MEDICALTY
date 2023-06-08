@@ -46,7 +46,7 @@ const ForgotPasswordPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-300 to-blue-700 text-transparent bg-clip-text">
+      <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-300 to-green-700 text-transparent bg-clip-text">
         Forgot your password?
       </h1>
       {!success ? (
