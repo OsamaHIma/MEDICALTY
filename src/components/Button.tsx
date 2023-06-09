@@ -1,6 +1,3 @@
-import React from "react";
-import PropTypes from "prop-types";
-
 type ButtonProps = {
   fontColor?: string;
   fontWeight?: string;
@@ -12,7 +9,7 @@ type ButtonProps = {
   rounded?: string;
   buttonType?: string;
   additionalClasses?: string;
-} & JSX.IntrinsicElements['button'];
+} & JSX.IntrinsicElements["button"];
 
 const Button = ({
   fontColor = "text-white",
@@ -47,20 +44,6 @@ const Button = ({
       {content}
     </button>
   );
-};
-
-Button.propTypes = {
-  content: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
-    .isRequired,
-  icon: PropTypes.element,
-  rounded: PropTypes.string,
-  buttonType: PropTypes.string,
-  fontColor: PropTypes.string,
-  fontWeight: PropTypes.string,
-  bgColor: PropTypes.string,
-  capitalize: PropTypes.bool,
-  upperCase: PropTypes.bool,
-  additionalClasses: PropTypes.string,
 };
 
 export default Button;
