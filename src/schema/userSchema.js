@@ -15,15 +15,15 @@ export const signUpSchema = object().shape({
     .required("No password provided.")
     .min(8, "Password is too short - should be 8 chars minimum."),
   country: string().oneOf(
-    ["Egypt", "Jordan", "Saudi"],
+    ["egypt", "jordan", "saudi"],
     "Please Select a Country"
   ),
   subscriptionType: string().oneOf(
-    ["Medical Center", "Doctor", "Nurse", "Physical Therapy"],
+    ["medical_center", "doctor", "nurse", "physical_therapy"],
     "Please Select a Subscription Type"
   ),
   subscriptionDuration: string().oneOf(
-    ["Free Trial", "Monthly", "Yearly"],
+    ["free_trial", "monthly", "yearly"],
     "Please Select a Subscription Duration"
   ),
 });

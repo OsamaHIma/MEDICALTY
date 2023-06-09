@@ -15,6 +15,7 @@ const Layout = async ({ children }) => {
                 height={250}
                 width={250}
               />
+              
               {/* <LanguageSwitcher /> */}
             </div>
             {children}
@@ -30,14 +31,14 @@ const Layout = async ({ children }) => {
             sizes="100vw"
             className="absolute left-0 top-0 h-full w-full"
           />
-          <Image
+          {/* <Image
             src="/assets/worker-preview-app.png"
             alt="worker-preview"
             width="0"
             height="0"
             sizes="100vw"
             className="w-[90%] h-[70%] z-20  "
-          />
+          /> */}
         </div>
       </div>
     </div>

@@ -77,7 +77,7 @@ const LoginPage = () => {
   return (
     <div className="px-4 flex flex-col mt-32 gap-8">
       <div className="">
-        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-300 to-green-700 text-transparent bg-clip-text">
+        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-green-500 text-transparent bg-clip-text">
           Welcome Back!
           <WavingHandIcon className="text-yellow-500 mx-2 text-3xl" />
         </h1>
@@ -179,8 +179,8 @@ const LoginPage = () => {
           />
         </div>
       </form>
-      <p className="text-gray-400 relative bottom-0 text-center">
-        You do not have an account?{" "}
+      <p className="text-gray-400 relative bottom-0 text-center mb-4">
+        You do not have an account yet?{" "}
         <Link className="text-blue-400 font-bold text-sm" href="/auth/signUp">
           Sign Up Now!
         </Link>
