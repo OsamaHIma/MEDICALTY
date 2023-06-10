@@ -1,5 +1,6 @@
 import LanguageSwitcher from "@/components/LanguageSwitcher ";
 import Image from "next/image";
+import ToggleThemeBtn from "@/components/ToggleThemeBtn";
 
 const Layout = async ({ children }) => {
   return (
@@ -7,17 +8,18 @@ const Layout = async ({ children }) => {
       <div className="flex   min-h-[100vh] ">
         <div className="w-full pt-4 mt-12">
           <main className="w-full h-auto  flex flex-col justify-center items-center">
-            <div className="flex gap-4 px-8 relative left-0 self-start ">
+            <div className="flex justify-between items-center gap-4 px-8 relative left-0 self-start w-full">
               {/* Logo Here when provided */}
               <Image
-                src="/assets/MEDICALTY.svg"
+                src="/assets/MEDICALTY.png"
                 alt="MEDICALTY-logo"
                 height={250}
                 width={250}
               />
-              
+              <ToggleThemeBtn />
               {/* <LanguageSwitcher /> */}
             </div>
+            <div className="gradient absolute w-[80%] h-96 bg-gradient-to-r from-green-500/30 to-blue-600/25 blur-[100px] left-[100px] -z-[1]" />
             {children}
           </main>
         </div>
@@ -25,20 +27,36 @@ const Layout = async ({ children }) => {
           {/* Image here when provided */}
           <Image
             src="/assets/worker-preview-app-1.png"
-            alt="worker-preview"
+            alt="medicality-preview"
             width="0"
             height="0"
             sizes="100vw"
             className="absolute left-0 top-0 h-full w-full"
           />
-          {/* <Image
-            src="/assets/worker-preview-app.png"
-            alt="worker-preview"
+          <Image
+            src="/assets/doctor.svg"
+            alt="medicality-preview"
             width="0"
             height="0"
             sizes="100vw"
-            className="w-[90%] h-[70%] z-20  "
-          /> */}
+            className="w-[50%] z-20 absolute top-[13%]"
+          />
+          <Image
+            src="/assets/patient.svg"
+            alt="medicality-preview"
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-[35%] left-[13%] z-20 absolute top-[35%]"
+          />
+          <Image
+            src="/assets/hospital.svg"
+            alt="medicality-preview"
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-[90%] z-20 absolute top-[23%]"
+          />
         </div>
       </div>
     </div>

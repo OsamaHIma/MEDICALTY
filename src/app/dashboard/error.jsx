@@ -3,7 +3,7 @@ import { AiOutlineAlert } from "react-icons/ai";
 
 function Error() {
   return (
-    <div className="mt-8">
+    <div className="mt-8 px-10">
       <h2 className="text-xl font-semibold text-red-500">Something Went Wrong</h2>
       <p className="text-base text-gray-500">
         We&apos;re sorry, but something went wrong. Please try again later.

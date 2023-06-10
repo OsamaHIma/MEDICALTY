@@ -156,8 +156,8 @@ const LoginPage = () => {
           </div>
           <h3 className="text-green-400 text-xs ">
             <Link
-              className="text-blue-400 font-bold text-sm"
               href="/auth/forgot-password"
+              className="text-blue-500 hover:underline underline-offset-4"
             >
               Forgot password?
             </Link>
@@ -181,7 +181,7 @@ const LoginPage = () => {
       </form>
       <p className="text-gray-400 relative bottom-0 text-center mb-4">
         You do not have an account yet?{" "}
-        <Link className="text-blue-400 font-bold text-sm" href="/auth/signUp">
+        <Link className="text-blue-500 hover:underline underline-offset-4" href="/auth/signUp">
           Sign Up Now!
         </Link>
       </p>

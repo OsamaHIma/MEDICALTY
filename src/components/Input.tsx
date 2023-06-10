@@ -1,6 +1,6 @@
 import React from "react";
 import { useProSidebar } from "react-pro-sidebar";
-import Select, { Options, GroupBase } from "react-select";
+import Select, { GroupBase } from "react-select";
 
 type Option = {
   label: string;
@@ -22,8 +22,8 @@ type InputProps = {
   ClassesForTheLabel?: string;
   ClassesForTheInput?: string;
   ClassesForTheIcon?: string;
-  selectData?: readonly (Option | GroupBase<Option>)[];
-} & JSX.IntrinsicElements['input'];
+  options?: readonly (Option | GroupBase<Option>)[];
+} & JSX.IntrinsicElements["input"];
 
 const Input = ({
   upperCase = false,
@@ -40,14 +40,22 @@ const Input = ({
   ClassesForTheLabel,
   ClassesForTheInput,
   ClassesForTheIcon,
-  selectData,
+  options,
 }: InputProps) => {
   const renderSelect = () => (
     <Select
       placeholder={placeHolder}
-      name="workers"
-      className={`mx-2 flex-1 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
-      options={selectData}
+      className={`flex-1 dark:text-slate-700 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
+      options={options}
+      theme={(theme) => ({
+        ...theme,
+        borderRadius: 0,
+        colors: {
+          ...theme.colors,
+          primary25: "#4ade80",
+          primary: "primary50",
+        },
+      })}
     />
   );
   const { collapsed } = useProSidebar();
@@ -99,12 +107,12 @@ const Input = ({
 
   return (
     <div
-      className={`flex capitalize ${
-        upperCase && "uppercase"
-      }  flex-nowrap overflow-hidden ${
+      className={`flex capitalize ${upperCase && "uppercase"}  flex-nowrap${
         type === "textarea"
           ? "bg-transparent"
-          : `border-2 border-blue-200 needs-validation items-center ${inputBgColor} ${rounded}`
+          : `border-2 border-blue-200 needs-validation items-center ${rounded} ${
+              type === "select" ? null : "overflow-hidden"
+            } ${inputBgColor}`
       } ${ClassesForTheDiv}`}
     >
       {type === "textarea" ? null : (

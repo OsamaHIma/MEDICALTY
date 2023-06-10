@@ -15,6 +15,20 @@ import {
   FaBuilding,
   FaUserTie,
   FaCubes,
+  FaRegChartBar,
+  FaMoneyBillAlt,
+  FaShoppingCart,
+  FaHryvnia,
+  FaBook,
+  FaFileMedical,
+  FaAirbnb,
+  FaBriefcase,
+  FaAmbulance,
+  FaHospital,
+  FaPlaneDeparture,
+  FaClipboardList,
+  FaChartLine,
+  FaRegCalendarAlt,
 } from "react-icons/fa";
 import { FcComboChart } from "react-icons/fc";
 import { IoMdAdd } from "react-icons/io";
@@ -210,104 +224,109 @@ const tasksLinks = [
 
 export const navLinks = [
   {
-    name: "Add Tasks",
+    name: "Add product",
     children: tasksLinks,
-    icon: <FaTasks />,
+    icon: <FaShoppingCart />
   },
   {
-    name: "Advances",
-    link: "dashboard/advances",
-    icon: <FaMoneyCheckAlt />,
+    name: "Appointments",
+    link: "dashboard/appointments",
+    icon: <FaRegCalendarAlt />
   },
   {
     name: "Calendar",
     link: "dashboard/calendar",
-    icon: <FaCalendarAlt />,
+    icon: <FaCalendarAlt />
   },
   {
     name: "Customers",
-    icon: <FaUserFriends />,
     children: customersLinks,
+    icon: <FaUserFriends />
   },
   {
     name: "Dashboard",
     link: "/dashboard",
-    icon: <FaChartBar />,
+    icon: <FaChartLine />
   },
   {
     name: "Department",
-    icon: <FaBuilding />,
     children: departmentLinks,
+    icon: <FaClipboardList />
   },
   {
     name: "Departures",
-    icon: <MdFlightTakeoff />,
     link: "dashboard/departures",
+    icon: <FaPlaneDeparture />
+  },
+  {
+    name: "Diseases",
+    children: employeeLinks,
+    icon: <FaHospital />
+  },
+  {
+    name: "Doctors",
+    children: employeeLinks,
+    icon: <FaAmbulance />
   },
   {
     name: "Employees",
-    icon: <FaUsers />,
     children: employeeLinks,
+    icon: <FaUserTie />
   },
   {
-    name: "Expense",
-    icon: <FaMoneyBill />,
+    name: "Experience",
     children: expenseLinks,
+    icon: <FaBriefcase />
   },
   {
     name: "Groups",
     children: groupsLinks,
-    icon: <MdGroup />,
+    icon: <FaUsers />
   },
   {
     name: "Holidays",
-    icon: <TbBeach />,
     children: holidayLinks,
+    icon: <FaAirbnb />
   },
   {
     name: "Invoices",
-    icon: <FaFileInvoice />,
     children: invoicesLinks,
+    icon: <FaFileInvoice />
   },
   {
-    name: "Leave",
-    icon: <VscSignOut />,
-    children: leaveLinks,
+    name: "Insurance",
+    children: invoicesLinks,
+    icon: <FaFileMedical />
   },
   {
-    name: "Mission",
-    link: "dashboard/mission",
-    icon: <FaFlag />,
-  },
-  {
-    name: "Occupation",
-    icon: <FaUserTie />,
-    children: OccupationLinks,
+    name: "New request",
+    link: "dashboard/new-request",
+    icon: <FaBook />
   },
   {
     name: "Orders",
     children: ordersLinks,
-    icon: <MdAddShoppingCart />,
+    icon: <FaShoppingCart />
   },
   {
     name: "Price Offers",
     children: priceOfferLinks,
-    icon: <FaTag />,
+    icon: <FaHryvnia />
   },
   {
     name: "Products",
     children: productLinks,
-    icon: <FaCubes />,
+    icon: <FaShoppingCart />
   },
   {
-    name: "Salaries",
-    icon: <FaMoneyBillWave />,
+    name: "Spending",
     children: salariesLinks,
+    icon: <FaMoneyBillAlt />
   },
   {
     name: "Vacation",
-    icon: <FaSuitcase />,
     children: vacationLinks,
+    icon: <FaRegChartBar />
   },
 ];
 

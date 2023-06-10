@@ -1,24 +1,47 @@
 "use client";
-import Button from "@/components/Button.tsx";
-import { useSession } from "next-auth/react";
-import { useCallback, useEffect, useState } from "react";
-import { HiOutlineMail } from "react-icons/hi";
-import { IoIosPin } from "react-icons/io";
+import React, { useCallback, useEffect, useState } from "react";
+import Select from "react-select";
 import {
-  MdEmail,
-  MdBusiness,
-  MdDateRange,
-  MdPermIdentity,
-  MdPhone,
-  MdAccountCircle,
-  MdWork,
-  MdAttachMoney,
-  MdGroup,
-  MdSupervisorAccount,
-} from "react-icons/md";
-import { toast } from "react-toastify";
+  FaCalendarAlt,
+  FaMapMarkerAlt,
+  FaMobileAlt,
+  FaEnvelope,
+  FaUserAlt,
+} from "react-icons/fa";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useDropzone } from "react-dropzone";
-const Account = () => {
+import { MdGroup, MdSupervisorAccount, MdMailOutline } from "react-icons/md";
+import { toast } from "react-toastify";
+import Button from "@/components/Button";
+
+const InputField = ({ label, placeholder, type = "text" }) => {
+  const [value, setValue] = useState("");
+
+  return (
+    <div className="mb-6">
+      <label htmlFor={label} className="block mb-2">
+        {label}
+      </label>
+      <div className="border-b-2 border-green-200 dark:border-slate-700 pt-2 pb-3">
+        <input
+          type={type}
+          id={label}
+          className={`w-full bg-transparent border-none focus:outline-none ${
+            value && "pt-2"
+          }`}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </div>
+    </div>
+  );
+};
+
+const MyAccount = () => {
+  const [options, setOptions] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
@@ -82,7 +105,7 @@ const Account = () => {
       })
       .catch((error) => {
         toast.error(`Failed to update user information. ${error.massage}`);
-        console.log(error)
+        console.log(error);
       });
   };
   const [isEditingProfilePicture, setIsEditingProfilePicture] = useState(false);
@@ -110,8 +133,62 @@ const Account = () => {
     maxFiles: 1,
   });
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "https://api.first.org/data/v1/countries"
+        ,{
+          headers:{
+            "method": "GET",
+            
+          }
+        }
+      );
+      const data= await response.json();
+      console.log(data);
+      // const options = data.map((country) => ({
+      //   value: country,
+      //   label: country.country,
+      // }));
+      // setOptions(options);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const SelectField = ({ label, options }) => {
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    return (
+      <div className="mb-6 ">
+        <label htmlFor={label} className="block mb-2">
+          {label}
+        </label>
+        <Select
+          options={options}
+          value={selectedOption}
+          onChange={(option) => setSelectedOption(option)}
+          className="w-full text-slate-700 "
+          isLoading={isLoading}
+          // theme={(theme) => ({
+          //   ...theme,
+          //   colors: {
+          //     ...theme.colors,
+          //     primary25: `${theme === "light" ? "#B2F5EA" : "#4A5568"}`,
+          //     primary: `${theme === "light" ? "#34D399" : "#CBD5E0"}`,
+          //   },
+          // })}
+        />
+      </div>
+    );
+  };
   return (
-    <section className="max-w-4xl mx-auto py-12 px-10">
+    <div className="container px-10 py-12">
       <h1 className="text-3xl font-bold mb-6">Account Information</h1>
       <div className="flex items-center space-x-4 mb-8">
         <div className="w-20 h-20 relative" {...getRootProps()}>
@@ -153,15 +230,15 @@ const Account = () => {
         </div>
         <div className="flex-1">
           <h2 className="text-2xl font-bold mb-2">{user.name}</h2>
-          <p className="px-4 w-full rounded-tr-md rounded-tl-md dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
-            <HiOutlineMail
+          <p className="px-4 w-full rounded-tr-md rounded-tl-md bg-green-50 dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
+            <MdMailOutline
               size={24}
               className="inline-block mr-2 text-green-500"
             />
             {user.email}
           </p>
           {user.type === "admin" ? (
-            <p className="px-4 w-full dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
+            <p className="px-4 w-full bg-green-50 dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
               <MdSupervisorAccount
                 size={24}
                 className="inline-block mr-2 text-green-500"
@@ -169,160 +246,69 @@ const Account = () => {
               Admin
             </p>
           ) : (
-            <p className="px-4 w-full dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
+            <p className="px-4 w-full bg-green-50 dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
               <MdGroup size={24} className="inline-block mr-2 text-green-500" />
               Employee
             </p>
           )}
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <div className="p-6 rounded-lg shadow-md dark:bg-slate-800">
-          <h3 className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 font-bold mb-4">
-            Personal Information
-          </h3>
-          <div className="flex items-center mb-4">
-            <MdPermIdentity size={24} className="text-green-500 mr-2" />
-            {isEditing ? (
-              <input
-                className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-                value={updatedUser.name}
-                onChange={(e) => handleUpdateUser("name", e.target.value)}
-              />
-            ) : (
-              <p className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2">
-                {user.name}
-              </p>
-            )}
-          </div>
-          <div className="flex items-center mb-4">
-            <MdEmail size={24} className="text-green-500 mr-2" />
-            {isEditing ? (
-              <input
-                type="email"
-                className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-                value={updatedUser.email}
-                onChange={(e) => handleUpdateUser("email", e.target.value)}
-              />
-            ) : (
-              <p className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2">
-                {user.email}
-              </p>
-            )}
-          </div>
-          <div className="flex items-center mb-4">
-            <MdDateRange size={24} className="text-green-500 mr-2" />
-            {isEditing ? (
-              <input
-                type="date"
-                className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-                value={updatedUser.date_of_birth}
-                onChange={(e) =>
-                  handleUpdateUser("date_of_birth", e.target.value)
-                }
-              />
-            ) : (
-              <p className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2">
-                {user.date_of_birth}
-              </p>
-            )}
-          </div>
-          <div className="flex items-center mb-4">
-            <IoIosPin size={24} className="text-green-500 mr-2" />
-            {isEditing ? (
-              <input
-                type="text"
-                className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-                value={updatedUser.City}
-                onChange={(e) => handleUpdateUser("City", e.target.value)}
-              />
-            ) : (
-              <p className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2">
-                {user.City}
-              </p>
-            )}
-          </div>
-          <div className="flex items-center mb-4">
-            <MdAccountCircle size={24} className="text-green-500 mr-2" />
-            {isEditing ? (
-              <input
-                className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-                value={updatedUser.username}
-                onChange={(e) => handleUpdateUser("username", e.target.value)}
-              />
-            ) : (
-              <p className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2">
-                {user.username}
-              </p>
-            )}
-          </div>
-          <div className="flex items-center mb-4">
-            <MdPhone size={24} className="text-green-500 mr-2" />
-            {isEditing ? (
-              <input
-                className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-                value={updatedUser.phone}
-                onChange={(e) => handleUpdateUser("phone", e.target.value)}
-              />
-            ) : (
-              <p className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2">
-                {user.phone}
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="p-6 rounded-lg shadow-md dark:bg-slate-800">
-          <h3 className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 font-bold mb-4">
-            Professional Information
-          </h3>
-          <div className="flex items-center mb-4">
-            <MdBusiness size={24} className="text-green-500 mr-2" />
-            {isEditing ? (
-              <input
-                className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-                value={updatedUser.Company_Name}
-                onChange={(e) =>
-                  handleUpdateUser("Company_Name", e.target.value)
-                }
-              />
-            ) : (
-              <p className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2">
-                {user.Company_Name}
-              </p>
-            )}
-          </div>
-          <div className="flex items-center mb-4">
-            <MdWork size={24} className="text-green-500 mr-2" />
-            {isEditing ? (
-              <input
-                className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-                value={updatedUser.Job_number}
-                onChange={(e) => handleUpdateUser("Job_number", e.target.value)}
-              />
-            ) : (
-              <p className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2">
-                {user.Job_number}
-              </p>
-            )}
-          </div>
-          <div className="flex items-center mb-4">
-            <MdAttachMoney size={24} className="text-green-500 mr-2" />
-            {isEditing ? (
-              <input
-                type="number"
-                className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2"
-                value={updatedUser.total_salary}
-                onChange={(e) =>
-                  handleUpdateUser("total_salary", e.target.value)
-                }
-              />
-            ) : (
-              <p className="px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2">
-                {user.total_salary}
-              </p>
-            )}
-          </div>
-        </div>
+      <h3 className="py-2 w-full rounded-md dark:text-slate-200 font-bold mb-4">
+        Personal Information:
+      </h3>
+      <div className="grid gap-8 lg:grid-cols-2">
+        <InputField label="Full name" placeholder="Enter your full name" />
+        <InputField label="Email" placeholder="Enter your email" type="email" />
+        <InputField label="@username" placeholder="Enter your username" />
+        <InputField label="Name" placeholder="Enter your name" />
+        <InputField
+          label="Date of birth"
+          placeholder="DD/MM/YYYY"
+          type="date"
+        />
+        <InputField
+          label="National number"
+          placeholder="Enter your national number"
+          type="number"
+        />
+        <InputField
+          label="Phone number"
+          placeholder="Enter your phone number"
+          type="tel"
+        />
+        <InputField
+          label="Home address"
+          placeholder="Enter your home address"
+        />
+        <InputField
+          label="Height (cm)"
+          placeholder="Enter your height in cm"
+          type="number"
+        />
+        <InputField
+          label="Weight (kg)"
+          placeholder="Enter your weight in kg"
+          type="number"
+        />
+        <SelectField
+          label="Blood type"
+          options={[
+            { value: "A+", label: "A+" },
+            { value: "A-", label: "A-" },
+            { value: "B+", label: "B+" },
+            { value: "B-", label: "B-" },
+            { value: "O+", label: "O+" },
+            { value: "O-", label: "O-" },
+          ]}
+        />
+        <SelectField
+          label="Gender"
+          options={[
+            { value: "male", label: "Male" },
+            { value: "female", label: "Female" },
+          ]}
+        />
+        <SelectField label="Nationality" options={options} />
       </div>
       <div className="flex justify-end">
         {isEditing ? (
@@ -347,8 +333,8 @@ const Account = () => {
           />
         )}
       </div>
-    </section>
+    </div>
   );
 };
 
-export default Account;
+export default MyAccount;

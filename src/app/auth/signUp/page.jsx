@@ -129,7 +129,6 @@ export default function Page() {
 
   return (
     <section className="px-4 flex flex-col mt-20 gap-8 relative">
-      <div className="gradient absolute w-96 h-96 bg-gradient-to-r from-green-300/25 to-blue-600/25 blur-[100px] left-[100px] -z-[1]" />
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -457,7 +456,7 @@ export default function Page() {
               Already have an account?{" "}
               <Link
                 href="/auth/login"
-                className="text-blue-500 hover:underline"
+                className="text-blue-500 hover:underline underline-offset-4"
               >
                 Log in
               </Link>

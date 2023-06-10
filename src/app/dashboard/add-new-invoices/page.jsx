@@ -1,48 +1,48 @@
-'use client';
-import Button from '@/components/Button';
-import Header from '@/components/Header';
-import Input from '@/components/Input';
-import { useEffect, useState } from 'react';
-import PagesDataGrid from '@/components/PagesDataGrid';
-import { FaCalendarAlt, FaUserAlt } from 'react-icons/fa';
-import { MdCalendarMonth } from 'react-icons/md';
-import { toast } from 'react-toastify';
-import { useSession } from 'next-auth/react';
+"use client";
+import Button from "@/components/Button";
+import Header from "@/components/Header";
+import Input from "@/components/Input";
+import { useEffect, useState } from "react";
+import PagesDataGrid from "@/components/PagesDataGrid";
+import { FaCalendarAlt, FaUserAlt } from "react-icons/fa";
+import { MdPayment, MdTextFields } from "react-icons/md";
+import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 
 const Invoices = () => {
   const { data: session } = useSession();
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
   useEffect(() => {
     if (session) {
       setToken(session.user.token);
     }
   }, [session]);
   const defaultProps = {
-    order_id: '',
-    customer_id: '',
-    date: '',
-    company_id: '',
-    remaining_amount: '',
-    tax: '',
-    total: '',
-    title: '',
-    value: '',
-    discount: '',
-    massage: '',
+    order_id: "",
+    company_logo: "",
+    pay_to: "",
+    title: "",
+    date: "",
+    payment_due: "",
+    items: "",
+    show_all_amounts: "",
+    discount: "",
+    tax: "",
+    message: "",
   };
   const [formFields, setFormFields] = useState(defaultProps);
   const {
     order_id,
-    customer_id,
-    date,
-    company_id,
-    remaining_amount,
-    tax,
-    total,
+    company_logo,
+    pay_to,
     title,
-    value,
+    date,
+    payment_due,
+    items,
+    show_all_amounts,
     discount,
-    massage,
+    tax,
+    message,
   } = formFields;
 
   const onChange = (event) => {
@@ -55,19 +55,21 @@ const Invoices = () => {
   };
   const handlePostRequest = async () => {
     try {
-      const response = await fetch('/api/invoice', {
-        method: 'POST',
+      const response = await fetch("/api/invoice", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formFields),
       });
 
+      scheme;
+      Copy;
       const data = await response.json();
 
       if (response.ok) {
-        toast.success('Data successfully sent');
+        toast.success("Data successfully sent");
         resetFormFields();
       } else {
         toast.error(`Failed to send data: ${data.message}`);
@@ -75,27 +77,28 @@ const Invoices = () => {
       }
     } catch (error) {
       toast.error(`${error.method}: ${error.message}`);
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
-  const [isValid, setIsValid] = useState('');
+  const [isValid, setIsValid] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!event.target.checkValidity()) {
       event.stopPropagation();
-      setIsValid('not-validated');
-      toast.error('Please fill in all required fields');
+      setIsValid("not-validated");
+      toast.error("Please fill in all required fields");
       return;
     }
 
-    setIsValid('validated');
+    Copy;
+    setIsValid("validated");
     handlePostRequest();
   };
   const cancelFormSubmit = () => {
     resetFormFields();
-    setIsValid('');
+    setIsValid("");
   };
   return (
     <section>
@@ -109,7 +112,7 @@ const Invoices = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-[52px] mb-5 md:mb-[52px]">
             <div className="flex flex-col gap-[23px] flex-1">
               <Input
-                labelText="Order ID"
+                labelText="Invoice Number"
                 icon={<FaUserAlt />}
                 name="order_id"
                 value={order_id}
@@ -118,16 +121,23 @@ const Invoices = () => {
                 required
               />
               <Input
-                labelText="Customer ID"
-                icon={<FaCalendarAlt />}
-                name="customer_id"
-                value={customer_id}
+                labelText="Pay To"
+                icon={<MdPayment />}
+                name="pay_to"
+                value={pay_to}
                 onChange={onChange}
-                type="number"
+                type="select"
                 required
               />
               <Input
-                labelText="Date"
+                labelText="Invoice Title"
+                name="title"
+                value={title}
+                onChange={onChange}
+                required
+              />
+              <Input
+                labelText="Invoice Date"
                 placeHolder="Date of transmission"
                 name="date"
                 value={date}
@@ -137,90 +147,84 @@ const Invoices = () => {
                 required
               />
               <Input
-                labelText="Company ID"
-                icon={<FaCalendarAlt />}
-                name="company_id"
-                value={company_id}
+                labelText="Payment Due"
+                name="payment_due"
+                value={payment_due}
                 onChange={onChange}
+                type="select"
+                options={[
+                  { value: "10%", label: "10%" },
+                  { value: "20%", label: "20%" },
+                  { value: "25%", label: "25%" },
+                  { value: "30%", label: "30%" },
+                  { value: "40%", label: "40%" },
+                  { value: "45%", label: "45%" },
+                  { value: "50%", label: "50%" },
+                  { value: "60%", label: "60%" },
+                  { value: "75%", label: "75%" },
+                  { value: "100%", label: "100%" },
+                ]}
                 required
               />
+            </div>
+            <div className="flex flex-col gap-[23px] flex-1">
               <Input
-                labelText="Remaining Amounts"
-                placeHolder="All amounts $"
-                name="remaining_amount"
-                value={remaining_amount}
+                labelText="Items"
+                name="items"
+                value={items}
+                onChange={onChange}
+                icon={<MdTextFields />}
+                type="textarea"
+                required
+              />
+              {/* <Input
+                labelText="Show All Amounts"
+                name="show_all_amounts"
+                value={show_all_amounts}
+                onChange={onChange}
+                type="checkbox"
+              /> */}
+              <Input
+                labelText="Discount"
+                name="discount"
+                value={discount}
                 onChange={onChange}
                 type="number"
-                required
               />
               <Input
                 labelText="Tax"
                 name="tax"
                 value={tax}
                 onChange={onChange}
-                type="number"
-                required
-              />
-            </div>
-            <div className="flex flex-col gap-[23px] flex-1">
-              <Input
-                labelText="Total"
-                name="total"
-                value={total}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="Title"
-                icon={<MdCalendarMonth />}
-                name="title"
-                value={title}
-                onChange={onChange}
+                type="select"
+                options={[
+                  { value: "0%", label: "0%" },
+                  { value: "5%", label: "5%" },
+                  { value: "10%", label: "10%" },
+                  { value: "15%", label: "15%" },
+                  { value: "20%", label: "20%" },
+                  { value: "25%", label: "25%" },
+                  { value: "30%", label: "30%" },
+                ]}
               />
               <Input
-                labelText="discount"
-                name="discount"
-                value={discount}
+                labelText="Message"
+                name="message"
+                value={message}
                 onChange={onChange}
-              />
-              <Input
-                labelText="value"
-                name="value"
-                value={value}
-                onChange={onChange}
+                type="textarea"
               />
             </div>
           </div>
-          <Input
-            labelText="Message Client"
-            placeHolder="The message to the customer"
-            name="massage"
-            value={massage}
-            onChange={onChange}
-            type="textarea"
-          />
-          <div className="flex justify-between flex-wrap gap-3 my-11">
+          <div className="flex items-center">
+            <Button type="submit" content="Submit" buttonType="filled" />
             <Button
-              content="Cancel"
               type="button"
-              additionalClasses="w-full md:w-auto"
+              content="Cancel"
               onClick={cancelFormSubmit}
+              additionalClasses="ml-3"
             />
-            <div className="saveBtns flex flex-wrap gap-2">
-              <Button
-                content="Save and create another one"
-                additionalClasses="w-full md:w-auto"
-                type="submit"
-              />
-              <Button
-                content="Save now"
-                buttonType="filled"
-                additionalClasses="w-full md:w-auto"
-                type="submit"
-              />
-            </div>
           </div>
-          <PagesDataGrid />
         </form>
       </div>
     </section>

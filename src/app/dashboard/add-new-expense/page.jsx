@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import Input from "@/components/Input.tsx";
 import { BsPerson, BsCalendar, BsFillPersonLinesFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import PagesDataGrid from "@/components/PagesDataGrid";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 
@@ -17,15 +16,16 @@ const Expense = () => {
     }
   }, [session]);
   const defaultProps = {
-    employee_id: "",
-    name: "",
-    purpose: "",
-    date: "",
-    value: "",
+    accounting_code: "",
+    title: "",
     description: "",
+    time: "",
+    date: "",
+    amount: "",
+    attachment: "",
   };
   const [formFields, setFormFields] = useState(defaultProps);
-  const { employee_id, name, purpose, date, value, description } = formFields;
+  const { accounting_code, title, description, time, date, amount, attachment } = formFields;
 
   const onChange = (event) => {
     const { name, value } = event.target;
@@ -90,62 +90,80 @@ const Expense = () => {
       />
       <div className="px-10">
         <form className={`pb-7 ${isValid}`} onSubmit={handleSubmit} noValidate>
+          <div className="flex gap-6 flex-col">
           <Input
-            labelText="Employee ID"
-            placeHolder="Employee ID "
+            labelText="Accounting code"
+            placeHolder="Accounting code"
             icon={<BsPerson />}
-            name="employee_id"
-            value={employee_id}
+            name="accounting_code"
+            value={accounting_code}
             onChange={onChange}
             type="number"
             required
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[23px] my-[23px]">
-            <Input
-              labelText="Employee name"
-              icon={<BsFillPersonLinesFill />}
-              name="name"
-              value={name}
-              onChange={onChange}
-              required
-            />
-            <Input
-              labelText="purpose"
-              placeHolder="The purpose of the expenditure"
-              icon={<BsFillPersonLinesFill />}
-              name="purpose"
-              value={purpose}
-              onChange={onChange}
-              required
-            />
-            <Input
-              labelText="Time and date"
-              icon={<BsCalendar />}
-              name="date"
-              value={date}
-              onChange={onChange}
-              type="datetime-local"
-              required
-            />
-            <Input
-              labelText="Expense price"
-              icon={<BsCalendar />}
-              name="value"
-              value={value}
-              onChange={onChange}
-              type="number"
-              required
-            />
-          </div>
+          <Input
+            labelText="Title"
+            placeHolder="Expense title"
+            icon={<BsFillPersonLinesFill />}
+            name="title"
+            value={title}
+            onChange={onChange}
+            required
+          />
+
           <Input
             labelText="Description"
-            placeHolder="Description of expenses"
+            placeHolder="Expense description"
             type="textarea"
             name="description"
             value={description}
             onChange={onChange}
+            required
           />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[23px] my-[23px]">
+            <Input
+              labelText="Time"
+              icon={<BsCalendar />}
+              name="time"
+              value={time}
+              onChange={onChange}
+              type="time"
+              required
+            />
+
+            <Input
+              labelText="Date"
+              icon={<BsCalendar />}
+              name="date"
+              value={date}
+              onChange={onChange}
+              type="date"
+              required
+            />
+
+            <Input
+              labelText="Amount"
+              icon={<BsCalendar />}
+              name="amount"
+              value={amount}
+              onChange={onChange}
+              type="number"
+              required
+            />
+
+            <Input
+              labelText="Attachment"
+              name="attachment"
+              value={attachment}
+              onChange={onChange}
+              type="file"
+              accept="image/*,video/*,.doc,.docx,.pdf"
+            />
+          </div>
+
           <div className="flex justify-between flex-wrap gap-3 my-11">
             <Button
               content="Cancel"
@@ -153,12 +171,14 @@ const Expense = () => {
               onClick={cancelFormSubmit}
               type="button"
             />
+
             <div className="saveBtns flex flex-wrap gap-2">
               <Button
-                content="save an create another one"
+                content="save and create another one"
                 additionalClasses="w-full md:w-auto"
                 type="submit"
               />
+
               <Button
                 content="save now"
                 buttonType="filled"
@@ -168,7 +188,6 @@ const Expense = () => {
             </div>
           </div>
         </form>
-        <PagesDataGrid />
       </div>
     </section>
   );

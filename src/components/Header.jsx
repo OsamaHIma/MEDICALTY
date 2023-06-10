@@ -1,4 +1,3 @@
-import { string, bool } from "prop-types";
 import DragAndDrop from "./DragAndDrop";
 import Input from "./Input";
 import { useEffect, useState } from "react";
@@ -67,8 +66,10 @@ const Header = ({
     };
     if (chooseInputText === "Choose Employee") {
       fetchEmployeesData();
+      console.log(data);
     } else {
       fetchCustomersData();
+      console.log(data);
     }
   }, [token]);
   return (
@@ -78,7 +79,7 @@ const Header = ({
           !headerText ? "md:flex justify-end" : "justify-between flex"
         }`}
       >
-        <h1 className="text-xl md:text-3xl capitalize flex-1 text-slate-950 dark:text-slate-50">
+        <h1 className="text-xl md:text-3xl capitalize flex-1 text-slate-700 dark:text-slate-50">
           {headerText}
         </h1>
         {chooseInput && (
@@ -87,8 +88,8 @@ const Header = ({
             type="select"
             placeHolder="select"
             ClassesForTheDiv="flex-1"
-            labelBgColor="bg-blue-950"
-            selectData={data}
+            labelBgColor="bg-slate-800"
+            options={data}
           />
         )}
       </div>
@@ -99,13 +100,6 @@ const Header = ({
       )}
     </section>
   );
-};
-
-Header.propTypes = {
-  headerText: string,
-  chooseInput: bool,
-  chooseInputText: string,
-  typeOfSelectData: string,
 };
 
 export default Header;
