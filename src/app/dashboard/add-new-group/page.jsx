@@ -126,7 +126,7 @@ const WorkingGroups = () => {
         <div className="flex justify-center items-center my-11">
           <Button
             content="Save group"
-            buttonType="filled"
+            filled
             additionalClasses="w-full md:w-auto"
             type="submit"
           />

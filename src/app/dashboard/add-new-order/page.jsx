@@ -199,7 +199,7 @@ const NewOrder = () => {
         <div className="flex justify-center items-center my-11">
           <Button
             content="Save Order"
-            buttonType="filled"
+            filled
             additionalClasses="w-full md:w-auto"
             type="submit"
           />

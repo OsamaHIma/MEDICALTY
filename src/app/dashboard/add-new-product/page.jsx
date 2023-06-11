@@ -1,13 +1,19 @@
-'use client';
-import Button from '@/components/Button';
-import Header from '@/components/Header';
-import Input from '@/components/Input';
-import PagesDataGrid from '@/components/PagesDataGrid';
-import { usePhoto } from '@/context/PhotoContext';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import { BsPerson, BsPersonCheck } from 'react-icons/bs';
-import { toast } from 'react-toastify';
+"use client";
+import Button from "@/components/Button";
+import Header from "@/components/Header";
+import Input from "@/components/Input";
+import { usePhoto } from "@/context/PhotoContext";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import {
+  FaShoppingCart,
+  FaDollarSign,
+} from "react-icons/fa";
+import { MdDescription ,MdOutlineFormatListNumbered} from "react-icons/md";
+import { RiFileUserLine } from "react-icons/ri";
+import { HiIdentification } from "react-icons/hi";
+
+import { toast } from "react-toastify";
 
 const AddProductPage = () => {
   const { data: session } = useSession();
@@ -17,18 +23,22 @@ const AddProductPage = () => {
       setToken(session.user.token);
     }
   }, [session]);
+
   const defaultProps = {
-    company_id: '',
-    name: '',
-    description: '',
-    price: '',
-    quantity: '',
-    type: '',
+    productCode: "",
+    name: "",
+    description: "",
+    price: "",
+    quantity: "",
+    category: "",
   };
+
   const [formFields, setFormFields] = useState(defaultProps);
-  const { company_id, name, description, price, quantity, type } = formFields;
+  const { productCode, name, description, price, quantity, category } =
+    formFields;
 
   const { uploadedPhoto } = usePhoto();
+
   const onChange = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
@@ -39,145 +49,135 @@ const AddProductPage = () => {
   };
 
   const handlePostRequest = async () => {
-
     try {
-      const response = await fetch('/api/product', {
-        method: 'POST',
+      const response = await fetch("/api/product", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ ...formFields, image: uploadedPhoto }),
       });
 
       if (response.ok) {
-        toast.success('Data successfully sent');
+        toast.success("Data successfully sent");
         resetFormFields();
       } else {
-        toast.error('Failed to send data');
+        toast.error("Failed to send data");
       }
     } catch (error) {
       toast.error(`${error.name}: ${error.message}`);
     }
   };
-  const [isValid, setIsValid] = useState('');
+
+  const [isValid, setIsValid] = useState("");
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
     if (!event.target.checkValidity() || !uploadedPhoto) {
-      setIsValid('not-validated');
-      toast.error('Please fill in all required fields');
+      setIsValid("not-validated");
+      toast.error("Please fill in all required fields");
       return;
     }
-    setIsValid('validated');
+
+    setIsValid("validated");
     handlePostRequest();
   };
+
   return (
-    <section className="px-10">
-      <Header imageUploader headerText="add new product" />
-      <div className="px-10 mb-9">
-        <form
-          className={`flex mx-auto w-[80%] flex-col gap-6 ${isValid} `}
-          onSubmit={handleFormSubmit}
-        >
-          <div className="flex w-full justify-between ">
-            <div className="w-[45%]">
-              <Input
-                ClassesForTheInput="h-12"
-                ClassesForTheLabel="h-12 !text-center !py-3"
-                labelText="Company ID"
-                placeHolder="Company ID - from the system"
-                icon={<BsPerson size={30} />}
-                name="company_id"
-                value={company_id}
-                onChange={onChange}
-              />
-            </div>
-            <div className="w-[45%]">
-              <Input
-                ClassesForTheInput="h-12"
-                ClassesForTheLabel="h-12 !text-center !py-3"
-                labelText="Product Type"
-                placeHolder="Choose Type"
-                icon={<BsPersonCheck size={30} />}
-                name="type"
-                value={type}
-                onChange={onChange}
-              />
-            </div>
-          </div>
-          <div className=" w-full self-center ">
-            <div>
-              <Input
-                ClassesForTheInput="h-11 "
-                ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
-                labelText="Product Name "
-                placeHolder="Product Name"
-                icon={<BsPerson size={30} />}
-                name="name"
-                value={name}
-                onChange={onChange}
-              />
-            </div>
-          </div>
-          <div className="flex w-full justify-between ">
-            <div className="w-[45%]">
-              <Input
-                ClassesForTheInput="h-12"
-                ClassesForTheLabel="h-12 !text-center !py-3"
-                labelText="Price "
-                placeHolder="Price"
-                name="price"
-                value={price}
-                onChange={onChange}
-                icon={<BsPerson size={30} />}
-              />
-            </div>
-            <div className="w-[45%]">
-              <Input
-                ClassesForTheInput="h-12"
-                ClassesForTheLabel="h-12 !text-center !py-3"
-                labelText="Quantity"
-                placeHolder="Quantity"
-                icon={<BsPersonCheck size={30} />}
-                name="quantity"
-                value={quantity}
-                onChange={onChange}
-              />
-            </div>
-          </div>
-          <div>
+    <section>
+      <Header imageUploader headerText="Add new product" />
+      <form className={`px-10 ${isValid} `} onSubmit={handleFormSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px] mb-20">
+          <div className="flex flex-col gap-6 flex-1 md:w-full">
             <Input
-              labelText="Description"
+              ClassesForTheInput="h-12"
+              ClassesForTheLabel="h-12 !text-center !py-3"
+              labelText="Product Code"
+              placeHolder="Product Code - from the system"
+              icon={<RiFileUserLine size={23} />}
+              name="productCode"
+              value={productCode}
+              onChange={onChange}
+              required
+            />
+            <Input
+              ClassesForTheInput="h-12"
+              ClassesForTheLabel="h-12 !text-center !py-3"
+              labelText="Product Category"
+              placeHolder="Choose Category"
+              icon={<FaShoppingCart size={23} />}
+              name="category"
+              value={category}
+              onChange={onChange}
+              required
+            />
+
+            <Input
+              ClassesForTheInput="h-11 "
+              ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
+              labelText="Product Name "
+              placeHolder="Product Name"
+              icon={<HiIdentification size={23} />}
+              name="name"
+              value={name}
+              onChange={onChange}
+              required
+            />
+          </div>
+
+          <div className="flex flex-col gap-6 flex-1 md:w-full">
+            <Input
+              ClassesForTheInput="h-12"
+              ClassesForTheLabel="h-12 !text-center !py-3"
+              labelText="Product Price"
+              placeHolder="Price"
+              icon={<FaDollarSign size={23} />}
+              name="price"
+              value={price}
+              onChange={onChange}
+              type="number"
+              min="0"
+              required
+            />
+
+            <Input
+              ClassesForTheInput="h-12"
+              ClassesForTheLabel="h-12 !text-center !py-3"
+              labelText="Product Quantity"
+              placeHolder="Quantity"
+              icon={<MdOutlineFormatListNumbered size={23} />}
+              name="quantity"
+              value={quantity}
+              onChange={onChange}
+              type="number"
+              min="0"
+              required
+            />
+
+            <Input
+              ClassesForTheInput="h-12"
+              ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
+              labelText="Product Description"
+              placeHolder="Description"
+              icon={<MdDescription size={23} />}
               name="description"
               value={description}
               onChange={onChange}
-              type="textarea"
+              required
             />
           </div>
+        </div>
 
-          <div className="flex justify-between">
-            <Button
-              content="Cancel"
-              type="button"
-              onClick={resetFormFields}
-              additionalClasses="w-[10%]"
-            />
-
-            <Button
-              content="save an create another one"
-              additionalClasses=" md:w-auto"
-            />
-            <Button
-              type="submit"
-              content="save now"
-              buttonType="filled"
-              additionalClasses=" md:w-auto"
-            />
-          </div>
-        </form>
-      </div>
-      <PagesDataGrid />
+        <div className="flex w-full justify-center">
+          <Button
+            type="submit"
+            content="Add Product"
+            filled
+            additionalClasses="!py-3 !w-48"
+          />
+        </div>
+      </form>
     </section>
   );
 };

@@ -162,7 +162,7 @@ const Salaries = () => {
           </div>
         </div>
 
-        <Button content="submit" type="submit" buttonType="filled" />
+        <Button content="submit" type="submit" filled />
       </form>
     </section>
   );

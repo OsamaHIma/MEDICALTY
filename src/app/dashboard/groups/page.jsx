@@ -81,7 +81,7 @@ const Groups = () => {
             content="Delete"
             bgColor="!bg-red-500/30"
             fontColor="!text-red-500"
-            buttonType="filled"
+            filled
             fontWeight="!font-bold"
           />
         );
@@ -197,7 +197,7 @@ const Groups = () => {
           <Button
             icon={<IoMdAdd />}
             content="Add new group"
-            buttonType="filled"
+            filled
             additionalClasses="mt-3 md:mt-0 w-full md:w-auto"
           />
         </Link>

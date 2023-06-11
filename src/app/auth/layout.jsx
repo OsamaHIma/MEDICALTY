@@ -42,14 +42,6 @@ const Layout = async ({ children }) => {
             className="w-[50%] z-20 absolute top-[13%]"
           />
           <Image
-            src="/assets/patient.svg"
-            alt="medicality-preview"
-            width="0"
-            height="0"
-            sizes="100vw"
-            className="w-[35%] left-[13%] z-20 absolute top-[35%]"
-          />
-          <Image
             src="/assets/hospital.svg"
             alt="medicality-preview"
             width="0"

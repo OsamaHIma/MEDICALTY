@@ -240,7 +240,7 @@ const Advances = () => {
             />
             <Button
               content="save now"
-              buttonType="filled"
+              filled
               additionalClasses="w-full md:w-auto"
               type="submit"
             />

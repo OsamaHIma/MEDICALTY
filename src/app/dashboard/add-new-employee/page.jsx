@@ -177,7 +177,7 @@ const Employees = () => {
           </div>
         </div>
 
-        <Button content="Add Employee" type="submit" buttonType="filled" />
+        <Button content="Add Employee" type="submit" filled />
       </form>
     </section>
   );

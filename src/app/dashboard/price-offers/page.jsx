@@ -86,7 +86,7 @@ const PriceOffer = () => {
             content="Delete"
             bgColor="!bg-red-500/30"
             fontColor="!text-red-500"
-            buttonType="filled"
+            filled
             fontWeight="!font-bold"
           />
         );
@@ -209,7 +209,7 @@ const PriceOffer = () => {
           <Button
             icon={<IoMdAdd />}
             content="Add new offer"
-            buttonType="filled"
+            filled
             additionalClasses="mt-3 md:mt-0 w-full md:w-auto"
           />
         </Link>

@@ -174,7 +174,7 @@ const LoginPage = () => {
             onClick={handleGoogleLogin}
             content={"Sign with Google"}
             type="button"
-            buttonType="filled"
+            filled
             icon={<FcGoogle size={27} />}
           />
         </div>

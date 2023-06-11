@@ -164,7 +164,7 @@ const Mission = () => {
         <div className="flex justify-center items-center mb-11">
           <Button
             content="Save"
-            buttonType="filled"
+            filled
             additionalClasses="w-full md:w-auto"
             type="submit"
           />

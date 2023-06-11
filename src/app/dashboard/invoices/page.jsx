@@ -71,7 +71,7 @@ const InvoicesDataGrid = () => {
           content="Delete"
           bgColor="!bg-red-500/30"
           fontColor="!text-red-500"
-          buttonType="filled"
+          filled
           fontWeight="!font-bold"
         />
       );
@@ -188,7 +188,7 @@ const InvoicesDataGrid = () => {
           <div className="flex items-center justify-start gap-3">
             <Button
               content="Filter"
-              buttonType="filled"
+              filled
               bgColor="!bg-gray-300"
               fontColor="text-[#4a4a4a]"
               icon={<MdOutlineFilterAlt size={25} />}
@@ -202,7 +202,7 @@ const InvoicesDataGrid = () => {
           <Button
             icon={<IoMdAdd />}
             content="Add new invoices"
-            buttonType="filled"
+            filled
             additionalClasses="mt-3 md:mt-0 w-full md:w-auto"
           />
         </Link>

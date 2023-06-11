@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MdVisibilityOff, MdWavingHand, MdVisibility } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa";
@@ -25,11 +25,24 @@ export default function Page() {
     { value: "physical_therapy", label: "Physical Therapy" },
   ];
 
-  const countryOptions = [
-    { value: "egypt", label: "Egypt" },
-    { value: "jordan", label: "Jordan" },
-    { value: "saudi", label: "Saudi" },
-  ];
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch("https://restcountries.com/v3.1/all");
+        const data = await response.json();
+        const countryOptions = data.map((country) => ({
+          value: country.cca3,
+          label: country.name.common,
+        }));
+        setCountries(countryOptions);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCountries();
+  }, []);
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -330,7 +343,7 @@ export default function Page() {
                 viewport={{ once: true }}
               >
                 <Select
-                  options={countryOptions}
+                  options={countries}
                   value={InputValues.country}
                   name="country"
                   onChange={handleSelectChange}

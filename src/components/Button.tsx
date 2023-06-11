@@ -7,7 +7,7 @@ type ButtonProps = {
   content: string | JSX.Element;
   icon?: JSX.Element;
   rounded?: string;
-  buttonType?: string;
+  filled?: boolean;
   additionalClasses?: string;
 } & JSX.IntrinsicElements["button"];
 
@@ -20,7 +20,7 @@ const Button = ({
   content,
   icon,
   rounded = "rounded-md",
-  buttonType,
+  filled = false,
   additionalClasses,
   ...buttonProps
 }: ButtonProps) => {
@@ -30,7 +30,7 @@ const Button = ({
     ${fontWeight}
     ${rounded}
     ${
-      buttonType === "filled"
+      filled
         ? `${bgColor} ${fontColor}`
         : `bg-transparent hover:bg-green-500 border-2 border-solid border-green-400 text-green-400 hover:text-white`
     }

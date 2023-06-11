@@ -84,7 +84,7 @@ const Holidays = () => {
             content="Delete"
             bgColor="!bg-red-500/30"
             fontColor="!text-red-500"
-            buttonType="filled"
+            filled
             fontWeight="!font-bold"
           />
         );
@@ -201,7 +201,7 @@ const Holidays = () => {
           <Button
             icon={<IoMdAdd />}
             content="Add new holiday"
-            buttonType="filled"
+            filled
             additionalClasses="mt-3 md:mt-0 w-full md:w-auto"
           />
         </Link>

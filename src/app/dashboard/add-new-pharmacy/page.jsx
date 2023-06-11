@@ -20,7 +20,7 @@ import {
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const AddNewCenter = () => {
+const Pharmacy = () => {
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -29,10 +29,9 @@ const AddNewCenter = () => {
     }
   }, [session]);
   const { uploadedPhoto } = usePhoto();
-
-  const [formFields, setFormFields] = useState({
-    centerName: "",
-    userName: "",
+  const defaultProps = {
+    pharmacyName: "",
+    pharmacy_id: "",
     phoneNumber: "",
     phoneNumber2: "",
     website: "",
@@ -49,11 +48,13 @@ const AddNewCenter = () => {
     youtube_link: "",
     instagram_link: "",
     snapChat_link: "",
-  });
+    description: "",
+  };
+  const [formFields, setFormFields] = useState(defaultProps);
 
   const {
-    centerName,
-    userName,
+    pharmacyName,
+    pharmacy_id,
     phoneNumber,
     phoneNumber2,
     website,
@@ -70,6 +71,7 @@ const AddNewCenter = () => {
     snapChat_link,
     youtube_link,
     twitter_link,
+    description
   } = formFields;
 
   const onChange = (event) => {
@@ -78,26 +80,7 @@ const AddNewCenter = () => {
   };
 
   const resetFormFields = () => {
-    setFormFields({
-      centerName: "",
-      userName: "",
-      phoneNumber: "",
-      phoneNumber2: "",
-      website: "",
-      email: "",
-      officialEmail: "",
-      country: "",
-      address1: "",
-      address2: "",
-      county: "",
-      stateName: "",
-      zipCode: "",
-      facebook_link: "",
-      twitter_link: "",
-      youtube_link: "",
-      instagram_link: "",
-      snapChat_link: "",
-    });
+    setFormFields(defaultProps);
   };
 
   const handlePostRequest = async () => {
@@ -144,7 +127,7 @@ const AddNewCenter = () => {
   return (
     <section>
       <Header
-        headerText="Add New Center"
+        headerText="Add New Insurance Pharmacy"
         // chooseInput
         // chooseInputText="Choose Employee"
         imageUploader
@@ -154,21 +137,22 @@ const AddNewCenter = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px]">
             <div className="flex flex-col gap-[23px] flex-1">
               <Input
-                labelText="Center Name"
+                labelText="Pharmacy Name"
                 icon={<FaBuilding />}
-                name="centerName"
-                value={centerName}
+                name="pharmacyName"
+                value={pharmacyName}
                 onChange={onChange}
                 required
               />
               <Input
-                labelText="user Name"
+                labelText="Pharmacy ID"
                 icon={<FaUserAlt />}
-                name="userName"
-                value={userName}
+                name="pharmacy_id"
+                value={pharmacy_id}
                 onChange={onChange}
-                required
+                type="number"
 
+                required
               />
               <Input
                 labelText="Phone number"
@@ -207,7 +191,7 @@ const AddNewCenter = () => {
             <div className="flex flex-col gap-[23px] mb-5 flex-1">
               <Input
                 labelText="Official Email"
-                placeHolder="Official Email for the center"
+                placeHolder="Official Email for the pharmacy"
                 name="officialEmail"
                 value={officialEmail}
                 onChange={onChange}
@@ -256,17 +240,19 @@ const AddNewCenter = () => {
                 name="zipCode"
                 value={zipCode}
                 onChange={onChange}
+                type="number"
+
                 required
               />
             </div>
           </div>
-          <div className="flex gap-7 flex-col">
+          <div className="flex gap-7 flex-col mb-7">
             <Input
               name="twitter_link"
               value={twitter_link}
               onChange={onChange}
               labelText="Twitter Link"
-              placeHolder="customer twitter link"
+              placeHolder="pharmacy twitter link"
               icon={<FaTwitter />}
               type="url"
             />
@@ -307,6 +293,13 @@ const AddNewCenter = () => {
               type="url"
             />
           </div>
+          <Input
+            labelText="Description"
+            name="description"
+            value={description}
+            onChange={onChange}type="textarea"
+            required
+          />
           <div className="flex justify-between flex-wrap gap-3 !my-11">
             <Button
               content="Cancel"
@@ -318,7 +311,6 @@ const AddNewCenter = () => {
                 content="save an create another one"
                 additionalClasses="w-full md:w-auto"
                 type="submit"
-
               />
               <Button
                 content="save now"
@@ -334,4 +326,4 @@ const AddNewCenter = () => {
   );
 };
 
-export default AddNewCenter;
+export default Pharmacy;

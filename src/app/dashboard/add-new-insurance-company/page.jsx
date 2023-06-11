@@ -252,7 +252,7 @@ const InsruanceCompany = () => {
               value={twitter_link}
               onChange={onChange}
               labelText="Twitter Link"
-              placeHolder="customer twitter link"
+              placeHolder="company twitter link"
               icon={<FaTwitter />}
               type="url"
             />
@@ -314,7 +314,7 @@ const InsruanceCompany = () => {
               />
               <Button
                 content="save now"
-                buttonType="filled"
+                filled
                 additionalClasses="w-full md:w-auto"
                 type="submit"
               />

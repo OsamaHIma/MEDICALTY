@@ -217,7 +217,7 @@ const Invoices = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <Button type="submit" content="Submit" buttonType="filled" />
+            <Button type="submit" content="Submit" filled />
             <Button
               type="button"
               content="Cancel"

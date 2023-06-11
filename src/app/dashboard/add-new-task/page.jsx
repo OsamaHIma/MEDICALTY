@@ -213,7 +213,7 @@ const AddingTasks = () => {
         <div className="flex justify-center items-center my-11">
           <Button
             content="Save task"
-            buttonType="filled"
+            filled
             additionalClasses="w-full md:w-auto"
             type="submit"
           />

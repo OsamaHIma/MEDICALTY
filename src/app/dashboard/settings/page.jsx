@@ -146,7 +146,7 @@ const Settings = () => {
         <div className="flex !mt-[129px] justify-center items-center">
           <Button
             content="Save Setting"
-            buttonType="filled"
+            filled
             additionalClasses="w-full md:w-auto"
             type="submit"
           />
@@ -172,7 +172,7 @@ const Settings = () => {
         <div className="flex !my-3 justify-end items-center">
           <Button
             content="Save Setting"
-            buttonType="filled"
+            filled
             additionalClasses="w-full md:w-auto"
             type="submit"
           />

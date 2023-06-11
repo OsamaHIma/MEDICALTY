@@ -172,7 +172,7 @@ const HolidayDays = () => {
         <div className="flex !my-[129px] justify-center items-center">
           <Button
             content="Save Holiday"
-            buttonType="filled"
+            filled
             additionalClasses="w-full md:w-auto"
             type="submit"
           />

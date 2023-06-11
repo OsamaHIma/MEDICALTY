@@ -280,7 +280,7 @@ const Leave = () => {
               />
               <Button
                 content="save now"
-                buttonType="filled"
+                filled
                 type="submit"
                 additionalClasses="w-full md:w-auto"
               />

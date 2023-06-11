@@ -73,9 +73,9 @@ const Input = ({
       <textarea
         id="textarea"
         placeholder={placeHolder}
-        className="border border-blue-300 bg-green-50 dark:bg-slate-700 focus:outline-blue-600 flex-1 p-2 rounded-tr-md rounded-br-md resize-none align-middle"
-        cols={20}
-        rows={5}
+        className="border border-blue-300 bg-green-50 dark:bg-slate-700 focus:outline-blue-600 flex-1 p-2 rounded-tr-md rounded-br-md align-middle"
+        rows={3}
+        cols={3}
       ></textarea>
     </>
   );

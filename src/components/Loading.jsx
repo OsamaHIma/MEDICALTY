@@ -16,8 +16,7 @@ function LoadingComponent({ ...props }) {
       height={height}
       width={width}
       ariaLabel={ariaLabel}
-      color="#1d4ed8"
-      wrapperClass="text-blue-400 dark:text-blue-200"
+      color="#60a5fa"
     />
     // </div>
   );

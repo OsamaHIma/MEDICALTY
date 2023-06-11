@@ -171,7 +171,7 @@ const Departures = () => {
         <div className="flex !my-[129px] justify-center items-center">
           <Button
             content="Submit"
-            buttonType="filled"
+            filled
             additionalClasses="w-full md:w-auto"
             type="submit"
           />

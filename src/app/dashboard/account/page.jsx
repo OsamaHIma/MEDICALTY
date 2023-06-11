@@ -15,30 +15,6 @@ import { MdGroup, MdSupervisorAccount, MdMailOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
 
-const InputField = ({ label, placeholder, type = "text" }) => {
-  const [value, setValue] = useState("");
-
-  return (
-    <div className="mb-6">
-      <label htmlFor={label} className="block mb-2">
-        {label}
-      </label>
-      <div className="border-b-2 border-green-200 dark:border-slate-700 pt-2 pb-3">
-        <input
-          type={type}
-          id={label}
-          className={`w-full bg-transparent border-none focus:outline-none ${
-            value && "pt-2"
-          }`}
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-      </div>
-    </div>
-  );
-};
-
 const MyAccount = () => {
   const [options, setOptions] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -47,6 +23,32 @@ const MyAccount = () => {
   const [user, setUser] = useState({});
   const [updatedUser, setUpdatedUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  // input component
+  const InputField = ({ label, placeholder, type = "text", defaultValue }) => {
+    const [value, setValue] = useState(defaultValue);
+
+    return (
+      <div className="mb-6">
+        <label htmlFor={label} className="block mb-2">
+          {label}
+        </label>
+        <div className="border-b-2 border-green-200 dark:border-slate-700 pt-2 pb-3">
+          <input
+            type={type}
+            id={label}
+            className={`w-full bg-transparent border-none focus:outline-none ${
+              value && "pt-2"
+            }`}
+            placeholder={placeholder}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            disabled={!isEditing}
+          />
+        </div>
+      </div>
+    );
+  };
+
   const fetchUser = async () => {
     try {
       const response = await fetch(
@@ -133,36 +135,26 @@ const MyAccount = () => {
     maxFiles: 1,
   });
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        "https://api.first.org/data/v1/countries"
-        ,{
-          headers:{
-            "method": "GET",
-            
-          }
-        }
-      );
-      const data= await response.json();
-      console.log(data);
-      // const options = data.map((country) => ({
-      //   value: country,
-      //   label: country.country,
-      // }));
-      // setOptions(options);
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
-    fetchData();
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch("https://restcountries.com/v3.1/all");
+        const data = await response.json();
+        const countryOptions = data.map((country) => ({
+          value: country.cca3,
+          label: country.name.common,
+        }));
+        setOptions(countryOptions);
+        console.log(countryOptions)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCountries();
   }, []);
-  const SelectField = ({ label, options }) => {
+  const SelectField = ({ label, options, defaultValue }) => {
     const [selectedOption, setSelectedOption] = useState(null);
+    const [value, setValue] = useState(defaultValue);
 
     return (
       <div className="mb-6 ">
@@ -172,17 +164,12 @@ const MyAccount = () => {
         <Select
           options={options}
           value={selectedOption}
+          defaultInputValue={value}
           onChange={(option) => setSelectedOption(option)}
           className="w-full text-slate-700 "
           isLoading={isLoading}
-          // theme={(theme) => ({
-          //   ...theme,
-          //   colors: {
-          //     ...theme.colors,
-          //     primary25: `${theme === "light" ? "#B2F5EA" : "#4A5568"}`,
-          //     primary: `${theme === "light" ? "#34D399" : "#CBD5E0"}`,
-          //   },
-          // })}
+          required
+          isDisabled={!isEditing}
         />
       </div>
     );
@@ -257,38 +244,71 @@ const MyAccount = () => {
         Personal Information:
       </h3>
       <div className="grid gap-8 lg:grid-cols-2">
-        <InputField label="Full name" placeholder="Enter your full name" />
-        <InputField label="Email" placeholder="Enter your email" type="email" />
-        <InputField label="@username" placeholder="Enter your username" />
-        <InputField label="Name" placeholder="Enter your name" />
+        <InputField
+          label="Full name"
+          placeholder="Enter your full name"
+          defaultValue={user.fullName}
+          onChange={(e) => handleUpdateUser("fullName", e.target.value)}
+        />
+        <InputField
+          label="Email"
+          placeholder="Enter your email"
+          type="email"
+          defaultValue={user.email}
+          onChange={(e) => handleUpdateUser("email", e.target.value)}
+        />
+        <InputField
+          label="@username"
+          placeholder="Enter your username"
+          defaultValue={user.username}
+          onChange={(e) => handleUpdateUser("username", e.target.value)}
+        />
+        <InputField
+          label="Name"
+          placeholder="Enter your name"
+          defaultValue={user.username}
+          onChange={(e) => handleUpdateUser("username", e.target.value)}
+        />
         <InputField
           label="Date of birth"
           placeholder="DD/MM/YYYY"
           type="date"
+          defaultValue={user.dateOfBirth}
+          onChange={(e) => handleUpdateUser("dateOfBirth", e.target.value)}
         />
         <InputField
           label="National number"
           placeholder="Enter your national number"
           type="number"
+          defaultValue={user.nationalNumber}
+          onChange={(e) => handleUpdateUser("nationalNumber", e.target.value)}
         />
         <InputField
           label="Phone number"
           placeholder="Enter your phone number"
           type="tel"
+          defaultValue={user.phoneNumber}
+          onChange={(e) => handleUpdateUser("phoneNumber", e.target.value)}
         />
         <InputField
           label="Home address"
           placeholder="Enter your home address"
+          defaultValue={user.homeAddress}
+          onChange={(e) => handleUpdateUser("homeAddress", e.target.value)}
         />
         <InputField
           label="Height (cm)"
           placeholder="Enter your height in cm"
           type="number"
+          defaultValue={user.height}
+          onChange={(e) => handleUpdateUser("height", e.target.value)}
         />
         <InputField
           label="Weight (kg)"
           placeholder="Enter your weight in kg"
           type="number"
+          defaultValue={user.weight}
+          onChange={(e) => handleUpdateUser("weight", e.target.value)}
         />
         <SelectField
           label="Blood type"
@@ -319,15 +339,11 @@ const MyAccount = () => {
               content="Cancel"
             />
 
-            <Button
-              buttonType="filled"
-              onClick={handleSaveChanges}
-              content="Save Changes"
-            />
+            <Button filled onClick={handleSaveChanges} content="Save Changes" />
           </>
         ) : (
           <Button
-            buttonType="filled"
+            filled
             onClick={() => setIsEditing(true)}
             content="Edit Information"
           />
