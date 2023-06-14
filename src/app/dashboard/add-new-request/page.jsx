@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FaUser, FaUsers, FaCalendarAlt } from "react-icons/fa";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import {Input,SelectInput} from "@/components/Input";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 
@@ -153,9 +153,9 @@ const ServiceRequests = () => {
               value={notes}
               onChange={onChange}
             />
-            <Input
+            <SelectInput
               labelText="Appointment Times"
-              type="select"
+              
               name="appointment_times"
               value={appointment_times}
               onChange={onChange}

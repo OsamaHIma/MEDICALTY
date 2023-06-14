@@ -164,9 +164,9 @@ const NewOrder = () => {
               onChange={handleInputChange}
               required
             />
-            <Input
+            <SelectInput
               labelText="company id"
-              type="select"
+              
               selectData={companyIdOrder}
               name="company_id"
               value={formFields.company_id}

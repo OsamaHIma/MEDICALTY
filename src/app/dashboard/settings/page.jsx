@@ -1,7 +1,7 @@
 'use client'
-import Button from "@/components/Button.tsx";
+import Button from "@/components/Button";
 import Header from "@/components/Header";
-import Input from "@/components/Input.tsx";
+import {Input,SelectInput} from "@/components/Input";
 import { useState } from "react";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
@@ -80,10 +80,10 @@ const Settings = () => {
               onChange={onChange}
               required
             />
-            <Input
+            <SelectInput
               labelText="Country"
               placeHolder="Chose country"
-              type="select"
+              
               name="country"
               value={formFields.country}
               onChange={onChange}

@@ -6,7 +6,8 @@ import {
   MdRemoveRedEye as RemoveRedEyeIcon,
   MdWavingHand as WavingHandIcon,
 } from "react-icons/md";
-import Button from "@/components/Button.tsx";
+import Button from "@/components/Button";
+
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { loginUserSchema } from "@/schema/userSchema";
@@ -181,7 +182,7 @@ const LoginPage = () => {
       </form>
       <p className="text-gray-400 relative bottom-0 text-center mb-4">
         You do not have an account yet?{" "}
-        <Link className="text-blue-500 hover:underline underline-offset-4" href="/auth/signUp">
+        <Link className="text-blue-500 hover:underline underline-offset-4" href="/auth/type-of-user">
           Sign Up Now!
         </Link>
       </p>

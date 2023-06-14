@@ -31,10 +31,10 @@ const Button = ({
     ${rounded}
     ${
       filled
-        ? `${bgColor} ${fontColor}`
+        ? `${bgColor} ${fontColor} hover:bg-green-500/70`
         : `bg-transparent hover:bg-green-500 border-2 border-solid border-green-400 text-green-400 hover:text-white`
     }
-    mx-4 px-4 py-2 flex justify-center items-center transition-all
+    px-4 py-2 flex justify-center items-center transition-all
     ${additionalClasses}
   `;
 

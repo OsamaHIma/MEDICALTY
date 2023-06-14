@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import Button from "@/components/Button.tsx";
+import Button from "@/components/Button";
+
 import { toast } from "react-toastify";
 import LoadingComponent from "@/components/Loading";
 

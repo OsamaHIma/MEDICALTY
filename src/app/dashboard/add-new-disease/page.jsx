@@ -1,13 +1,11 @@
 "use client";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
-// import { usePhoto } from "@/context/PhotoContext";
+import {Input} from "@/components/Input";
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { FaShoppingCart } from "react-icons/fa";
-import { MdDescription, MdOutlineFormatListNumbered } from "react-icons/md";
-import { RiFileUserLine } from "react-icons/ri";
+import { GiVirus } from "react-icons/gi";
+import { MdCake, MdConfirmationNumber, MdDescription } from "react-icons/md";
 import { BiImageAdd, BiVideo } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
@@ -190,7 +188,7 @@ const AddDiseasePage = () => {
               ClassesForTheLabel="h-12 !text-center !py-3"
               labelText="Disease Number"
               placeHolder="Disease Number"
-              icon={<RiFileUserLine size={23} />}
+              icon={<MdConfirmationNumber  size={23} />}
               name="diseaseNumber"
               value={diseaseNumber}
               onChange={onChange}
@@ -201,7 +199,7 @@ const AddDiseasePage = () => {
               ClassesForTheLabel="h-12 !text-center !py-3"
               labelText="Disease Name"
               placeHolder="Disease Name"
-              icon={<FaShoppingCart size={23} />}
+              icon={<GiVirus  ngCart size={23} />}
               name="name"
               value={name}
               onChange={onChange}
@@ -225,7 +223,7 @@ const AddDiseasePage = () => {
               ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
               labelText="Date"
               placeHolder="Date of diagnosis"
-              icon={<MdOutlineFormatListNumbered size={23} />}
+              icon={<MdCake  size={23} />}
               name="date"
               value={date}
               onChange={onChange}

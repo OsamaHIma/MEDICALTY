@@ -141,7 +141,7 @@ const Leave = () => {
               />
               <Input
                 labelText="Type of Departure"
-                // type="select"
+                // 
                 // selectData={[
                 //   { value: "Official", label: "Official" },
                 //   { value: "Hourly", label: "Hourly" },

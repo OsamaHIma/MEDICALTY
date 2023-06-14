@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import {Input,SelectInput} from "@/components/Input";
 import { useEffect, useState } from "react";
 import PagesDataGrid from "@/components/PagesDataGrid";
 import { FaCalendarAlt, FaUserAlt } from "react-icons/fa";
@@ -120,13 +120,13 @@ const Invoices = () => {
                 type="number"
                 required
               />
-              <Input
+              <SelectInput
                 labelText="Pay To"
                 icon={<MdPayment />}
                 name="pay_to"
                 value={pay_to}
                 onChange={onChange}
-                type="select"
+                
                 required
               />
               <Input
@@ -146,12 +146,12 @@ const Invoices = () => {
                 type="date"
                 required
               />
-              <Input
+              <SelectInput
                 labelText="Payment Due"
                 name="payment_due"
                 value={payment_due}
                 onChange={onChange}
-                type="select"
+                
                 options={[
                   { value: "10%", label: "10%" },
                   { value: "20%", label: "20%" },
@@ -191,12 +191,12 @@ const Invoices = () => {
                 onChange={onChange}
                 type="number"
               />
-              <Input
+              <SelectInput
                 labelText="Tax"
                 name="tax"
                 value={tax}
                 onChange={onChange}
-                type="select"
+                
                 options={[
                   { value: "0%", label: "0%" },
                   { value: "5%", label: "5%" },

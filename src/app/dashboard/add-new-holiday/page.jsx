@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
-import Input from '@/components/Input';
+import {Input,SelectInput} from '@/components/Input';
 import { FaUserAlt } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
 import { toast } from 'react-toastify';
@@ -130,14 +130,14 @@ const HolidayDays = () => {
               onChange={onChange}
               required
             />
-            <Input
+            <SelectInput
               labelText="Holiday Type"
               placeHolder="Choose One"
               icon={<HiOutlineMail />}
               name="type"
               value={holiday.type}
               onChange={onChange}
-              type="select"
+              
               selectData={holidayType.length > 1 ? holidayType : []}
               required
             />

@@ -165,7 +165,7 @@ const AddingTasks = () => {
           <div className="flex flex-col flex-wrap gap-[23px] flex-1">
             <Input
               labelText="title"
-              type="select"
+              
               selectData={taskTitle.length > 1 ? taskTitle : []}
               name="title"
               value={title}
@@ -177,8 +177,8 @@ const AddingTasks = () => {
         <Input
           labelText="customer id"
           placeHolder="customer id"
-          type="select"
-          selectData={customerIdTask.length > 1 ? customerIdTask : []}
+          
+          options={customerIdTask.length > 1 ? customerIdTask : []}
           name="customer_id"
           value={customer_id}
           onChange={onChange}

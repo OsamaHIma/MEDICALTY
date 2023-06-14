@@ -165,7 +165,7 @@ const Advances = () => {
             <Input
               labelText="Type of leave"
               placeHolder="choice one"
-              type="select"
+              
               name="typeOfLeave"
               value={typeOfLeave}
               onChange={onChange}

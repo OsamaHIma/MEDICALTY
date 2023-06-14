@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { MdOutlineFilterAlt } from "react-icons/md";
 
-import Button from "@/components/Button.tsx";
+import Button from "@/components/Button";
+
 import DataGridComponent from "@/components/DataGrid";
 import Link from "next/link";
 import axios from "axios";

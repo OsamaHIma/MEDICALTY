@@ -2,16 +2,16 @@
 import { useEffect, useState } from "react";
 import {
   FaUser,
-  FaUsers,
   FaBuilding,
   FaPhone,
   FaEnvelope,
   FaGlobe,
   FaMapMarkerAlt,
 } from "react-icons/fa";
-import Button from "@/components/Button.tsx";
+import Button from "@/components/Button";
+
 import Header from "@/components/Header";
-import Input from "@/components/Input.tsx";
+import {Input} from "@/components/Input";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 

@@ -1,7 +1,8 @@
 "use client";
-import Button from "@/components/Button.tsx";
+import Button from "@/components/Button";
+
 import Header from "@/components/Header";
-import Input from "@/components/Input.tsx";
+import {Input} from "@/components/Input";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";

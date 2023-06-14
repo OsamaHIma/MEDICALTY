@@ -29,10 +29,16 @@ import {
   FaClipboardList,
   FaChartLine,
   FaRegCalendarAlt,
+  FaPlus,
 } from "react-icons/fa";
 import { FcComboChart } from "react-icons/fc";
 import { IoMdAdd } from "react-icons/io";
-import { MdAddShoppingCart, MdFlightTakeoff, MdGroup, MdLocalPharmacy } from "react-icons/md";
+import {
+  MdAddShoppingCart,
+  MdFlightTakeoff,
+  MdGroup,
+  MdLocalPharmacy,
+} from "react-icons/md";
 import { TbBeach } from "react-icons/tb";
 import { VscSignOut } from "react-icons/vsc";
 
@@ -137,15 +143,15 @@ const expenseLinks = [
     icon: <IoMdAdd />,
   },
 ];
-const holidayLinks = [
+const appointmentLinks = [
   {
     name: "Show all",
-    link: "dashboard/holidays",
+    link: "dashboard/appointments",
     icon: <FcComboChart />,
   },
   {
     name: "Create new holiday",
-    link: "dashboard/add-new-holiday",
+    link: "dashboard/add-new-appointment",
     icon: <IoMdAdd />,
   },
 ];
@@ -224,7 +230,7 @@ const tasksLinks = [
 const diseaseLinks = [
   {
     name: "Show all",
-    link: "dashboard/dieases",
+    link: "dashboard/diseases",
     icon: <FcComboChart />,
   },
   {
@@ -278,8 +284,13 @@ export const navLinks = [
   },
   {
     name: "Appointments",
-    link: "dashboard/appointments",
+    children:appointmentLinks,
     icon: <FaRegCalendarAlt />,
+  },
+  {
+    name: "Booking",
+    link: "dashboard/add-new-booking",
+    icon: <FaPlus />,
   },
   {
     name: "Calendar",
@@ -330,6 +341,11 @@ export const navLinks = [
     name: "Experience",
     children: expenseLinks,
     icon: <FaBriefcase />,
+  },
+  {
+    name: "Expense",
+    link: "dashboard/add-new-expense",
+    icon: <FaMoneyBillWave />,
   },
   {
     name: "Invoices",

@@ -1,21 +1,30 @@
 "use client";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import  {Input, SelectInput } from "@/components/Input";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import {
-  FaShoppingCart,
-  FaDollarSign,
-} from "react-icons/fa";
-import { MdDescription ,MdOutlineFormatListNumbered} from "react-icons/md";
+import { FaShoppingCart, FaDollarSign } from "react-icons/fa";
+import { MdDescription, MdOutlineFormatListNumbered } from "react-icons/md";
 import { RiFileUserLine } from "react-icons/ri";
 import { HiIdentification } from "react-icons/hi";
 
 import { toast } from "react-toastify";
 
+
 const AddProductPage = () => {
+  const [forDisplayOnly, setForDisplayOnly] = useState(false);
+
+  const categoryOptions = [
+    { value: "for-sale", label: "For sale" },
+    { value: "for-display-only", label: "For display only, not for sale" },
+  ];
+
+  const handleCategoryChange = ({ value }) => {
+    console.log(forDisplayOnly)
+    setForDisplayOnly(value === "for-display-only" ? true : false);
+  };
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -56,7 +65,11 @@ const AddProductPage = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...formFields, image: uploadedPhoto }),
+        body: JSON.stringify({
+          ...formFields,
+          image: uploadedPhoto,
+          price: forDisplayOnly ? null : price,
+        }),
       });
 
       if (response.ok) {
@@ -87,7 +100,7 @@ const AddProductPage = () => {
   return (
     <section>
       <Header imageUploader headerText="Add new product" />
-      <form className={`px-10 ${isValid} `} onSubmit={handleFormSubmit}>
+      <form className={`px-10 ${isValid}`} onSubmit={handleFormSubmit} noValidate>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px] mb-20">
           <div className="flex flex-col gap-6 flex-1 md:w-full">
             <Input
@@ -101,7 +114,7 @@ const AddProductPage = () => {
               onChange={onChange}
               required
             />
-            <Input
+            {/* <Input
               ClassesForTheInput="h-12"
               ClassesForTheLabel="h-12 !text-center !py-3"
               labelText="Product Category"
@@ -111,7 +124,7 @@ const AddProductPage = () => {
               value={category}
               onChange={onChange}
               required
-            />
+            /> */}
 
             <Input
               ClassesForTheInput="h-11 "
@@ -124,22 +137,33 @@ const AddProductPage = () => {
               onChange={onChange}
               required
             />
+            <SelectInput
+              labelText="Product Category"
+              icon={<FaShoppingCart size={23} />}
+              name="category"
+              required
+              options={categoryOptions}
+              onChange={handleCategoryChange}
+
+            />
           </div>
 
           <div className="flex flex-col gap-6 flex-1 md:w-full">
-            <Input
-              ClassesForTheInput="h-12"
-              ClassesForTheLabel="h-12 !text-center !py-3"
-              labelText="Product Price"
-              placeHolder="Price"
-              icon={<FaDollarSign size={23} />}
-              name="price"
-              value={price}
-              onChange={onChange}
-              type="number"
-              min="0"
-              required
-            />
+            {!forDisplayOnly && (
+              <Input
+                ClassesForTheInput="h-12"
+                ClassesForTheLabel="h-12 !text-center !py-3"
+                labelText="Product Price"
+                placeHolder="Price"
+                icon={<FaDollarSign size={23} />}
+                name="price"
+                value={price}
+                onChange={onChange}
+                type="number"
+                min="0"
+                required
+              />
+            )}
 
             <Input
               ClassesForTheInput="h-12"

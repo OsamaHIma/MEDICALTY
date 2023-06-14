@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import {Input, SelectInput} from "@/components/Input";
 import { useEffect, useState } from "react";
 import {
   FaUser,
@@ -207,10 +207,10 @@ const RegisterDoctorPage = () => {
             />
           </div>
           <div className="flex flex-col gap-4">
-            <Input
+            <SelectInput
               labelText="Nationality"
               options={countries}
-              type="select"
+              
               name="nationality"
               value={formFields.nationality}
               onChange={(selectedOption) =>
@@ -218,10 +218,10 @@ const RegisterDoctorPage = () => {
               }
               placeholder="Select nationality"
             />
-            <Input
+            <SelectInput
               labelText="Gender"
               options={genderOptions}
-              type="select"
+              
               name="gender"
               value={formFields.gender}
               onChange={(selectedOption) =>
@@ -266,10 +266,10 @@ const RegisterDoctorPage = () => {
                   onChange={onExpertiseChange}
                   required
                 />
-                <Input
+                <SelectInput
                   labelText="Workplace Country"
                   options={countries}
-                  type="select"
+                  
                   name="experienceWorkplaceCountry"
                   value={formFields.expertise.experienceWorkplaceCountry}
                   onChange={(selectedOption) =>

@@ -115,7 +115,6 @@ const Navbar = () => {
           <img
             src={user.image ? user.image : "/assets/jhone.svg"}
             className="rounded-full"
-            fill
             alt="admin"
           />
         </button>

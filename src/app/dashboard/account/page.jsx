@@ -1,32 +1,25 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Select from "react-select";
-import {
-  FaCalendarAlt,
-  FaMapMarkerAlt,
-  FaMobileAlt,
-  FaEnvelope,
-  FaUserAlt,
-} from "react-icons/fa";
-import axios from "axios";
+
 import { useSession } from "next-auth/react";
 import { useDropzone } from "react-dropzone";
 import { MdGroup, MdSupervisorAccount, MdMailOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
-
 const MyAccount = () => {
+  // State variables
   const [options, setOptions] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+  const [userId, setUserId] = useState({});
   const [updatedUser, setUpdatedUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  // input component
+  // Input component
   const InputField = ({ label, placeholder, type = "text", defaultValue }) => {
     const [value, setValue] = useState(defaultValue);
-
     return (
       <div className="mb-6">
         <label htmlFor={label} className="block mb-2">
@@ -48,11 +41,11 @@ const MyAccount = () => {
       </div>
     );
   };
-
+  // Fetch user data
   const fetchUser = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user/${user.id}`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user/${userId}`,
         {
           headers: {
             method: "GET",
@@ -61,36 +54,37 @@ const MyAccount = () => {
           },
         }
       );
-
       if (!response.ok) {
         throw new Error(`HTTP error ${response.status}`);
       }
-
       const { user } = await response.json();
       setUser(user);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+  // Set token and user on session change
   useEffect(() => {
     if (session) {
       setToken(session.user.token);
-      setUser(session.user.user);
+      setUserId(session.user.user.id);
+      fetchUser();
     }
   }, [session]);
+  // Update user state when user changes
   useEffect(() => {
     setUpdatedUser(user);
   }, [user]);
-
+  // Update user state on field change
   const handleUpdateUser = (field, value) => {
-    setUpdatedUser((prevState) => ({
+    setUser((prevState) => ({
       ...prevState,
       [field]: value,
     }));
   };
-
+  // Save changes to user data
   const handleSaveChanges = () => {
-    console.log("img", updatedUser);
+    console.log(updatedUser);
     fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user/${user.id}`, {
       method: "PUT",
       headers: {
@@ -110,10 +104,12 @@ const MyAccount = () => {
         console.log(error);
       });
   };
-  const [isEditingProfilePicture, setIsEditingProfilePicture] = useState(false);
-  const handleProfilePictureEditClick = () => {
-    setIsEditingProfilePicture(true);
-  };
+  // Profile picture editing
+  // const [isEditingProfilePicture, setIsEditingProfilePicture] = useState(false);
+  // const handleProfilePictureEditClick = () => {
+  //   setIsEditingProfilePicture(true);
+  // };
+  // Handle file drop for profile picture
   const onDrop = useCallback((acceptedFiles, fileRejections) => {
     if (acceptedFiles.length) {
       const imageUrl = URL.createObjectURL(acceptedFiles[0]);
@@ -121,21 +117,21 @@ const MyAccount = () => {
         ...prevState,
         image: imageUrl,
       }));
-      console.log(updatedUser);
-      handleSaveChanges();
+      // handleSaveChanges();
     } else {
       // Handle not accepted files here, show an error message
       toast.error("Invalid file type. Please upload an image.");
     }
-    setIsEditingProfilePicture(false);
+    // setIsEditingProfilePicture(false);
   }, []);
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: "image/*",
+    accept: { [`image/*`]: [] },
     maxFiles: 1,
   });
-
+  // Fetch countries for nationality selection
   useEffect(() => {
+    setLoading(true);
     const fetchCountries = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
@@ -145,17 +141,24 @@ const MyAccount = () => {
           label: country.name.common,
         }));
         setOptions(countryOptions);
-        console.log(countryOptions)
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchCountries();
   }, []);
-  const SelectField = ({ label, options, defaultValue }) => {
-    const [selectedOption, setSelectedOption] = useState(null);
+  const SelectField = ({ label, options, defaultValue, ...rest }) => {
+    const [selectedOption, setSelectedOption] = useState("");
     const [value, setValue] = useState(defaultValue);
-
+    const handelSelectedOption = ({ value }, { name }) => {
+      setSelectedOption(value);
+      setUpdatedUser((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      console.log(updatedUser);
+    };
     return (
       <div className="mb-6 ">
         <label htmlFor={label} className="block mb-2">
@@ -165,11 +168,12 @@ const MyAccount = () => {
           options={options}
           value={selectedOption}
           defaultInputValue={value}
-          onChange={(option) => setSelectedOption(option)}
+          onChange={handelSelectedOption}
           className="w-full text-slate-700 "
           isLoading={isLoading}
           required
           isDisabled={!isEditing}
+          {...rest}
         />
       </div>
     );
@@ -196,10 +200,7 @@ const MyAccount = () => {
             </div>
           )}
           {isEditing && (
-            <div
-              className="absolute bottom-0 right-0 p-1 bg-green-500 rounded-full cursor-pointer"
-              onClick={handleProfilePictureEditClick}
-            >
+            <div className="absolute bottom-0 right-0 p-1 bg-green-500 rounded-full cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -264,12 +265,6 @@ const MyAccount = () => {
           onChange={(e) => handleUpdateUser("username", e.target.value)}
         />
         <InputField
-          label="Name"
-          placeholder="Enter your name"
-          defaultValue={user.username}
-          onChange={(e) => handleUpdateUser("username", e.target.value)}
-        />
-        <InputField
           label="Date of birth"
           placeholder="DD/MM/YYYY"
           type="date"
@@ -312,6 +307,7 @@ const MyAccount = () => {
         />
         <SelectField
           label="Blood type"
+          name="blood-type"
           options={[
             { value: "A+", label: "A+" },
             { value: "A-", label: "A-" },
@@ -323,12 +319,13 @@ const MyAccount = () => {
         />
         <SelectField
           label="Gender"
+          name="gender"
           options={[
             { value: "male", label: "Male" },
             { value: "female", label: "Female" },
           ]}
         />
-        <SelectField label="Nationality" options={options} />
+        <SelectField label="Nationality" name="nationality" options={options} />
       </div>
       <div className="flex justify-end">
         {isEditing ? (

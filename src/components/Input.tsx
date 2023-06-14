@@ -6,7 +6,20 @@ type Option = {
   label: string;
   value: string;
 };
-
+type selectProps = {
+  upperCase?: boolean;
+  rounded?: string;
+  inputBgColor?: string;
+  labelBgColor?: string;
+  labelText: string;
+  placeHolder?: string;
+  required?: boolean;
+  ClassesForTheDiv?: string;
+  ClassesForTheLabel?: string;
+  ClassesForTheInput?: string;
+  options?: readonly (Option | GroupBase<Option>)[];
+  rest?: Record<string, any>;
+};
 type InputProps = {
   upperCase?: boolean;
   rounded?: string;
@@ -14,7 +27,6 @@ type InputProps = {
   labelBgColor?: string;
   labelText: string;
   type?: string;
-  typeOfSelectData?: string;
   placeHolder?: string;
   required?: boolean;
   icon?: React.ReactNode;
@@ -22,17 +34,15 @@ type InputProps = {
   ClassesForTheLabel?: string;
   ClassesForTheInput?: string;
   ClassesForTheIcon?: string;
-  options?: readonly (Option | GroupBase<Option>)[];
 } & JSX.IntrinsicElements["input"];
 
-const Input = ({
+export const Input = ({
   upperCase = false,
   rounded = "rounded-md",
   inputBgColor = "bg-blue-50 dark:bg-slate-700",
   labelBgColor = "bg-green-500",
   labelText,
   type = "text",
-  typeOfSelectData,
   placeHolder,
   required = true,
   icon,
@@ -40,24 +50,7 @@ const Input = ({
   ClassesForTheLabel,
   ClassesForTheInput,
   ClassesForTheIcon,
-  options,
 }: InputProps) => {
-  const renderSelect = () => (
-    <Select
-      placeholder={placeHolder}
-      className={`flex-1 dark:text-slate-700 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
-      options={options}
-      theme={(theme) => ({
-        ...theme,
-        borderRadius: 0,
-        colors: {
-          ...theme.colors,
-          primary25: "#4ade80",
-          primary: "primary50",
-        },
-      })}
-    />
-  );
   const { collapsed } = useProSidebar();
 
   const renderTextArea = () => (
@@ -89,15 +82,17 @@ const Input = ({
         required={required}
       />
       {icon && (
-        <div className={`text-green-400 pr-2 ${ClassesForTheIcon}`}>{icon}</div>
+        <div
+          className={`text-blue-300 dark:text-blue-200 mr-3 ${ClassesForTheIcon}`}
+        >
+          {icon}
+        </div>
       )}
     </>
   );
 
   const renderInputs = () => {
     switch (type) {
-      case "select":
-        return renderSelect();
       case "textarea":
         return renderTextArea();
       default:
@@ -128,5 +123,52 @@ const Input = ({
     </div>
   );
 };
+export const SelectInput = ({
+  upperCase = false,
+  rounded = "rounded-md",
+  inputBgColor = "bg-blue-50 dark:bg-slate-700",
+  labelBgColor = "bg-green-500",
+  labelText,
+  placeHolder,
+  required = true,
+  ClassesForTheDiv,
+  ClassesForTheLabel,
+  ClassesForTheInput,
+  options,
+  ...rest
+}: selectProps) => {
+  const { collapsed } = useProSidebar();
 
-export default Input;
+  return (
+    <div
+      className={`flex capitalize ${upperCase && "uppercase"}  flex-nowrap 
+      border-2 needs-validation items-center ${rounded} ${inputBgColor}
+     ${ClassesForTheDiv}`}
+    >
+      <label
+        className={`text-gray-100 ${labelBgColor} ${
+          collapsed ? null : "!text-[13px]"
+        } text-[13px] md:text-[16px] flex-[0.5] px-3 py-2 ${ClassesForTheLabel}`}
+      >
+        {labelText}
+      </label>
+
+      <Select
+        placeholder={placeHolder}
+        className={`flex-1 dark:text-slate-700 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
+        options={options}
+        required={required}
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 0,
+          colors: {
+            ...theme.colors,
+            primary25: "#4ade80",
+            primary: "primary50",
+          },
+        })}
+        {...rest}
+      />
+    </div>
+  );
+};

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FaUser, FaUsers, FaCalendarAlt } from "react-icons/fa";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import Input from "@/components/Input";
+import {Input,SelectInput} from "@/components/Input";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 
@@ -147,25 +147,25 @@ const Employees = () => {
                 type="date"
                 icon={<FaCalendarAlt />}
               />
-              <Input
+              <SelectInput
                 name="department_name"
                 value={department_name}
                 onChange={onChange}
                 labelText="Department Name"
                 placeholder="Department Name"
-                type="select"
+                
                 options={[
                   { value: "Department A", label: "Department A" },
                   { value: "Department B", label: "Department B" },
                 ]}
               />
-              <Input
+              <SelectInput
                 name="work_schedule"
                 value={work_schedule}
                 onChange={onChange}
                 labelText="Work Schedule"
                 placeholder="Work Schedule"
-                type="select"
+                
                 options={[
                   { value: "Any Time", label: "Any Time" },
                   { value: "Morning", label: "Morning" },

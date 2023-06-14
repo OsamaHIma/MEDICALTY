@@ -1,5 +1,6 @@
 "use client";
-import Button from "@/components/Button.tsx";
+import Button from "@/components/Button";
+
 import DataGridComponent from "@/components/DataGrid";
 import axios from "axios";
 import { useSession } from "next-auth/react";

@@ -11,7 +11,9 @@ import Select from "react-select";
 import Button from "@/components/Button";
 import LoadingComponent from "@/components/Loading";
 
-export default function Page() {
+const signUpPage = ({ params }) => {
+  const { type } = params;
+
   const subscriptionDurationOptions = [
     { value: "free_trial", label: "Free Trial" },
     { value: "monthly", label: "Monthly" },
@@ -155,6 +157,9 @@ export default function Page() {
         <h3 className="text-gray-500 text-sm mt-4 dark:text-gray-300">
           Start managing your hospital better.
         </h3>
+        <h1 className="text-gray-500 text-sm mt-4 dark:text-gray-300">
+          You are singing up as a <span className="text-green-500 capitalize text-xl font-semibold">{type}</span>.
+        </h1>
       </motion.div>
       <div>
         <motion.h1
@@ -367,46 +372,6 @@ export default function Page() {
 
             <div className="flex flex-col">
               <motion.label
-                htmlFor="subscriptionType"
-                className=" font-medium"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                viewport={{ once: true }}
-              >
-                Subscription Type
-              </motion.label>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 1.4, duration: 0.5 }}
-              >
-                <Select
-                  options={subscriptionTypeOptions}
-                  value={InputValues?.subscriptionType}
-                  name="subscriptionType"
-                  onChange={handleSelectChange}
-                  placeholder="Select subscription type"
-                  className="mt-1 dark:text-slate-800"
-                  styles={{
-                    control: (provided) => ({
-                      ...provided,
-                      borderRadius: "0.5rem",
-                      borderColor: error?.subscriptionType
-                        ? "red"
-                        : provided.borderColor,
-                    }),
-                  }}
-                />
-                {error?.subscriptionType && (
-                  <p className="text-red-500 mt-1">{error.subscriptionType}</p>
-                )}
-              </motion.div>
-            </div>
-
-            <div className="flex flex-col">
-              <motion.label
                 htmlFor="subscriptionDuration"
                 className=" font-medium"
                 initial={{ opacity: 0, y: -20 }}
@@ -479,4 +444,5 @@ export default function Page() {
       </div>
     </section>
   );
-}
+};
+export default signUpPage;

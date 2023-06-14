@@ -1,5 +1,5 @@
 import DragAndDrop from "./DragAndDrop";
-import Input from "./Input";
+import { SelectInput } from "./Input";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
@@ -83,9 +83,9 @@ const Header = ({
           {headerText}
         </h1>
         {chooseInput && (
-          <Input
+          <SelectInput
             labelText={chooseInputText}
-            type="select"
+            
             placeHolder="select"
             ClassesForTheDiv="flex-1"
             labelBgColor="bg-slate-800"
