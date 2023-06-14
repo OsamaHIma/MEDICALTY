@@ -1,7 +1,9 @@
 'use client';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
-import Input from '@/components/Input';
+import {Input} from '@/components/Input';
+
+
 import { useEffect, useState } from 'react';
 import PagesDataGrid from '@/components/PagesDataGrid';
 import { FaCalendarAlt, FaUserAlt } from 'react-icons/fa';

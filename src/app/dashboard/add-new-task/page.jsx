@@ -1,7 +1,9 @@
 'use client';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
-import Input from '@/components/Input';
+import {Input} from '@/components/Input';
+
+
 import { FaUser } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';

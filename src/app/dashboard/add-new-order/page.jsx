@@ -2,7 +2,9 @@
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
-import Input from '@/components/Input';
+import {Input} from '@/components/Input';
+
+
 import { BiCalendar } from 'react-icons/bi';
 import { FaUser } from 'react-icons/fa';
 import { toast } from 'react-toastify';
