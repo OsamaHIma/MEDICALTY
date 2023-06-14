@@ -11,7 +11,7 @@ import Select from "react-select";
 import Button from "@/components/Button";
 import LoadingComponent from "@/components/Loading";
 
-const signUpPage = ({ params }) => {
+const SignUpPage = ({ params }) => {
   const { type } = params;
 
   const subscriptionDurationOptions = [
@@ -445,4 +445,4 @@ const signUpPage = ({ params }) => {
     </section>
   );
 };
-export default signUpPage;
+export default SignUpPage;
