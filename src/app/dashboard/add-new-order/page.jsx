@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import Header from '@/components/Header';
-import {Input} from '@/components/Input';
+import {Input,SelectInput} from '@/components/Input';
 
 
 import { BiCalendar } from 'react-icons/bi';
@@ -167,9 +167,9 @@ const NewOrder = () => {
               required
             />
             <SelectInput
-              labelText="company id"
+              labelText="Company ID"
               
-              selectData={companyIdOrder}
+              options={companyIdOrder}
               name="company_id"
               value={formFields.company_id}
               onChange={handleInputChange}
