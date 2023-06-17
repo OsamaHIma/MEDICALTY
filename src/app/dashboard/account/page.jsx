@@ -67,7 +67,7 @@ const MyAccount = () => {
   useEffect(() => {
     if (session) {
       setToken(session.user.token);
-      setUserId(session.user.user.id);
+      setUserId(session.user.user.id || 3);
       fetchUser();
     }
   }, [session]);
@@ -149,15 +149,15 @@ const MyAccount = () => {
     fetchCountries();
   }, []);
   const SelectField = ({ label, options, defaultValue, ...rest }) => {
-    const [selectedOption, setSelectedOption] = useState("");
+    const [selectedOption, setSelectedOption] = useState({});
     const [value, setValue] = useState(defaultValue);
-    const handelSelectedOption = ({ value }, { name }) => {
-      setSelectedOption(value);
+    const handelSelectedOption = (option, { name }) => {
+      setSelectedOption(option);
       setUpdatedUser((prevState) => ({
         ...prevState,
-        [name]: value,
+        [name]: option.value,
       }));
-      console.log(updatedUser);
+      console.log("selectedOption" + selectedOption);
     };
     return (
       <div className="mb-6 ">
@@ -167,10 +167,10 @@ const MyAccount = () => {
         <Select
           options={options}
           value={selectedOption}
+          placeholder="select"
           defaultInputValue={value}
           onChange={handelSelectedOption}
           className="w-full text-slate-700 "
-          isLoading={isLoading}
           required
           isDisabled={!isEditing}
           {...rest}
@@ -308,6 +308,7 @@ const MyAccount = () => {
         <SelectField
           label="Blood type"
           name="blood-type"
+          defaultValue={user.blood_type}
           options={[
             { value: "A+", label: "A+" },
             { value: "A-", label: "A-" },
@@ -320,12 +321,19 @@ const MyAccount = () => {
         <SelectField
           label="Gender"
           name="gender"
+          defaultValue={user.gender}
           options={[
             { value: "male", label: "Male" },
             { value: "female", label: "Female" },
           ]}
         />
-        <SelectField label="Nationality" name="nationality" options={options} />
+        <SelectField
+          label="Nationality"
+          isLoading={isLoading}
+          name="nationality"
+          options={options}
+          defaultValue={user.country}
+        />
       </div>
       <div className="flex justify-end">
         {isEditing ? (

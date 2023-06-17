@@ -59,6 +59,9 @@ const AddDiseasePage = () => {
     };
   };
 
+ 
+
+  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {

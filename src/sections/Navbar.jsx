@@ -7,6 +7,7 @@ import { BiChevronLeft } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { navLinks } from "@/constants";
 import Link from "next/link";
+import LanguageSelector from "@/components/LanguageSelector";
 
 const Navbar = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ const Navbar = () => {
   useEffect(() => {
     if (session) {
       setUser(session.user.user || session.user);
+      console.log(session);
     }
   }, [session]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -106,6 +108,8 @@ const Navbar = () => {
         </button>
       </div>
       {/* Icons */}
+      <LanguageSelector />
+
       <div className="flex gap-4 w-full md:w-auto justify-end md:justify-normal">
         <button className="relative">
           <FiBell className="text-[21px] md:text-[27px]  relative" />
@@ -126,12 +130,16 @@ const Navbar = () => {
         </div>
         {showMenu && (
           <div className="absolute bg-gradient-to-tr from-slate-50 to-slate-200 dark:text-slate-900 shadow-md p-2 rounded-md mt-2 top-[80%] right-[10%] z-10">
-            <button className="block w-full text-left p-1 rounded-md hover:bg-green-100">
-              <Link href="/dashboard/profile">Profile</Link>
-            </button>
-            <button className="block w-full text-left p-1 rounded-md hover:bg-green-100">
-              <Link href="/dashboard/account">My account</Link>
-            </button>
+            <Link href="/dashboard/profile">
+              <button className="block w-full text-left p-1 rounded-md hover:bg-green-100">
+                Profile
+              </button>
+            </Link>
+            <Link href="/dashboard/account">
+              <button className="block w-full text-left p-1 rounded-md hover:bg-green-100">
+                My account
+              </button>
+            </Link>
             <button
               className="block w-full text-left p-1 rounded-md hover:bg-green-100"
               onClick={handleSignOut}

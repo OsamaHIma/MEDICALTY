@@ -25,6 +25,9 @@ const AddProductPage = () => {
     console.log(forDisplayOnly)
     setForDisplayOnly(value === "for-display-only" ? true : false);
   };
+ 
+
+  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {

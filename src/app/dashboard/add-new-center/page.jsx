@@ -1,8 +1,7 @@
 "use client";
 import Button from "@/components/Button";
-
 import Header from "@/components/Header";
-import {Input} from "@/components/Input";
+import { Input } from "@/components/Input";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -30,47 +29,51 @@ const AddNewCenter = () => {
     }
   }, [session]);
   const { uploadedPhoto } = usePhoto();
-
-  const [formFields, setFormFields] = useState({
-    centerName: "",
-    userName: "",
-    phoneNumber: "",
-    phoneNumber2: "",
+  const defaultProps = {
+    name: "",
+    username: "",
+    phone: "",
+    formal_phone: "",
     website: "",
+    subscription_type: "Basic",
+    subscription_period: "Month",
     email: "",
-    officialEmail: "",
+    formal_email: "",
     country: "",
     address1: "",
     address2: "",
-    county: "",
-    stateName: "",
-    zipCode: "",
-    facebook_link: "",
-    twitter_link: "",
-    youtube_link: "",
-    instagram_link: "",
-    snapChat_link: "",
-  });
+    province: "",
+    state: "",
+    zip_code: "",
+    facebook: "",
+    twitter: "",
+    youtube: "",
+    instagram: "",
+    snapchat: "",
+    password: "",
+  };
+  const [formFields, setFormFields] = useState(defaultProps);
 
   const {
-    centerName,
-    userName,
-    phoneNumber,
-    phoneNumber2,
+    name,
+    username,
+    phone,
+    formal_phone,
     website,
     email,
-    officialEmail,
-    stateName,
+    formal_email,
+    state,
     country,
-    county,
+    province,
     address1,
     address2,
-    zipCode,
-    facebook_link,
-    instagram_link,
-    snapChat_link,
-    youtube_link,
-    twitter_link,
+    zip_code,
+    facebook,
+    instagram,
+    snapchat,
+    youtube,
+    password,
+    twitter,
   } = formFields;
 
   const onChange = (event) => {
@@ -79,45 +82,25 @@ const AddNewCenter = () => {
   };
 
   const resetFormFields = () => {
-    setFormFields({
-      centerName: "",
-      userName: "",
-      phoneNumber: "",
-      phoneNumber2: "",
-      website: "",
-      email: "",
-      officialEmail: "",
-      country: "",
-      address1: "",
-      address2: "",
-      county: "",
-      stateName: "",
-      zipCode: "",
-      facebook_link: "",
-      twitter_link: "",
-      youtube_link: "",
-      instagram_link: "",
-      snapChat_link: "",
-    });
+    setFormFields(defaultProps);
   };
 
   const handlePostRequest = async () => {
     try {
-      const response = await fetch("/api/department", {
+      const response = await fetch("/api/center/save", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          token: token,
         },
-        body: JSON.stringify({ ...formFields, image: uploadedPhoto }),
+        body: JSON.stringify(formFields),
       });
 
       const data = await response.json();
-      console.log(response);
+      console.log(response.msg);
       if (response.ok) {
         toast.success("Data sent successfully");
-        console.log({ ...formFields, image: uploadedPhoto });
-        resetFormFields();
+        // resetFormFields();
       } else {
         toast.error(`Failed to send the data: ${data.message}`);
         console.error(data);
@@ -132,10 +115,10 @@ const AddNewCenter = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!event.target.checkValidity() || !uploadedPhoto) {
+    if (!event.target.checkValidity()) {
       event.stopPropagation();
       setIsValid("not-validated");
-      toast.error("Please fill in all required fields");
+      toast.error("Please fill in all required fields.");
       return;
     }
 
@@ -144,12 +127,7 @@ const AddNewCenter = () => {
   };
   return (
     <section>
-      <Header
-        headerText="Add New Center"
-        // chooseInput
-        // chooseInputText="Choose Employee"
-        imageUploader
-      />
+      <Header headerText="Add New Center" imageUploader />
       <div className="px-10 flex flex-col gap-6">
         <form onSubmit={handleSubmit} className={`${isValid}`} noValidate>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px]">
@@ -157,25 +135,24 @@ const AddNewCenter = () => {
               <Input
                 labelText="Center Name"
                 icon={<FaBuilding />}
-                name="centerName"
-                value={centerName}
+                name="name"
+                value={name}
                 onChange={onChange}
                 required
               />
               <Input
                 labelText="user Name"
                 icon={<FaUserAlt />}
-                name="userName"
-                value={userName}
+                name="username"
+                value={username}
                 onChange={onChange}
                 required
-
               />
               <Input
                 labelText="Phone number"
                 icon={<FaPhone />}
-                name="phoneNumber"
-                value={phoneNumber}
+                name="phone"
+                value={phone}
                 onChange={onChange}
                 required
                 type="tel"
@@ -183,8 +160,8 @@ const AddNewCenter = () => {
               <Input
                 labelText="Phone number 2"
                 icon={<FaPhone />}
-                name="phoneNumber2"
-                value={phoneNumber2}
+                name="formal_phone"
+                value={formal_phone}
                 onChange={onChange}
                 type="tel"
               />
@@ -204,13 +181,21 @@ const AddNewCenter = () => {
                 onChange={onChange}
                 type="email"
               />
+              <Input
+                labelText="password"
+                name="password"
+                value={password}
+                onChange={onChange}
+                type="password"
+                required
+              />
             </div>
             <div className="flex flex-col gap-[23px] mb-5 flex-1">
               <Input
-                labelText="Official Email"
-                placeHolder="Official Email for the center"
-                name="officialEmail"
-                value={officialEmail}
+                labelText="Formal Email"
+                placeHolder="Formal Email for the center"
+                name="formal_email"
+                value={formal_email}
                 onChange={onChange}
                 icon={<FaEnvelope />}
                 required
@@ -240,31 +225,33 @@ const AddNewCenter = () => {
               />
               <Input
                 labelText="State Name"
-                name="stateName"
-                value={stateName}
+                name="state"
+                value={state}
                 onChange={onChange}
                 required
               />
               <Input
-                labelText="County"
-                name="county"
-                value={county}
+                labelText="province"
+                name="province"
+                value={province}
                 onChange={onChange}
                 required
               />
               <Input
                 labelText="Zip code"
-                name="zipCode"
-                value={zipCode}
+                name="zip_code"
+                value={zip_code}
                 onChange={onChange}
+                type="number"
                 required
               />
             </div>
           </div>
+
           <div className="flex gap-7 flex-col">
             <Input
-              name="twitter_link"
-              value={twitter_link}
+              name="twitter"
+              value={twitter}
               onChange={onChange}
               labelText="Twitter Link"
               placeHolder="customer twitter link"
@@ -272,17 +259,17 @@ const AddNewCenter = () => {
               type="url"
             />
             <Input
-              name="snapChat_link"
-              value={snapChat_link}
+              name="snapchat"
+              value={snapchat}
               onChange={onChange}
-              labelText="Snapchat Link"
-              placeHolder="Snapchat link to client"
+              labelText="snapchat Link"
+              placeHolder="snapchat link to client"
               icon={<FaSnapchat />}
               type="url"
             />
             <Input
-              name="facebook_link"
-              value={facebook_link}
+              name="facebook"
+              value={facebook}
               onChange={onChange}
               labelText="Facebook Link"
               placeHolder="Facebook link"
@@ -290,8 +277,8 @@ const AddNewCenter = () => {
               type="url"
             />
             <Input
-              name="youtube_link"
-              value={youtube_link}
+              name="youtube"
+              value={youtube}
               onChange={onChange}
               labelText="Youtube Link"
               placeHolder="Youtube link"
@@ -299,8 +286,8 @@ const AddNewCenter = () => {
               type="url"
             />
             <Input
-              name="instagram_link"
-              value={instagram_link}
+              name="instagram"
+              value={instagram}
               onChange={onChange}
               labelText="instagram Link"
               placeHolder="instagram link"
@@ -313,13 +300,13 @@ const AddNewCenter = () => {
               content="Cancel"
               additionalClasses="w-full md:w-auto"
               type="button"
+              onClick={resetFormFields}
             />
             <div className="saveBtns flex flex-wrap gap-2">
               <Button
                 content="save an create another one"
                 additionalClasses="w-full md:w-auto"
                 type="submit"
-
               />
               <Button
                 content="save now"

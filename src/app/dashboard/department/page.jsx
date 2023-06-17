@@ -12,10 +12,11 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 
 const Department = () => {
+ 
+
+  
   const { data: session } = useSession();
-  const [token, setToken] = useState(
-    "J0G5gJVBEwxFIR22nox6uK0nPmkkzxeIlNo2a9bS"
-  );
+  const [token, setToken] = useState("");
   useEffect(() => {
     if (session) {
       setToken(session.user.token);
@@ -150,7 +151,7 @@ const Department = () => {
     try {
       const response = await axios.delete(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/occupation/${row.id}`,
-      {
+        {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

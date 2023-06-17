@@ -9,6 +9,9 @@ const Header = ({
   chooseInputText = "",
   imageUploader = false,
 }) => {
+ 
+
+  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -17,61 +20,61 @@ const Header = ({
     }
   }, [session]);
   const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchCustomersData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/customer`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+  // useEffect(() => {
+  //   const fetchCustomersData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/customer`,
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error ${response.status}`);
+  //       }
 
-        const { customer } = await response.json();
-        setData(customer.map((customer) => customer.first_name));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    const fetchEmployeesData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+  //       const { customer } = await response.json();
+  //       setData(customer.map((customer) => customer.first_name));
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  //   const fetchEmployeesData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user`,
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error ${response.status}`);
+  //       }
 
-        const { user } = await response.json();
-        setData(user.map((user) => user.name));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    if (chooseInputText === "Choose Employee") {
-      fetchEmployeesData();
-      console.log(data);
-    } else {
-      fetchCustomersData();
-      console.log(data);
-    }
-  }, [token]);
+  //       const { user } = await response.json();
+  //       setData(user.map((user) => user.name));
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  //   if (chooseInputText === "Choose Employee") {
+  //     fetchEmployeesData();
+  //     console.log(data);
+  //   } else {
+  //     fetchCustomersData();
+  //     console.log(data);
+  //   }
+  // }, [token]);
   return (
     <section className="p-10">
       <div

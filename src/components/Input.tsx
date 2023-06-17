@@ -26,6 +26,7 @@ type InputProps = {
   inputBgColor?: string;
   labelBgColor?: string;
   labelText: string;
+  name: string;
   type?: string;
   placeHolder?: string;
   required?: boolean;
@@ -34,14 +35,16 @@ type InputProps = {
   ClassesForTheLabel?: string;
   ClassesForTheInput?: string;
   ClassesForTheIcon?: string;
-} & JSX.IntrinsicElements["input"];
-
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+} & JSX.IntrinsicElements["input"] &
+  JSX.IntrinsicElements["textarea"];
 export const Input = ({
   upperCase = false,
   rounded = "rounded-md",
   inputBgColor = "bg-blue-50 dark:bg-slate-700",
   labelBgColor = "bg-green-500",
   labelText,
+  name,
   type = "text",
   placeHolder,
   required = true,
@@ -50,6 +53,7 @@ export const Input = ({
   ClassesForTheLabel,
   ClassesForTheInput,
   ClassesForTheIcon,
+  onChange,
 }: InputProps) => {
   const { collapsed } = useProSidebar();
 
@@ -65,10 +69,12 @@ export const Input = ({
       </label>
       <textarea
         id="textarea"
+        name={name}
         placeholder={placeHolder}
         className="border border-blue-300 bg-green-50 dark:bg-slate-700 focus:outline-blue-600 flex-1 p-2 rounded-tr-md rounded-br-md align-middle"
         rows={3}
         cols={3}
+        onChange={onChange}
       ></textarea>
     </>
   );
@@ -78,8 +84,10 @@ export const Input = ({
       <input
         className={`ml-2 flex-1 px-2 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
         type={type}
+        name={name}
         placeholder={placeHolder || labelText}
         required={required}
+        onChange={onChange}
       />
       {icon && (
         <div
@@ -142,7 +150,7 @@ export const SelectInput = ({
   return (
     <div
       className={`flex capitalize ${upperCase && "uppercase"}  flex-nowrap 
-      border-2 needs-validation items-center ${rounded} ${inputBgColor}
+     needs-validation items-center !rounded-md ${inputBgColor}
      ${ClassesForTheDiv}`}
     >
       <label
@@ -155,12 +163,11 @@ export const SelectInput = ({
 
       <Select
         placeholder={placeHolder}
-        className={`flex-1 dark:text-slate-700 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
+        className={`flex-1 dark:text-slate-700 dark:bg-slate-700 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
         options={options}
         required={required}
         theme={(theme) => ({
           ...theme,
-          borderRadius: 0,
           colors: {
             ...theme.colors,
             primary25: "#4ade80",

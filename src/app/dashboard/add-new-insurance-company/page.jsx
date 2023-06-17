@@ -22,6 +22,9 @@ import {
 import { toast } from "react-toastify";
 
 const InsruanceCompany = () => {
+ 
+
+  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {

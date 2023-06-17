@@ -1,10 +1,17 @@
-import LanguageSwitcher from "@/components/LanguageSwitcher ";
+'use client'
 import Image from "next/image";
 import ToggleThemeBtn from "@/components/ToggleThemeBtn";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/context/LanguageContext";
 
-const Layout = async ({ children }) => {
+const Layout = ({ children }) => {
+  const { selectedLanguage } = useLanguage();
+
   return (
-    <div className=" max-w-[1400px] mx-auto min-h-[100vh] ">
+    <div
+      className=" max-w-[1400px] mx-auto min-h-[100vh] "
+      dir={selectedLanguage === "ar" ? "rtl" : "ltr"}
+    >
       <div className="flex   min-h-[100vh] ">
         <div className="w-full pt-4 mt-12">
           <main className="w-full h-auto  flex flex-col justify-center items-center">
@@ -17,7 +24,7 @@ const Layout = async ({ children }) => {
                 width={250}
               />
               <ToggleThemeBtn />
-              {/* <LanguageSwitcher /> */}
+              <LanguageSelector />
             </div>
             <div className="gradient absolute w-[80%] h-96 bg-gradient-to-r from-green-500/30 to-blue-600/25 blur-[100px] left-[100px] -z-[1]" />
             {children}

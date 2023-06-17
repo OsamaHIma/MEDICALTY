@@ -30,6 +30,7 @@ const TypeOfUser = () => {
                 alt={image.text}
                 className="w-full object-contain rounded-full bg-gradient-to-br from-green-500 to-blue-500 hover:from-blue-500 hover:to-green-500 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 style={{ aspectRatio: "1 / 1" }}
+                loading="eager"
               />
               {/* </div> */}
             </Link>

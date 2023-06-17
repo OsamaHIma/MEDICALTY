@@ -8,5 +8,4 @@
     "location": "sameLine",
     "commentStyle": "block"
   },
-  "i18n-ally.localesPaths": ["public/locales"]
 }

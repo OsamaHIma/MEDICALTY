@@ -16,6 +16,9 @@ import { toast } from "react-toastify";
 const BookingPage = () => {
   const { uploadedPhoto, setUploadedPhoto } = usePhoto();
 
+ 
+
+  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {

@@ -7,19 +7,21 @@ import {
   MdWavingHand as WavingHandIcon,
 } from "react-icons/md";
 import Button from "@/components/Button";
-
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { loginUserSchema } from "@/schema/userSchema";
 import { useRouter } from "next/navigation";
-import Loading from "@/components/Loading";
 import { FcGoogle } from "react-icons/fc";
+import Loading from "@/components/Loading";
+import Translate from "@/components/Translate.tsx";
+import SelectInputNoLabel from "@/components/SelectInputNoLabel";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
+  const [userType, setUserType] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const [isRemeberedUser, setIsRemeberedUser] = useState("");
+  const [isRemeberedUser, setIsRemeberedUser] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -50,6 +52,7 @@ const LoginPage = () => {
       redirect: false,
       email,
       password,
+      userType
     });
     if (!user.error) {
       handleRememberUser();
@@ -61,36 +64,67 @@ const LoginPage = () => {
   };
   const handleRememberUser = () => {
     if (isRemeberedUser) {
-      localStorage.setItem("worker-user", JSON.stringify({ email, password }));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ email, password, userType, selectedOption })
+      );
     } else {
-      localStorage.removeItem("worker-user");
+      localStorage.removeItem("user");
     }
   };
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("worker-user"));
+    const user = JSON.parse(localStorage.getItem("user"));
     if (!user) return;
     setIsRemeberedUser(true);
     setEmail(user.email);
     setPassword(user.password);
+    setUserType(user.userType);
+    setSelectedOption(user.selectedOption);
   }, []);
+  const [selectedOption, setSelectedOption] = useState({});
+
+  const handelSelectedOption = (option) => {
+    setUserType(option.value);
+    setSelectedOption(option);
+  };
 
   return (
     <div className="px-4 flex flex-col mt-32 gap-8">
       <div className="">
         <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-green-500 text-transparent bg-clip-text">
-          Welcome Back!
+          <Translate>Welcome Back!</Translate>
           <WavingHandIcon className="text-yellow-500 mx-2 text-3xl" />
         </h1>
         <h3 className="text-gray-500 text-sm mt-4 dark:text-gray-300">
-          Start managing your hospital better.
+          <Translate>Start managing your hospital better.</Translate>
         </h3>
       </div>
 
       <form className="flex flex-col gap-8" autoComplete="on">
+        <div className="flex flex-col mb-2">
+          <label htmlFor="select" className="mb-4 text-md font-bold ">
+            <Translate>Select your type</Translate>
+          </label>
+          <SelectInputNoLabel
+            id="select"
+            options={[
+              { value: "patient", label: "Patient" },
+              { value: "doctor", label: "Doctor" },
+              { value: "nurse", label: "Nurse" },
+              { value: "center", label: "center" },
+              { value: "department", label: "department" },
+              { value: "admin", label: "admin" },
+            ]}
+            value={selectedOption}
+            placeholder="select"
+            onChange={handelSelectedOption}
+            // className="w-full text-slate-700 "
+          />
+        </div>
         <div className="flex flex-col">
           <label htmlFor="email" className="mb-4 text-md font-bold ">
-            Email
+            <Translate>Email</Translate>
           </label>
           <input
             type="email"
@@ -105,7 +139,7 @@ const LoginPage = () => {
         </div>
         <div className="flex flex-col">
           <label htmlFor="password" className="mb-4 text-md font-bold">
-            Password
+            <Translate>Password</Translate>
           </label>
           <div className="relative w-full">
             <input
@@ -142,14 +176,13 @@ const LoginPage = () => {
         <div className="flex justify-between items-center w-full  h-full">
           <div className="flex justify-center items-center gap-1">
             <label htmlFor="remember-me" className=" text-gray-400 text-xs ">
-              Remember me
+              <Translate>Remember me</Translate>
             </label>
             <div className="relative flex items-center ">
               <input
                 onChange={(e) => setIsRemeberedUser(e.target.checked)}
                 type="checkbox"
                 checked={isRemeberedUser}
-                value={isRemeberedUser || ""}
                 id="remember-me"
                 className="relative w-full border-none outline-none"
               />
@@ -160,7 +193,7 @@ const LoginPage = () => {
               href="/auth/forgot-password"
               className="text-blue-500 hover:underline underline-offset-4"
             >
-              Forgot password?
+              <Translate>Forgot password?</Translate>
             </Link>
           </h3>
         </div>
@@ -181,9 +214,12 @@ const LoginPage = () => {
         </div>
       </form>
       <p className="text-gray-400 relative bottom-0 text-center mb-4">
-        You do not have an account yet?{" "}
-        <Link className="text-blue-500 hover:underline underline-offset-4" href="/auth/type-of-user">
-          Sign Up Now!
+        <Translate>You do not have an account yet?</Translate>{" "}
+        <Link
+          className="text-blue-500 hover:underline underline-offset-4"
+          href="/auth/type-of-user"
+        >
+          <Translate>Sign Up Now!</Translate>
         </Link>
       </p>
     </div>

@@ -3,6 +3,7 @@ import { getToken } from "next-auth/jwt";
 import axios from "axios";
 
 export async function DELETE(req) {
+  console.log("sign out called")
   const { token } = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,

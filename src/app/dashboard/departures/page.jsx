@@ -12,6 +12,9 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 
 const DeparturesDataGrid = () => {
+ 
+
+  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {

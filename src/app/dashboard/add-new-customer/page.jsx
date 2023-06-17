@@ -17,6 +17,9 @@ import { useSession } from "next-auth/react";
 
 const Customer = () => {
 
+ 
+
+  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {

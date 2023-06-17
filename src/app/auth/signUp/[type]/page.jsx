@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { MdVisibilityOff, MdWavingHand, MdVisibility } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa";
 import Link from "next/link";
@@ -10,7 +9,65 @@ import { useRouter } from "next/navigation";
 import Select from "react-select";
 import Button from "@/components/Button";
 import LoadingComponent from "@/components/Loading";
+const doctorProps = {
+  center_id: "",
+  department_id: "",
+  specialty: "",
+  username: "",
+  name: "",
+  ssn: "",
+  phone: "",
+  work_phone: "",
+  email: "",
+  work_email: "",
+  job_description: "",
+  abstract: "",
+  full_brief: "",
+  job_id: "",
+  birth_date: "",
+  experience_years: "",
+  salary: "",
+  gender: "",
+};
+const defaultProps = {
+  name: "",
+  centerName: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+  country: "",
+  subscriptionType: "",
+  subscriptionDuration: "",
+};
 
+const getInitialFormData = (type) => {
+  switch (type) {
+    case "medical_center":
+      return defaultProps;
+      break;
+    case "doctor":
+      return doctorProps;
+      break;
+    // case "nurse":
+    //   return nurseProps || defaultProps;
+    //   break;
+    // case "patient":
+    //   return patientProps || defaultProps;
+    //   break;
+    // case "pharmacy":
+    //   return pharmacyProps || defaultProps;
+    //   break;
+    // case "hospital":
+    //   return hospitalProps || defaultProps;
+    //   break;
+    // case "center":
+    //   return centerProps || defaultProps;
+    //   break;
+    default:
+      defaultProps;
+      break;
+  }
+};
 const SignUpPage = ({ params }) => {
   const { type } = params;
 
@@ -24,7 +81,6 @@ const SignUpPage = ({ params }) => {
     { value: "medical_center", label: "Medical Center" },
     { value: "doctor", label: "Doctor" },
     { value: "nurse", label: "Nurse" },
-    { value: "physical_therapy", label: "Physical Therapy" },
   ];
 
   const [countries, setCountries] = useState([]);
@@ -49,16 +105,9 @@ const SignUpPage = ({ params }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    centerName: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-    country: "",
-    subscriptionType: "",
-    subscriptionDuration: "",
-  });
+
+  const [formData, setFormData] = useState(getInitialFormData(type));
+
   const [passwordIcon, setPasswordIcon] = useState(false);
   const [InputValues, setInputValues] = useState({
     country: {},
@@ -99,24 +148,6 @@ const SignUpPage = ({ params }) => {
 
     setError(null);
     try {
-      signUpSchema.validateSync(
-        {
-          name: formData.name,
-          email: formData.email,
-          centerName: formData.centerName,
-          password: formData.password,
-          password: formData.password_confirmation,
-          country: formData.country,
-          subscriptionType: formData.subscriptionType,
-          subscriptionDuration: formData.subscriptionDuration,
-        },
-        { abortEarly: false }
-      );
-    } catch (error) {
-      setError(error.errors);
-      return;
-    }
-    try {
       setLoading(true);
       console.log(formData);
       const response = await fetch(
@@ -141,15 +172,72 @@ const SignUpPage = ({ params }) => {
       toast.error(error.message);
     }
   };
+  const renderMedicalCenterInputs = () => {
+    return (
+      <>
+        {Object.keys(defaultProps).map((key) => (
+          <div key={key} className="flex flex-col">
+            <label htmlFor={key} className="font-medium">
+              {key.replace("_", " ")}
+            </label>
+            <input
+              type={key === "password" ? "password" : "text"}
+              name={key}
+              id={key}
+              value={formData[key]}
+              onChange={handleInputChange}
+              required
+              className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
+                error && "border-red-500"
+              }`}
+            />
+          </div>
+        ))}
+      </>
+    );
+  };
 
+  const renderDoctorInputs = () => {
+    return (
+      <>
+        {Object.keys(doctorProps).map((key) => {
+          let type = "text";
+          if (key === "password") {
+            type = "password";
+          } else if (key === "birth_date") {
+            type = "date";
+          } else if (key === "email") {
+            type = "email";
+          }
+          return (
+            <div key={key} className="flex flex-col">
+              <label
+                htmlFor={key}
+                className="mb-4 text-md font-bold capitalize"
+              >
+                {key.replace("_", " ")}
+              </label>
+              <input
+                type={type}
+                name={key}
+                id={key}
+                value={formData[key]}
+                // value={key}
+                onChange={handleInputChange}
+                required
+                className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
+                  error && "border-red-500"
+                }`}
+              />
+            </div>
+          );
+        })}
+      </>
+    );
+  };
   return (
     <section className="px-4 flex flex-col mt-20 gap-8 relative">
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, type: "spring" }}
-        viewport={{ once: true }}
-      >
+      <div>
         <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-green-500 text-transparent bg-clip-text">
           Welcome to Medicality!
           <MdWavingHand className="text-yellow-500 mx-2 text-3xl" />
@@ -158,126 +246,30 @@ const SignUpPage = ({ params }) => {
           Start managing your hospital better.
         </h3>
         <h1 className="text-gray-500 text-sm mt-4 dark:text-gray-300">
-          You are singing up as a <span className="text-green-500 capitalize text-xl font-semibold">{type}</span>.
+          You are singing up as a{" "}
+          <span className="text-green-500 capitalize text-xl font-semibold">
+            {type}
+          </span>
+          .
         </h1>
-      </motion.div>
+      </div>
       <div>
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, type: "spring" }}
-          viewport={{ once: true }}
-          className="text-3xl font-bold  mb-4"
-        >
-          Sign up
-        </motion.h1>
-
+        <h1 className="text-3xl font-bold  mb-4">Sign up</h1>
         <form onSubmit={handleSubmit} noValidate>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col">
-              <motion.label
-                htmlFor="name"
-                className=" font-medium"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                viewport={{ once: true }}
-              >
-                Name
-              </motion.label>
-              <motion.input
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                viewport={{ once: true }}
-                type="text"
-                name="name"
-                id="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
-                  error && "border-red-500"
-                }`}
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <motion.label
-                htmlFor="centerName"
-                className=" font-medium"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                viewport={{ once: true }}
-              >
-                Center Name
-              </motion.label>
-              <motion.input
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-                viewport={{ once: true }}
-                type="text"
-                name="centerName"
-                id="centerName"
-                value={formData.centerName}
-                onChange={handleInputChange}
-                required
-                className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
-                  error && "border-red-500"
-                }`}
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <motion.label
-                htmlFor="email"
-                className=" font-medium"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                viewport={{ once: true }}
-              >
-                Email
-              </motion.label>
-              <motion.input
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-                viewport={{ once: true }}
-                type="email"
-                name="email"
-                id="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
-                  error && "border-red-500"
-                }`}
-              />
-            </div>
+            {type === "medical_center" && renderMedicalCenterInputs()}
+            {type === "doctor" && renderDoctorInputs()}
+            {type === "nurse" && renderNurseInputs()}
 
             <div className="flex flex-col relative">
-              <motion.label
-                htmlFor="password"
-                className=" font-medium"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                viewport={{ once: true }}
-              >
+              <label htmlFor="password" className=" font-medium">
                 Password
-              </motion.label>
-              <motion.input
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-                viewport={{ once: true }}
+              </label>
+              <input
                 type={passwordIcon ? "text" : "password"}
                 name="password"
                 id="password"
-                value={formData.password}
+                // value={formData.password}
                 onChange={handleInputChange}
                 required
                 className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
@@ -285,43 +277,28 @@ const SignUpPage = ({ params }) => {
                 }`}
               />
 
-              <motion.button
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-                viewport={{ once: true }}
+              <button
                 type="button"
-                className="absolute cursor-pointer top-[50%] translate-y-[-50%] right-2"
+                className="absolute cursor-pointer top-[65%] translate-y-[-50%] right-2"
                 onClick={togglePasswordIcon}
               >
                 {passwordIcon ? (
-                  <MdVisibility size={20} className="text-gray-600" />
+                  <MdVisibility size={20} className="text-gray-500" />
                 ) : (
-                  <MdVisibilityOff size={20} className="text-gray-600" />
+                  <MdVisibilityOff size={20} className="text-gray-500" />
                 )}
-              </motion.button>
+              </button>
             </div>
 
             <div className="flex flex-col">
-              <motion.label
-                htmlFor="password_confirmation"
-                className=" font-medium"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                viewport={{ once: true }}
-              >
+              <label htmlFor="password_confirmation" className=" font-medium">
                 Confirm Password
-              </motion.label>
-              <motion.input
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1, duration: 0.5 }}
-                viewport={{ once: true }}
+              </label>
+              <input
                 type={passwordIcon ? "text" : "password"}
                 name="password_confirmation"
                 id="password_confirmation"
-                value={formData.password_confirmation}
+                // value={formData.password_confirmation}
                 onChange={handleInputChange}
                 required
                 className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
@@ -331,22 +308,10 @@ const SignUpPage = ({ params }) => {
             </div>
 
             <div className="flex flex-col">
-              <motion.label
-                htmlFor="country"
-                className=" font-medium"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                viewport={{ once: true }}
-              >
+              <label htmlFor="country" className=" font-medium">
                 Country
-              </motion.label>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.2, duration: 0.5 }}
-                viewport={{ once: true }}
-              >
+              </label>
+              <div>
                 <Select
                   options={countries}
                   value={InputValues.country}
@@ -364,29 +329,14 @@ const SignUpPage = ({ params }) => {
                     }),
                   }}
                 />
-                {error?.country && (
-                  <p className="text-red-500 mt-1">{error.country}</p>
-                )}
-              </motion.div>
+              </div>
             </div>
 
             <div className="flex flex-col">
-              <motion.label
-                htmlFor="subscriptionDuration"
-                className=" font-medium"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, type: "spring" }}
-                viewport={{ once: true }}
-              >
+              <label htmlFor="subscriptionDuration" className=" font-medium">
                 Subscription Duration
-              </motion.label>
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.6, duration: 0.5 }}
-                viewport={{ once: true }}
-              >
+              </label>
+              <div>
                 <Select
                   options={subscriptionDurationOptions}
                   value={InputValues?.subscriptionDuration}
@@ -404,7 +354,7 @@ const SignUpPage = ({ params }) => {
                     }),
                   }}
                 />
-              </motion.div>
+              </div>
             </div>
             {error && (
               <div className="text-xs  flex flex-col text-red-500 mx-4">

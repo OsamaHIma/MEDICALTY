@@ -11,6 +11,9 @@ import { useSession } from "next-auth/react";
 import { SelectInput, Input } from "@/components/Input";
 
 const Appointment = () => {
+ 
+
+  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
