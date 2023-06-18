@@ -64,7 +64,7 @@ const ServiceRequests = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          token:  token,
         },
         body: JSON.stringify(formFields),
       });

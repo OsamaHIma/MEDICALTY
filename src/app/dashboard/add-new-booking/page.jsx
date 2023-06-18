@@ -61,7 +61,7 @@ const BookingPage = () => {
       const response = await fetch("/api/booking", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          token:  token,
         },
         body: { ...formData, image: uploadedPhoto },
       });

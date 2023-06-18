@@ -107,7 +107,7 @@ const PriceOffer = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -126,7 +126,7 @@ const PriceOffer = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          token:  token,
         },
       });
 
@@ -167,7 +167,7 @@ const PriceOffer = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );

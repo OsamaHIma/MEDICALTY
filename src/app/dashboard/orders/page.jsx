@@ -87,7 +87,7 @@ const Orders = () => {
       {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -106,7 +106,7 @@ const Orders = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          token:  token,
         },
       });
 
@@ -143,7 +143,7 @@ const Orders = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );

@@ -101,7 +101,7 @@ const CustomersDataGrid = () => {
       {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -120,7 +120,7 @@ const CustomersDataGrid = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -168,7 +168,7 @@ const CustomersDataGrid = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );

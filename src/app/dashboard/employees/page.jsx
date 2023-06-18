@@ -151,7 +151,7 @@ const EmployeesDataGrid = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -171,7 +171,7 @@ const EmployeesDataGrid = () => {
           headers: {
             method: "GET",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -232,7 +232,7 @@ const EmployeesDataGrid = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );

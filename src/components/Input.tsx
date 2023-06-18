@@ -28,7 +28,8 @@ type InputProps = {
   labelText: string;
   name: string;
   type?: string;
-  placeHolder?: string;
+  minLength?: number | boolean;
+  placeHolder?: string | any;
   required?: boolean;
   icon?: React.ReactNode;
   ClassesForTheDiv?: string;
@@ -78,17 +79,24 @@ export const Input = ({
       ></textarea>
     </>
   );
-
+  const minLength = type === "password" ? 8 : undefined;
   const renderDefaultInput = () => (
     <>
       <input
-        className={`ml-2 flex-1 px-2 focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
+        className={`ml-2 flex-1 px-2 relative focus:outline-none ${inputBgColor} ${ClassesForTheInput}`}
         type={type}
         name={name}
-        placeholder={placeHolder || labelText}
+        placeholder={
+          (type === "password" &&
+            "The password should be 8 characters at least") ||
+          placeHolder ||
+          labelText
+        }
         required={required}
         onChange={onChange}
+        minLength={minLength}
       />
+
       {icon && (
         <div
           className={`text-blue-300 dark:text-blue-200 mr-3 ${ClassesForTheIcon}`}

@@ -29,7 +29,7 @@ const Header = ({
   //           method: "GET",
   //           headers: {
   //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${token}`,
+  //             token:  token,
   //           },
   //         }
   //       );
@@ -52,7 +52,7 @@ const Header = ({
   //           method: "GET",
   //           headers: {
   //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${token}`,
+  //             token:  token,
   //           },
   //         }
   //       );

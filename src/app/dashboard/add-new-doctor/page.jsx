@@ -48,34 +48,7 @@ const RegisterDoctorPage = () => {
     { value: "male", label: "Male" },
     { value: "female", label: "Female" },
   ];
-  // oldProps ={
-  //   doctorImage: "",
-  //   username: "",
-  //   fullName: "",
-  //   nationalId: "",
-  //   jobTitle: "",
-  //   shortBio: "",
-  //   longBio: "",
-  //   jobNumber: "",
-  //   dateOfBirth: "",
-  //   yearsOfExperience: "",
-  //   expertise: {
-  //     experienceNumber: "",
-  //     experienceName: "",
-  //     experienceWorkplace: "",
-  //     experienceWorkplaceCountry: "",
-  //     experienceStartDate: "",
-  //     experienceEndDate: "",
-  //     experienceCurrent: false,
-  //   },
-  //   phoneNumber: "",
-  //   workPhoneNumber: "",
-  //   email: "",
-  //   workEmail: "",
-  //   address: "",
-  //   gender: "",
-  //   nationality: "",
-  // }
+
   const defaultProps = {
     center_id: "",
     department_id: "",
@@ -128,19 +101,8 @@ const RegisterDoctorPage = () => {
     setFormFields({ ...formFields, [name]: value });
   };
 
-  const onExpertiseChange = (event) => {
-    const { name, value } = event.target;
-    setFormFields({
-      ...formFields,
-      expertise: { ...expertise, [name]: value },
-    });
-  };
-
-  const onCurrentlyWorkingChange = (event) => {
-    setFormFields((prevFormFields) => ({
-      ...prevFormFields,
-      currentlyWorking: event.target.value,
-    }));
+  const onSelectInputChange = ({ value }, { name }) => {
+    setFormFields({ ...formFields, [name]: value });
   };
   const handlePostRequest = async () => {
     try {
@@ -175,7 +137,7 @@ const RegisterDoctorPage = () => {
     if (!event.target.checkValidity()) {
       event.stopPropagation();
       setIsValid("not-validated");
-      toast.error("Please fill in all required fields");
+      toast.error("Please fill in all  fields");
       return;
     }
 
@@ -183,7 +145,7 @@ const RegisterDoctorPage = () => {
     handlePostRequest();
   };
   const cancelFormSubmit = () => {
-    resetFormFields();
+    setFormFields(defaultProps);
     setIsValid("");
   };
 
@@ -199,7 +161,7 @@ const RegisterDoctorPage = () => {
               value={center_id}
               onChange={onChange}
               icon={<FaUser />}
-              required
+              type="number"
             />
             <Input
               labelText="department id"
@@ -207,7 +169,7 @@ const RegisterDoctorPage = () => {
               value={department_id}
               onChange={onChange}
               icon={<FaUser />}
-              required
+              type="number"
             />
             <Input
               labelText="username"
@@ -215,7 +177,6 @@ const RegisterDoctorPage = () => {
               value={username}
               onChange={onChange}
               icon={<FaIdBadge />}
-              required
             />
             <Input
               labelText="Full name"
@@ -223,7 +184,6 @@ const RegisterDoctorPage = () => {
               value={name}
               onChange={onChange}
               icon={<FaIdBadge />}
-              required
             />
             <Input
               labelText="specialty"
@@ -231,7 +191,6 @@ const RegisterDoctorPage = () => {
               value={specialty}
               onChange={onChange}
               icon={<FaBriefcase />}
-              required
             />
             <Input
               labelText="salary"
@@ -239,7 +198,6 @@ const RegisterDoctorPage = () => {
               value={salary}
               onChange={onChange}
               icon={<FaInfoCircle />}
-              required
             />
 
             <Input
@@ -249,7 +207,6 @@ const RegisterDoctorPage = () => {
               onChange={onChange}
               icon={<FaBirthdayCake />}
               type="date"
-              required
             />
             <Input
               labelText="Phone Number"
@@ -258,7 +215,6 @@ const RegisterDoctorPage = () => {
               onChange={onChange}
               icon={<FaPhone />}
               type="tel"
-              required
             />
             <Input
               labelText="Work Phone Number"
@@ -267,7 +223,6 @@ const RegisterDoctorPage = () => {
               onChange={onChange}
               icon={<FaPhone />}
               type="tel"
-              required
             />
           </div>
 
@@ -279,7 +234,6 @@ const RegisterDoctorPage = () => {
               onChange={onChange}
               icon={<FaBriefcase />}
               type="number"
-              required
             />
             <Input
               labelText="Job ID"
@@ -288,7 +242,6 @@ const RegisterDoctorPage = () => {
               onChange={onChange}
               icon={<FaBriefcase />}
               type="number"
-              required
             />
             <Input
               labelText="abstract"
@@ -296,7 +249,6 @@ const RegisterDoctorPage = () => {
               value={abstract}
               onChange={onChange}
               icon={<FaBriefcase />}
-              required
             />
             <Input
               labelText="password"
@@ -311,22 +263,27 @@ const RegisterDoctorPage = () => {
               labelText="Nationality"
               options={countries}
               name="nationality"
-              value={nationality}
-              onChange={(selectedOption) =>
-                setFormFields({ ...formFields, nationality: selectedOption })
-              }
+              value={[
+                {
+                  value: nationality,
+                  label: nationality,
+                },
+              ]}
+              onChange={onSelectInputChange}
               placeholder="Select nationality"
             />
             <SelectInput
               labelText="Gender"
               options={genderOptions}
               name="gender"
-              value={gender}
-              onChange={(selectedOption) =>
-                setFormFields({ ...formFields, gender: selectedOption })
-              }
+              value={[
+                {
+                  value: gender,
+                  label: gender,
+                },
+              ]}
+              onChange={onSelectInputChange}
               placeholder="Select gender"
-              required
             />
             <Input
               labelText="Years of Experience"
@@ -335,7 +292,6 @@ const RegisterDoctorPage = () => {
               onChange={onChange}
               icon={<FaUserTie />}
               type="number"
-              required
             />
             <Input
               labelText="Email"
@@ -344,7 +300,6 @@ const RegisterDoctorPage = () => {
               onChange={onChange}
               icon={<FaEnvelope />}
               type="email"
-              required
             />
             <Input
               labelText="Work Email"
@@ -353,7 +308,6 @@ const RegisterDoctorPage = () => {
               onChange={onChange}
               icon={<FaEnvelope />}
               type="email"
-              required
             />
           </div>
         </div>
@@ -365,7 +319,6 @@ const RegisterDoctorPage = () => {
             value={address}
             onChange={onChange}
             icon={<FaHome />}
-            required
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
@@ -376,7 +329,6 @@ const RegisterDoctorPage = () => {
             value={full_brief}
             onChange={onChange}
             icon={<FaInfoCircle />}
-            required
           />
           <Input
             labelText="job description"
@@ -385,12 +337,11 @@ const RegisterDoctorPage = () => {
             onChange={onChange}
             icon={<FaUserTie />}
             type="textarea"
-            required
           />
         </div>
         <div className="flex items-center justify-center gap-5 my-5">
-          <Button content="Add Doctor" type="submit" filled />
           <Button content="Cancel" type="button" onClick={cancelFormSubmit} />
+          <Button content="Add Doctor" type="submit" filled />
         </div>
       </form>
     </section>

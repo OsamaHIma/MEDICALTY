@@ -98,7 +98,7 @@ const ExpenseDataGrid = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -116,7 +116,7 @@ const ExpenseDataGrid = () => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              token:  token,
             },
           }
         );
@@ -152,7 +152,7 @@ const ExpenseDataGrid = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );

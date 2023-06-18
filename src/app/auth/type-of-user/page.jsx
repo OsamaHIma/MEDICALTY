@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const TypeOfUser = () => {
@@ -13,6 +14,7 @@ const TypeOfUser = () => {
     { src: "/assets/pharmacy.svg", text: "Pharmacy", link: "pharmacy" },
     { src: "/assets/hospital.svg", text: "Hospital", link: "hospital" },
     { src: "/assets/center.svg", text: "Center", link: "center" },
+    // { src: "/assets/lab.jpg", text: "Lab", link: "lab" },
   ];
 
   return (
@@ -24,15 +26,15 @@ const TypeOfUser = () => {
         {images.map((image, index) => (
           <div key={index} className="flex flex-col items-center">
             <Link href={`/auth/signUp/${image.link}`}>
-              {/* <div className="flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-green-500 to-blue-500 hover:from-blue-500 hover:to-green-500 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"> */}
-              <img
+              <Image
+                width={0}
+                height={0}
                 src={image.src}
                 alt={image.text}
                 className="w-full object-contain rounded-full bg-gradient-to-br from-green-500 to-blue-500 hover:from-blue-500 hover:to-green-500 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 style={{ aspectRatio: "1 / 1" }}
-                loading="eager"
+                priority
               />
-              {/* </div> */}
             </Link>
             <p className="mt-2 text-slate-700 dark:text-slate-300 text-center text-lg font-medium">
               I'm a {image.text}

@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import { Input } from "@/components/Input";
+import { Input, SelectInput } from "@/components/Input";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -35,8 +35,8 @@ const AddNewCenter = () => {
     phone: "",
     formal_phone: "",
     website: "",
-    subscription_type: "Basic",
-    subscription_period: "Month",
+    subscription_type: "",
+    subscription_period: "",
     email: "",
     formal_email: "",
     country: "",
@@ -60,6 +60,8 @@ const AddNewCenter = () => {
     phone,
     formal_phone,
     website,
+    subscription_type,
+    subscription_period,
     email,
     formal_email,
     state,
@@ -80,12 +82,16 @@ const AddNewCenter = () => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
+  const onSelectInputChange = ({ value }, { name }) => {
+    setFormFields({ ...formFields, [name]: value });
+  };
 
   const resetFormFields = () => {
     setFormFields(defaultProps);
   };
 
   const handlePostRequest = async () => {
+    console.log(formFields);
     try {
       const response = await fetch("/api/center/save", {
         method: "POST",
@@ -97,7 +103,7 @@ const AddNewCenter = () => {
       });
 
       const data = await response.json();
-      console.log(response.msg);
+      console.log(response);
       if (response.ok) {
         toast.success("Data sent successfully");
         // resetFormFields();
@@ -189,6 +195,20 @@ const AddNewCenter = () => {
                 type="password"
                 required
               />
+              <SelectInput
+                labelText="subscription type"
+                options={[{ value: "Basic", label: "Basic" }]}
+                name="subscription_type"
+                value={[
+                  {
+                    value: subscription_type || "Select subscription type",
+                    label: subscription_type,
+                  },
+                ]}
+                onChange={onSelectInputChange}
+                placeholder="Select subscription type"
+                required
+              />
             </div>
             <div className="flex flex-col gap-[23px] mb-5 flex-1">
               <Input
@@ -243,6 +263,24 @@ const AddNewCenter = () => {
                 value={zip_code}
                 onChange={onChange}
                 type="number"
+                required
+              />
+              <SelectInput
+                labelText="subscription period "
+                options={[
+                  { value: "Free_trail", label: "Free trail" },
+                  { value: "Month", label: "Month" },
+                  { value: "Year", label: "Year" },
+                ]}
+                name="subscription_period"
+                value={[
+                  {
+                    value: subscription_period,
+
+                    label: subscription_period,
+                  },
+                ]}
+                onChange={onSelectInputChange}
                 required
               />
             </div>

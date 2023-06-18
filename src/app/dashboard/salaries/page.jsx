@@ -92,7 +92,7 @@ const SalariesDataGrid = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -110,7 +110,7 @@ const SalariesDataGrid = () => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              token:  token,
             },
           }
         );
@@ -151,7 +151,7 @@ const SalariesDataGrid = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );

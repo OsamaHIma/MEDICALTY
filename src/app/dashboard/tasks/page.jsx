@@ -87,7 +87,7 @@ const TasksDataGrid = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -105,7 +105,7 @@ const TasksDataGrid = () => {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              token:  token,
             },
           }
         );
@@ -142,7 +142,7 @@ const TasksDataGrid = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );

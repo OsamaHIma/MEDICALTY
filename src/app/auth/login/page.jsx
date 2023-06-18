@@ -112,9 +112,10 @@ const LoginPage = () => {
               { value: "patient", label: "Patient" },
               { value: "doctor", label: "Doctor" },
               { value: "nurse", label: "Nurse" },
-              { value: "center", label: "center" },
-              { value: "department", label: "department" },
-              { value: "admin", label: "admin" },
+              { value: "center", label: "Center" },
+              { value: "department", label: "Department" },
+              { value: "admin", label: "Admin" },
+              { value: "lab", label: "Lab" },
             ]}
             value={selectedOption}
             placeholder="select"

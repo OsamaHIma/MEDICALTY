@@ -146,7 +146,7 @@ const AddDiseasePage = () => {
       const response = await fetch("/api/disease", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          token:  token,
         },
         body: formData,
       });

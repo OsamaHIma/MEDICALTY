@@ -50,7 +50,7 @@ const MyAccount = () => {
           headers: {
             method: "GET",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            token:  token,
           },
         }
       );
@@ -89,7 +89,7 @@ const MyAccount = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        token:  token,
       },
       body: JSON.stringify(updatedUser),
     })

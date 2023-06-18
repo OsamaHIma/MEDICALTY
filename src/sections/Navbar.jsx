@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { navLinks } from "@/constants";
 import Link from "next/link";
 import LanguageSelector from "@/components/LanguageSelector";
+import { FaUserCheck } from "react-icons/fa";
 
 const Navbar = () => {
   const router = useRouter();
@@ -130,6 +131,10 @@ const Navbar = () => {
         </div>
         {showMenu && (
           <div className="absolute bg-gradient-to-tr from-slate-50 to-slate-200 dark:text-slate-900 shadow-md p-2 rounded-md mt-2 top-[80%] right-[10%] z-10">
+            <div className="capitalize flex gap-3 items-center w-full text-left p-1 rounded-md hover:bg-green-100">
+              <FaUserCheck />
+              <span>{user ? user.userType : "loading..."}</span>
+            </div>
             <Link href="/dashboard/profile">
               <button className="block w-full text-left p-1 rounded-md hover:bg-green-100">
                 Profile

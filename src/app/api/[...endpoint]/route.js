@@ -4,7 +4,8 @@ import axios from "axios";
 export async function POST(req, { params }) {
   const { endpoint } = params;
 
-  const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/${endpoint[0]}/${endpoint[1]}`;
+  const endpointUrl = endpoint.map((param) => `${param}/`).join("");
+  const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/${endpointUrl}`;
 
   const request = await req.json();
   const token = req.headers.get("token");

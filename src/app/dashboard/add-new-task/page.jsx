@@ -28,7 +28,7 @@ const AddingTasks = () => {
   //           method: "GET",
   //           headers: {
   //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${token}`,
+  //             token:  token,
   //           },
   //         }
   //       );
@@ -80,7 +80,7 @@ const AddingTasks = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          token:  token,
         },
         body: JSON.stringify(formFields),
       });
@@ -124,7 +124,7 @@ const AddingTasks = () => {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
+              token:  token,
             },
           }
         );
