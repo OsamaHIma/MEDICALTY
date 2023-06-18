@@ -13,7 +13,7 @@ import {
 import { useTheme } from "next-themes";
 import { FiMonitor, FiMoon, FiSun } from "react-icons/fi";
 import { BsMoonStarsFill } from "react-icons/bs";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import LoadingComponent from "@/components/Loading";
 import ConfirmModal from "@/components/ConfirmModal";
 import { toast } from "react-toastify";
@@ -23,12 +23,19 @@ const CustomSidebar = () => {
   const { setTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
+  const { data: session } = useSession();
+  const [userType, setUserType] = useState("");
+  useEffect(() => {
+    if (session) {
+      setUserType(session.user.userType);
+      console.log(userType);
+    }
+  }, [session]);
   const handleSignOut = async () => {
     setLoading(true);
 
     try {
-      await signOut();
+      await signOut({ body: { userType } });
       setLoading(false);
       setShowModal(false);
       location.reload();

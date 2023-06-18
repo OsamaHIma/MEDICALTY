@@ -1,17 +1,9 @@
-import { BsGrid3X3 } from "react-icons/bs";
+import { BsHospital } from "react-icons/bs";
 import {
-  FaChartBar,
-  FaUsers,
   FaCalendarAlt,
-  FaMoneyBill,
-  FaSuitcase,
-  FaMoneyCheckAlt,
   FaMoneyBillWave,
   FaUserFriends,
   FaFileInvoice,
-  FaFlag,
-  FaTasks,
-  FaTag,
   FaBuilding,
   FaUserTie,
   FaCubes,
@@ -30,249 +22,197 @@ import {
   FaChartLine,
   FaRegCalendarAlt,
   FaPlus,
+  FaHospitalUser,
 } from "react-icons/fa";
 import { FcComboChart } from "react-icons/fc";
+import { GiTestTubes } from "react-icons/gi";
 import { IoMdAdd } from "react-icons/io";
 import {
   MdAddShoppingCart,
   MdFlightTakeoff,
-  MdGroup,
   MdLocalPharmacy,
 } from "react-icons/md";
-import { TbBeach } from "react-icons/tb";
-import { VscSignOut } from "react-icons/vsc";
 
 const productLinks = [
   {
     name: "Show all products",
     link: "dashboard/employees",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new product",
     link: "dashboard/add-new-product",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const pharmacyLinks = [
   {
     name: "Show all pharmacies",
     link: "dashboard/pharmacies",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new price offer",
     link: "dashboard/add-new-pharmacy",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const departmentLinks = [
   {
     name: "Show all",
-    link: "dashboard/department",
-    icon: <FcComboChart />,
+    link: "dashboard/departments",
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new specialization",
     link: "dashboard/add-new-department",
-    icon: <IoMdAdd />,
-  },
-  {
-    name: "The job site",
-    link: "dashboard/department-the-job-site",
-    icon: <BsGrid3X3 />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const employeeLinks = [
   {
     name: "Show all",
     link: "dashboard/employees",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new employee",
     link: "dashboard/add-new-employee",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
-const groupsLinks = [
-  {
-    name: "Show all",
-    link: "dashboard/orders",
-    icon: <FcComboChart />,
-  },
-  {
-    name: "Create new group",
-    link: "dashboard/add-new-group",
-    icon: <IoMdAdd />,
-  },
-];
-const vacationLinks = [
-  {
-    name: "Show all",
-    link: "dashboard/vacation",
-    icon: <FcComboChart />,
-  },
-  {
-    name: "Create new vacation",
-    link: "dashboard/add-new-vacation",
-    icon: <IoMdAdd />,
-  },
-];
-const leaveLinks = [
-  {
-    name: "Show all",
-    link: "dashboard/leaving",
-    icon: <FcComboChart />,
-  },
-  {
-    name: "Create new leaving",
-    link: "dashboard/add-new-leaving",
-    icon: <IoMdAdd />,
-  },
-];
+
 const expenseLinks = [
   {
     name: "Show all",
     link: "dashboard/expense",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new expense",
     link: "dashboard/add-new-expense",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const appointmentLinks = [
   {
     name: "Show all",
     link: "dashboard/appointments",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new holiday",
     link: "dashboard/add-new-appointment",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
-const OccupationLinks = [
-  {
-    name: "Show all",
-    link: "dashboard/occupations",
-    icon: <FcComboChart />,
-  },
-  {
-    name: "Create new occupation",
-    link: "dashboard/add-new-occupation",
-    icon: <IoMdAdd />,
-  },
-];
+
 const ordersLinks = [
   {
     name: "Show all",
     link: "dashboard/orders",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new order",
     link: "dashboard/add-new-order",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const customersLinks = [
   {
     name: "Show all",
     link: "dashboard/customers",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new customer",
     link: "dashboard/add-new-customer",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const salariesLinks = [
   {
     name: "Show all",
     link: "dashboard/salaries",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new salaries",
     link: "dashboard/add-new-salaries",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const invoicesLinks = [
   {
     name: "Show all",
     link: "dashboard/invoices",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new invoices",
     link: "dashboard/add-new-invoices",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const tasksLinks = [
   {
     name: "Show all",
     link: "dashboard/tasks",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new task",
     link: "dashboard/add-new-task",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const diseaseLinks = [
   {
     name: "Show all",
     link: "dashboard/diseases",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new task",
     link: "dashboard/add-new-disease",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const doctorLinks = [
   {
     name: "Show all",
     link: "dashboard/doctors",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new task",
     link: "dashboard/add-new-doctor",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const insuranceLinks = [
   {
     name: "Show all",
     link: "dashboard/doctors",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new task",
     link: "dashboard/add-new-insurance-company",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 const centersLinks = [
   {
     name: "Show all",
     link: "dashboard/centers",
-    icon: <FcComboChart />,
+    icon: <FcComboChart size={23} />,
   },
   {
     name: "Create new task",
     link: "dashboard/add-new-center",
-    icon: <IoMdAdd />,
+    icon: <IoMdAdd size={23} />,
   },
 ];
 
@@ -280,192 +220,111 @@ export const navLinks = [
   {
     name: "Add product",
     children: tasksLinks,
-    icon: <FaShoppingCart />,
+    icon: <FaShoppingCart size={23} />,
   },
   {
     name: "Appointments",
-    children:appointmentLinks,
-    icon: <FaRegCalendarAlt />,
+    children: appointmentLinks,
+    icon: <FaRegCalendarAlt size={23} />,
   },
   {
     name: "Booking",
     link: "dashboard/add-new-booking",
-    icon: <FaPlus />,
+    icon: <FaPlus size={23} />,
   },
   {
     name: "Calendar",
     link: "dashboard/calendar",
-    icon: <FaCalendarAlt />,
+    icon: <FaCalendarAlt size={23} />,
   },
   {
     name: "Centers",
     children: centersLinks,
-    icon: <FaBuilding />,
+    icon: <BsHospital size={23} />,
   },
   {
     name: "Customers",
     children: customersLinks,
-    icon: <FaUserFriends />,
+    icon: <FaUserFriends size={23} />,
   },
   {
     name: "Dashboard",
     link: "/dashboard",
-    icon: <FaChartLine />,
+    icon: <FaChartLine size={23} />,
   },
   {
     name: "Department",
     children: departmentLinks,
-    icon: <FaClipboardList />,
+    icon: <FaClipboardList size={23} />,
   },
   {
     name: "Departures",
     link: "dashboard/departures",
-    icon: <FaPlaneDeparture />,
+    icon: <FaPlaneDeparture size={23} />,
   },
   {
     name: "Diseases",
     children: diseaseLinks,
-    icon: <FaHospital />,
+    icon: <FaHospitalUser size={23} />,
   },
   {
     name: "Doctors",
     children: doctorLinks,
-    icon: <FaAmbulance />,
+    icon: <FaAmbulance size={23} />,
   },
   {
     name: "Employees",
     children: employeeLinks,
-    icon: <FaUserTie />,
+    icon: <FaUserTie size={23} />,
   },
   {
     name: "Experience",
     children: expenseLinks,
-    icon: <FaBriefcase />,
+    icon: <FaBriefcase size={23} />,
   },
   {
     name: "Expense",
     link: "dashboard/add-new-expense",
-    icon: <FaMoneyBillWave />,
+    icon: <FaMoneyBillWave size={23} />,
   },
   {
     name: "Invoices",
     children: invoicesLinks,
-    icon: <FaFileInvoice />,
+    icon: <FaFileInvoice size={23} />,
   },
   {
     name: "Insurance",
     children: insuranceLinks,
-    icon: <FaFileMedical />,
+    icon: <FaFileMedical size={23} />,
   },
   {
     name: "New request",
-    link: "dashboard/new-request",
-    icon: <FaBook />,
+    link: "dashboard/add-new-request",
+    icon: <FaBook size={23} />,
+  },
+  {
+    name: "New Lab",
+    link: "dashboard/add-new-lab",
+    icon: <GiTestTubes size={23} />,
   },
   {
     name: "Orders",
     children: ordersLinks,
-    icon: <FaShoppingCart />,
+    icon: <FaShoppingCart size={23} />,
   },
   {
     name: "Pharmacy",
     children: pharmacyLinks,
-    icon: <MdLocalPharmacy />,
+    icon: <MdLocalPharmacy size={23} />,
   },
   {
     name: "Products",
     children: productLinks,
-    icon: <FaShoppingCart />,
+    icon: <FaShoppingCart size={23} />,
   },
   {
     name: "Spending",
     children: salariesLinks,
-    icon: <FaMoneyBillAlt />,
-  },
-];
-
-export const DepartmentColumns = [
-  {
-    field: "rowNumber",
-    headerName: "",
-    width: 80,
-    renderCell: (params) => <div>{params.id}</div>,
-    sortable: false,
-    filterable: false,
-  },
-  {
-    field: "id",
-    headerName: "ID",
-    flex: 1,
-    headerClassName: "datagrid-header",
-    cellClassName: "datagrid-cell",
-  },
-  {
-    field: "name",
-    headerName: "Name",
-    flex: 1,
-    headerClassName: "datagrid-header",
-    cellClassName: "datagrid-cell",
-  },
-  {
-    field: "description",
-    headerName: "Description",
-    flex: 1,
-    headerClassName: "datagrid-header",
-    cellClassName: "datagrid-cell",
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    flex: 1,
-    headerClassName: "datagrid-header",
-    cellClassName: "datagrid-cell",
-    renderCell: (params) => {
-      const status = params.value;
-      const isActive = status === "active";
-      const backgroundColor = isActive ? "bg-green-500/60" : "bg-red-400/60";
-      const textColor = isActive ? "text-green-500" : "text-red-500";
-
-      return (
-        <div
-          className={`${backgroundColor} ${textColor} font-semibold rounded-full px-3 py-2`}
-        >
-          <span>{status}</span>
-        </div>
-      );
-    },
-  },
-];
-
-export const DepartmentRows = [
-  {
-    id: 1,
-    name: "Department 1",
-    description: "This is the first department",
-    status: "active",
-  },
-  {
-    id: 2,
-    name: "Department 2",
-    description: "This is the second department",
-    status: "inactive",
-  },
-  {
-    id: 3,
-    name: "Department 3",
-    description: "This is the third department",
-    status: "active",
-  },
-  {
-    id: 4,
-    name: "Department 4",
-    description: "This is the fourth department",
-    status: "inactive",
-  },
-  {
-    id: 5,
-    name: "Department 5",
-    description: "This is the fifth department",
-    status: "active",
+    icon: <FaMoneyBillAlt size={23} />,
   },
 ];
