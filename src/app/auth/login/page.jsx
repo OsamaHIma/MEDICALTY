@@ -15,24 +15,37 @@ import { FcGoogle } from "react-icons/fc";
 import Loading from "@/components/Loading";
 import Translate from "@/components/Translate.tsx";
 import SelectInputNoLabel from "@/components/SelectInputNoLabel";
+import { FaFacebook } from "react-icons/fa";
+import { useLanguage } from "@/context/LanguageContext";
 
 const LoginPage = () => {
+  // Define state variables
   const [email, setEmail] = useState("");
   const [userType, setUserType] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const [isRemeberedUser, setIsRemeberedUser] = useState(false);
+  const [isRememberedUser, setIsRememberedUser] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedOption, setSelectedOption] = useState({});
+  const { selectedLanguage } = useLanguage();
   const router = useRouter();
+  // Define functions
+  const togglePasswordIcon = () => {
+    setIsShowPassword(!isShowPassword);
+  };
   const handleGoogleLogin = async () => {
     signIn("google", {
       callbackUrl: `/dashboard`,
     });
   };
+  const handleFacebookSignIn = () => {
+    signIn("facebook", {
+      callbackUrl: `/dashboard`,
+    });
+  };
   const handleLogin = async (e) => {
     e.preventDefault();
-
     setError(null);
     try {
       loginUserSchema.validateSync(
@@ -40,7 +53,6 @@ const LoginPage = () => {
           email: email,
           password: password,
         },
-
         { abortEarly: false }
       );
     } catch (error) {
@@ -49,10 +61,9 @@ const LoginPage = () => {
     }
     setIsLoading(true);
     const user = await signIn("credentials", {
-      redirect: false,
       email,
       password,
-      userType
+      userType,
     });
     if (!user.error) {
       handleRememberUser();
@@ -63,7 +74,7 @@ const LoginPage = () => {
     }
   };
   const handleRememberUser = () => {
-    if (isRemeberedUser) {
+    if (isRememberedUser) {
       localStorage.setItem(
         "user",
         JSON.stringify({ email, password, userType, selectedOption })
@@ -72,39 +83,38 @@ const LoginPage = () => {
       localStorage.removeItem("user");
     }
   };
-
+  const handelSelectedOption = (option) => {
+    setUserType(option.value);
+    setSelectedOption(option);
+  };
   useEffect(() => {
+    // Check if there is a remembered user in local storage
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) return;
-    setIsRemeberedUser(true);
+    // Set state variables based on remembered user
+    setIsRememberedUser(true);
     setEmail(user.email);
     setPassword(user.password);
     setUserType(user.userType);
     setSelectedOption(user.selectedOption);
   }, []);
-  const [selectedOption, setSelectedOption] = useState({});
-
-  const handelSelectedOption = (option) => {
-    setUserType(option.value);
-    setSelectedOption(option);
-  };
-
+  // Render the component
   return (
-    <div className="px-4 flex flex-col mt-32 gap-8">
+    <div className="mt-32 flex flex-col gap-8 px-4">
       <div className="">
-        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-green-500 text-transparent bg-clip-text">
+        <h1 className="mb-4 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-3xl font-bold text-transparent">
           <Translate>Welcome Back!</Translate>
-          <WavingHandIcon className="text-yellow-500 mx-2 text-3xl" />
+          <WavingHandIcon className="mx-2 text-3xl text-yellow-500" />
         </h1>
-        <h3 className="text-gray-500 text-sm mt-4 dark:text-gray-300">
+        <h3 className="mt-4 text-sm text-gray-500 dark:text-gray-300">
           <Translate>Start managing your hospital better.</Translate>
         </h3>
       </div>
 
       <form className="flex flex-col gap-8" autoComplete="on">
-        <div className="flex flex-col mb-2">
-          <label htmlFor="select" className="mb-4 text-md font-bold ">
-            <Translate>Select your type</Translate>
+        <div className="mb-2 flex flex-col">
+          <label htmlFor="select" className="text-md mb-4 font-bold ">
+            <Translate>Select your Specialty:</Translate>
           </label>
           <SelectInputNoLabel
             id="select"
@@ -120,12 +130,11 @@ const LoginPage = () => {
             value={selectedOption}
             placeholder="select"
             onChange={handelSelectedOption}
-            // className="w-full text-slate-700 "
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="email" className="mb-4 text-md font-bold ">
-            <Translate>Email</Translate>
+          <label htmlFor="email" className="text-md mb-4 font-bold ">
+            <Translate>Your Email:</Translate>
           </label>
           <input
             type="email"
@@ -133,14 +142,14 @@ const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter Your Email"
             id="email"
-            className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
+            className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
               error && "border-red-500"
             }`}
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="password" className="mb-4 text-md font-bold">
-            <Translate>Password</Translate>
+          <label htmlFor="password" className="text-md mb-4 font-bold">
+            <Translate>Password:</Translate>
           </label>
           <div className="relative w-full">
             <input
@@ -150,56 +159,58 @@ const LoginPage = () => {
               placeholder="Enter Your Password"
               id="password"
               autoComplete="current-password"
-              className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
+              className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
                 error && "border-red-500"
               }`}
             />
-            {!isShowPassword ? (
-              <VisibilityOffIcon
-                onClick={() => setIsShowPassword(true)}
-                className="rounded-md cursor-pointer top-[50%] translate-y-[-50%] absolute right-2 text-gray-400"
-              />
-            ) : (
-              <RemoveRedEyeIcon
-                onClick={() => setIsShowPassword(false)}
-                className="rounded-md cursor-pointer top-[50%] translate-y-[-50%] absolute right-2 text-gray-400"
-              />
-            )}
+            <button
+              type="button"
+              className={`absolute ${
+                selectedLanguage === "ar" ? "left-2" : "right-2"
+              } top-[50%] translate-y-[-50%] cursor-pointer`}
+              onClick={togglePasswordIcon}
+            >
+              {isShowPassword ? (
+                <RemoveRedEyeIcon size={20} className="text-gray-500" />
+              ) : (
+                <VisibilityOffIcon size={20} className="text-gray-500" />
+              )}
+            </button>
           </div>
         </div>
         {error && (
-          <div className="text-xs  flex flex-col text-red-500 mx-4">
+          <div className="mx-4  flex flex-col text-xs text-red-500">
             {error.map((err, key) => {
               return <p key={key}>*{err}</p>;
             })}
           </div>
         )}
-        <div className="flex justify-between items-center w-full  h-full">
-          <div className="flex justify-center items-center gap-1">
-            <label htmlFor="remember-me" className=" text-gray-400 text-xs ">
-              <Translate>Remember me</Translate>
+        <div className="flex h-full w-full items-center  justify-between">
+          <div className="flex items-center justify-center gap-1">
+            <label htmlFor="remember-me" className=" text-xs text-gray-400 ">
+              <Translate>Remember me:</Translate>
             </label>
             <div className="relative flex items-center ">
               <input
-                onChange={(e) => setIsRemeberedUser(e.target.checked)}
+                onChange={(e) => setIsRememberedUser(e.target.checked)}
                 type="checkbox"
-                checked={isRemeberedUser}
+                checked={isRememberedUser}
                 id="remember-me"
                 className="relative w-full border-none outline-none"
               />
             </div>
           </div>
-          <h3 className="text-green-400 text-xs ">
+          <h3 className="text-xs text-green-400 ">
             <Link
               href="/auth/forgot-password"
-              className="text-blue-500 hover:underline underline-offset-4"
+              className="text-blue-500 underline-offset-4 hover:underline"
             >
               <Translate>Forgot password?</Translate>
             </Link>
           </h3>
         </div>
 
-        <div className="flex flex-col text-center gap-5">
+        <div className="flex flex-col gap-5 text-center">
           <Button
             onClick={handleLogin}
             content={loading ? <Loading /> : "Login"}
@@ -207,17 +218,24 @@ const LoginPage = () => {
           <p className="text-xl">OR</p>
           <Button
             onClick={handleGoogleLogin}
-            content={"Sign with Google"}
+            content={"Sign In with Google"}
             type="button"
             filled
             icon={<FcGoogle size={27} />}
           />
+          <Button
+            onClick={handleFacebookSignIn}
+            content={"Sign Up with Facebook"}
+            type="button"
+            filled
+            icon={<FaFacebook size={27} />}
+          />
         </div>
       </form>
-      <p className="text-gray-400 relative bottom-0 text-center mb-4">
+      <p className="relative bottom-0 mb-4 text-center text-gray-400">
         <Translate>You do not have an account yet?</Translate>{" "}
         <Link
-          className="text-blue-500 hover:underline underline-offset-4"
+          className="text-blue-500 underline-offset-4 hover:underline"
           href="/auth/type-of-user"
         >
           <Translate>Sign Up Now!</Translate>

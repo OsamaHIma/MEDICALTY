@@ -44,7 +44,7 @@ const Translate = ({
   return (
     <>
       {mode === "translated" ? translatedText : children}
-      {error ? <div>Error: {error}</div> : null}
+      {error ? children : null}
     </>
   );
 };

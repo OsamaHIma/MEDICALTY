@@ -45,7 +45,7 @@ body {
 }
 .ps-sidebar-container,
 .ps-submenu-content {
-  transition: 0.3s all ease-in-out;
+  /* transition: 0.3s all ease-in-out; */
   @apply !bg-white dark:!bg-slate-900 !text-gray-400 dark:!text-slate-200;
 }
 .ps-menuitem-root,

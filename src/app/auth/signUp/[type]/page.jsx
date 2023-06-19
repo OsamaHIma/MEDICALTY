@@ -1,138 +1,50 @@
 "use client";
 import { useEffect, useState } from "react";
 import { MdVisibilityOff, MdWavingHand, MdVisibility } from "react-icons/md";
-import { FaUserPlus } from "react-icons/fa";
+import { FaFacebook, FaUserPlus } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
+import { signUpSchema } from "@/schema/userSchema";
 import LoadingComponent from "@/components/Loading";
 import SelectInputNoLabel from "@/components/SelectInputNoLabel";
-import { useSession } from "next-auth/react";
-
-const defaultProps = {
-  name: "",
-  centerName: "",
-  email: "",
-  password: "",
-  password_confirmation: "",
-  country: "",
-  subscriptionType: "",
-  subscriptionDuration: "",
-};
-const doctorProps = {
-  center_id: "",
-  department_id: "",
-  specialty: "",
-  username: "",
-  name: "",
-  ssn: "",
-  phone: "",
-  work_phone: "",
-  email: "",
-  work_email: "",
-  job_description: "",
-  abstract: "",
-  full_brief: "",
-  job_id: "",
-  birth_date: "",
-  experience_years: "",
-  salary: "",
-  gender: "",
-  nationality: "",
-};
-const centerProps = {
-  name: "",
-  username: "",
-  phone: "",
-  formal_phone: "",
-  website: "",
-  email: "",
-  formal_email: "",
-  country: "",
-  address1: "",
-  address2: "",
-  province: "",
-  state: "",
-  zip_code: "",
-  facebook: "",
-  twitter: "",
-  youtube: "",
-  instagram: "",
-  snapchat: "",
-};
-
-const getInitialFormData = (type) => {
-  switch (type) {
-    case "center":
-      return defaultProps;
-      break;
-    case "doctor":
-      return doctorProps;
-      break;
-    // case "nurse":
-    //   return nurseProps || defaultProps;
-    //   break;
-    // case "patient":
-    //   return patientProps || defaultProps;
-    //   break;
-    // case "pharmacy":
-    //   return pharmacyProps || defaultProps;
-    //   break;
-    // case "hospital":
-    //   return hospitalProps || defaultProps;
-    //   break;
-    case "center":
-      return centerProps;
-      break;
-    default:
-      defaultProps;
-      break;
-  }
-};
-
+import { signIn, useSession } from "next-auth/react";
+import Translate from "@/components/Translate";
+import { FcGoogle } from "react-icons/fc";
+import { useLanguage } from "@/context/LanguageContext";
+import { useCountries } from "@/context/CountriesContext";
+// Define the SignUpPage component
 const SignUpPage = ({ params }) => {
+  // Extract the type parameter from the props
   const { type } = params;
+  // Define functions for handling Google and Facebook sign-in
+  const handleGoogleSignIn = () => {
+    signIn("google");
+  };
+  const handleFacebookSignIn = () => {
+    signIn("facebook");
+  };
+  // Set up state variables
+  const { countries, isCountriesLoading } = useCountries();
   const [token, setToken] = useState("");
   const { data: session } = useSession();
-  useEffect(() => {
-    if (session) {
-      setToken(session.user.token);
-    }
-  }, [session]);
-  const [countries, setCountries] = useState([]);
   const [password_confirmation, setPassword_confirmation] = useState("");
-
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
-        const countryOptions = data.map((country) => ({
-          value: country.cca3,
-          label: country.name.common,
-        }));
-        setCountries(countryOptions);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCountries();
-  }, []);
-
+  const { selectedLanguage } = useLanguage();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const [formData, setFormData] = useState(getInitialFormData(type));
-
-  const [passwordIcon, setPasswordIcon] = useState(false);
-  const [InputValues, setInputValues] = useState({
-    country: {},
-    subscription_period: "",
+  const defaultProps = {
+    full_name: "",
+    email: "",
+    password: "",
+    country: "",
     subscription_type: "",
-  });
-
+    subscription_period: "",
+  };
+  const [formData, setFormData] = useState(defaultProps);
+  const [passwordIcon, setPasswordIcon] = useState(false);
+  // Define functions for handling changes to the form data
   const togglePasswordIcon = () => {
     setPasswordIcon(!passwordIcon);
   };
@@ -146,31 +58,43 @@ const SignUpPage = ({ params }) => {
   };
 
   const handleSelectChange = (selectedOption, { name }) => {
-    setInputValues((prevState) => ({
-      ...prevState,
-      [name]: selectedOption,
-    }));
     setFormData((prevState) => ({
       ...prevState,
       [name]: selectedOption.value,
     }));
   };
-
+  // Define function for handling form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // if (formData.password !== password_confirmation) {
-    //   toast.error("Passwords do not match.");
-    //   return;
-    // }
-
+    // Check if passwords match
+    if (formData.password !== password_confirmation) {
+      toast.error("Passwords do not match.");
+      return;
+    }
     setError(null);
     try {
+      // Validate the form data
+      signUpSchema.validateSync(
+        {
+          full_name: formData.full_name,
+          email: formData.email,
+          password: formData.password,
+          country: formData.country,
+          subscription_type: formData.subscription_type,
+          subscription_period: formData.subscription_period,
+        },
+        { abortEarly: false }
+      );
+    } catch (error) {
+      setError(error.errors);
+      return;
+    }
+    try {
       setLoading(true);
-      console.log(formData);
+      // Send a request to the server to register the user
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/${
-          userType === "admin" ? "center/admin" : userType
+          type === "admin" ? "center/admin" : type
         }/save`,
         {
           method: "POST",
@@ -185,7 +109,7 @@ const SignUpPage = ({ params }) => {
         throw new Error("Error registering user.");
       }
       setLoading(false);
-      toast.success("registered successfully.");
+      toast.success("Registered successfully.");
       router.push("/dashboard");
     } catch (error) {
       setLoading(false);
@@ -193,114 +117,89 @@ const SignUpPage = ({ params }) => {
       toast.error(error.message);
     }
   };
-  const renderMedicalCenterInputs = () => {
-    return (
-      <>
-        {Object.keys(centerProps).map((key) => (
-          <div key={key} className="flex flex-col">
-            <label htmlFor={key} className="font-medium">
-              {key.replace("_", " ")}
-            </label>
-            <input
-              type={key === "password" ? "password" : "text"}
-              name={key}
-              id={key}
-              value={formData[key]}
-              onChange={handleInputChange}
-              required
-              className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
-                error && "border-red-500"
-              }`}
-            />
-          </div>
-        ))}
-      </>
-    );
-  };
+  // Set the token when the session changes
+  useEffect(() => {
+    if (session) {
+      setToken(session.user.token);
+    }
+  }, [session]);
+  // Render the component
 
-  const renderDoctorInputs = () => {
-    return (
-      <>
-        {Object.keys(doctorProps).map((key) => {
-          let type = "text";
-          if (key === "password") {
-            type = "password";
-          } else if (key === "birth_date") {
-            type = "date";
-          } else if (key === "email") {
-            type = "email";
-          }
-          return (
-            <div key={key} className="flex flex-col">
-              <label
-                htmlFor={key}
-                className="mb-4 text-md font-bold capitalize"
-              >
-                {key.replace("_", " ")}
-              </label>
-              <input
-                type={type}
-                name={key}
-                id={key}
-                value={formData[key]}
-                // value={key}
-                onChange={handleInputChange}
-                required
-                className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
-                  error && "border-red-500"
-                }`}
-              />
-            </div>
-          );
-        })}
-      </>
-    );
-  };
   return (
-    <section className="px-4 flex flex-col mt-20 gap-8 relative">
+    <section className="relative mt-20 flex flex-col gap-8 px-4">
       <div>
-        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-green-500 text-transparent bg-clip-text">
+        <h1 className="mb-4 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-3xl font-bold text-transparent">
           Welcome to Medicality!
-          <MdWavingHand className="text-yellow-500 mx-2 text-3xl" />
+          <MdWavingHand className="mx-2 text-3xl text-yellow-500" />
         </h1>
-        <h3 className="text-gray-500 text-sm mt-4 dark:text-gray-300">
-          Start managing your hospital better.
+        <h3 className="mt-4 text-sm text-gray-500 dark:text-gray-300">
+          <Translate> Start managing your hospital better.</Translate>
         </h3>
-        <h1 className="text-gray-500 text-sm mt-4 dark:text-gray-300">
-          You are singing up as a{" "}
-          <span className="text-green-500 capitalize text-xl font-semibold">
-            {type}
+        <h1 className="mt-4 text-sm text-gray-500 dark:text-gray-300">
+          <Translate>You are signing up as a</Translate>{" "}
+          <span className="text-xl font-semibold capitalize text-green-500">
+            <Translate>{type}</Translate>
           </span>
           .
         </h1>
       </div>
       <div>
-        <h1 className="text-3xl font-bold  mb-4">Sign up</h1>
+        <h1 className="mb-4 text-3xl  font-bold">Sign up</h1>
         <form onSubmit={handleSubmit} noValidate>
           <div className="flex flex-col gap-4">
-            {type === "center" && renderMedicalCenterInputs()}
-            {type === "doctor" && renderDoctorInputs()}
-            {type === "nurse" && renderNurseInputs()}
+            <div className="flex flex-col">
+              <label htmlFor="full_name" className="text-md mb-4 font-bold">
+                <Translate>Full Name</Translate>
+              </label>
+              <input
+                type="text"
+                placeholder="Enter Your Full Name"
+                id="full_name"
+                name="full_name"
+                value={formData.full_name}
+                onChange={handleInputChange}
+                className="w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200"
+              />
+            </div>
 
-            <div className="flex flex-col relative">
+            <div className="flex flex-col">
+              <label htmlFor="email" className="text-md mb-4 font-bold">
+                <Translate>Email</Translate>
+              </label>
+              <input
+                type="email"
+                placeholder="Enter Your Email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
+                  error && "border-red-500"
+                }`}
+              />
+            </div>
+            <div className="relative flex flex-col">
               <label htmlFor="password" className=" font-medium">
-                Password
+                <Translate>Password</Translate>
               </label>
               <input
                 type={passwordIcon ? "text" : "password"}
                 name="password"
                 id="password"
-                // value={formData.password}
+                value={formData.password}
                 onChange={handleInputChange}
                 required
-                className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
+                placeholder="at least 8 characters"
+                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
                   error && "border-red-500"
                 }`}
               />
 
               <button
                 type="button"
-                className="absolute cursor-pointer top-[65%] translate-y-[-50%] right-2"
+                className={`absolute ${
+                  selectedLanguage === "ar" ? "left-2" : "right-2"
+                } top-[65%] translate-y-[-50%] cursor-pointer`}
                 onClick={togglePasswordIcon}
               >
                 {passwordIcon ? (
@@ -313,18 +212,19 @@ const SignUpPage = ({ params }) => {
 
             <div className="flex flex-col">
               <label htmlFor="password_confirmation" className=" font-medium">
-                Confirm Password
+                <Translate>Confirm Password</Translate>
               </label>
               <input
                 type={passwordIcon ? "text" : "password"}
                 name="password_confirmation"
                 id="password_confirmation"
+                placeholder="confirm your password"
                 value={password_confirmation}
                 onChange={(event) =>
                   setPassword_confirmation(event.target.value)
                 }
                 required
-                className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
+                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
                   error && "border-red-500"
                 }`}
               />
@@ -332,22 +232,28 @@ const SignUpPage = ({ params }) => {
 
             <div className="flex flex-col">
               <label htmlFor="country" className=" font-medium">
-                Country
+                <Translate>Select Your Country</Translate>
               </label>
               <div>
                 <SelectInputNoLabel
                   options={countries}
-                  value={InputValues.country}
+                  value={[
+                    {
+                      value: formData.country || "Select your country",
+                      label: formData.country || "Select your country",
+                    },
+                  ]}
                   name="country"
                   onChange={handleSelectChange}
                   placeholder="Select country"
+                  isLoading={isCountriesLoading}
                 />
               </div>
             </div>
 
             <div className="flex flex-col">
               <label htmlFor="subscription_type" className=" font-medium">
-                Subscription Duration
+                <Translate>Subscription Type</Translate>
               </label>
               <div>
                 <SelectInputNoLabel
@@ -356,9 +262,11 @@ const SignUpPage = ({ params }) => {
                   value={[
                     {
                       value:
-                        InputValues.subscription_type ||
+                        formData.subscription_type ||
                         "Select subscription type",
-                      label: InputValues.subscription_type,
+                      label:
+                        formData.subscription_type ||
+                        "Select subscription type",
                     },
                   ]}
                   onChange={handleSelectChange}
@@ -368,7 +276,7 @@ const SignUpPage = ({ params }) => {
             </div>
             <div className="flex flex-col">
               <label htmlFor="subscription_period" className="font-medium">
-                Subscription Period
+                <Translate>Subscription Duration</Translate>
               </label>
               <div>
                 <SelectInputNoLabel
@@ -381,9 +289,11 @@ const SignUpPage = ({ params }) => {
                   value={[
                     {
                       value:
-                        InputValues.subscription_period ||
+                        formData.subscription_period ||
                         "Select subscription period",
-                      label: InputValues.subscription_period,
+                      label:
+                        formData.subscription_period ||
+                        "Select subscription period",
                     },
                   ]}
                   onChange={handleSelectChange}
@@ -392,40 +302,54 @@ const SignUpPage = ({ params }) => {
               </div>
             </div>
             {error && (
-              <div className="text-xs  flex flex-col text-red-500 mx-4">
+              <div className="mx-4  flex flex-col text-xs text-red-500">
                 {error.map((err, key) => {
                   return <p key={key}>*{err}</p>;
                 })}
               </div>
             )}
-            <div className="flex justify-center">
-              <Button
-                type="submit"
-                disabled={loading}
-                content={
-                  loading ? (
-                    <LoadingComponent />
-                  ) : (
-                    <div className="flex items-center">
-                      <FaUserPlus size={20} className="mr-2" />
-                      Sign up
-                    </div>
-                  )
-                }
-              />
-            </div>
-
-            <div className="text-center my-4">
-              Already have an account?{" "}
-              <Link
-                href="/auth/login"
-                className="text-blue-500 hover:underline underline-offset-4"
-              >
-                Log in
-              </Link>
-            </div>
+          </div>
+          <div className="mt-6 flex flex-col gap-3 text-center">
+            <Button
+              type="submit"
+              disabled={loading}
+              content={
+                loading ? (
+                  <LoadingComponent />
+                ) : (
+                  <div className="flex items-center">
+                    <FaUserPlus size={20} className="mr-2" />
+                    <Translate>Sign Up</Translate>
+                  </div>
+                )
+              }
+            />
+            <p className="text-xl">OR</p>
+            <Button
+              onClick={handleGoogleSignIn}
+              content={"Sign Up with Google"}
+              type="button"
+              filled
+              icon={<FcGoogle size={27} />}
+            />
+            <Button
+              onClick={handleFacebookSignIn}
+              content={"Sign Up with Facebook"}
+              type="button"
+              filled
+              icon={<FaFacebook size={27} />}
+            />
           </div>
         </form>
+        <div className="my-4 text-center">
+          <Translate>Already have an account?</Translate>{" "}
+          <Link
+            href="/auth/login"
+            className="text-blue-500 underline-offset-4 hover:underline"
+          >
+            <Translate>Log in</Translate>
+          </Link>
+        </div>
       </div>
     </section>
   );

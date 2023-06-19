@@ -17,9 +17,10 @@ import {
 import { toast } from "react-toastify";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
-
+import { useCountries } from "@/context/CountriesContext";
 const RegisterDoctorPage = () => {
-  const [countries, setCountries] = useState([]);
+  const { countries, isCountriesLoading } = useCountries();
+
   const { uploadedPhoto } = usePhoto();
   const { data: session } = useSession();
   const [token, setToken] = useState("");
@@ -28,22 +29,7 @@ const RegisterDoctorPage = () => {
       setToken(session.user.token);
     }
   }, [session]);
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
-        const countryOptions = data.map((country) => ({
-          value: country.cca3,
-          label: country.name.common,
-        }));
-        setCountries(countryOptions);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCountries();
-  }, []);
+
   const genderOptions = [
     { value: "male", label: "Male" },
     { value: "female", label: "Female" },
@@ -153,7 +139,7 @@ const RegisterDoctorPage = () => {
     <section className="px-10">
       <Header imageUploader headerText="Add New Doctor" />
       <form className={`${isValid}`} onSubmit={handleSubmit} noValidate>
-        <div className=" my-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className=" my-8 grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="flex flex-col gap-4">
             <Input
               labelText="center_id"
@@ -265,12 +251,12 @@ const RegisterDoctorPage = () => {
               name="nationality"
               value={[
                 {
-                  value: nationality,
-                  label: nationality,
+                  value: nationality||"Select your nationality",
+                  label: nationality||"Select your nationality",
                 },
               ]}
               onChange={onSelectInputChange}
-              placeholder="Select nationality"
+              isLoading={isCountriesLoading}
             />
             <SelectInput
               labelText="Gender"
@@ -278,8 +264,8 @@ const RegisterDoctorPage = () => {
               name="gender"
               value={[
                 {
-                  value: gender,
-                  label: gender,
+                  value: gender||"Select your gender",
+                  label: gender||"Select your gender",
                 },
               ]}
               onChange={onSelectInputChange}
@@ -321,7 +307,7 @@ const RegisterDoctorPage = () => {
             icon={<FaHome />}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-5">
+        <div className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2">
           <Input
             labelText="full brief"
             name="full_brief"
@@ -339,7 +325,7 @@ const RegisterDoctorPage = () => {
             type="textarea"
           />
         </div>
-        <div className="flex items-center justify-center gap-5 my-5">
+        <div className="my-5 flex items-center justify-center gap-5">
           <Button content="Cancel" type="button" onClick={cancelFormSubmit} />
           <Button content="Add Doctor" type="submit" filled />
         </div>

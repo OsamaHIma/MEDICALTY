@@ -2,7 +2,8 @@
 import Button from "@/components/Button";
 
 import Header from "@/components/Header";
-import {Input} from "@/components/Input";
+import { Input, SelectInput } from "@/components/Input";
+import { useCountries } from "@/context/CountriesContext";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -21,12 +22,10 @@ import {
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const InsruanceCompany = () => {
- 
-
-  
+const InsuranceCompany = () => {
   const { data: session } = useSession();
   const [token, setToken] = useState("");
+  const { countries, isCountriesLoading } = useCountries();
   useEffect(() => {
     if (session) {
       setToken(session.user.token);
@@ -75,14 +74,15 @@ const InsruanceCompany = () => {
     snapChat_link,
     youtube_link,
     twitter_link,
-    description
+    description,
   } = formFields;
-
   const onChange = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
-
+  const onSelectInputChange = ({ value }, { name }) => {
+    setFormFields({ ...formFields, [name]: value });
+  };
   const resetFormFields = () => {
     setFormFields(defaultProps);
   };
@@ -93,7 +93,7 @@ const InsruanceCompany = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          token:  token,
+          token: token,
         },
         body: JSON.stringify({ ...formFields, image: uploadedPhoto }),
       });
@@ -136,10 +136,10 @@ const InsruanceCompany = () => {
         // chooseInputText="Choose Employee"
         imageUploader
       />
-      <div className="px-10 flex flex-col gap-6">
+      <div className="flex flex-col gap-6 px-10">
         <form onSubmit={handleSubmit} className={`${isValid}`} noValidate>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px]">
-            <div className="flex flex-col gap-[23px] flex-1">
+          <div className="grid grid-cols-1 gap-[52px] md:grid-cols-2">
+            <div className="flex flex-1 flex-col gap-[23px]">
               <Input
                 labelText="Company Name"
                 icon={<FaBuilding />}
@@ -155,7 +155,6 @@ const InsruanceCompany = () => {
                 value={company_id}
                 onChange={onChange}
                 type="number"
-
                 required
               />
               <Input
@@ -192,7 +191,7 @@ const InsruanceCompany = () => {
                 type="email"
               />
             </div>
-            <div className="flex flex-col gap-[23px] mb-5 flex-1">
+            <div className="mb-5 flex flex-1 flex-col gap-[23px]">
               <Input
                 labelText="Official Email"
                 placeHolder="Official Email for the company"
@@ -202,12 +201,20 @@ const InsruanceCompany = () => {
                 icon={<FaEnvelope />}
                 required
               />
-              <Input
-                labelText="Country"
+
+              <SelectInput
+                labelText="country"
+                options={countries}
                 name="country"
-                value={country}
-                onChange={onChange}
-                required
+                value={[
+                  {
+                    value: country || "Select your country",
+                    label: country || "Select your country",
+                  },
+                ]}
+                onChange={onSelectInputChange}
+                placeholder="Select country"
+                isLoading={isCountriesLoading}
               />
               <Input
                 labelText="Address 1"
@@ -245,12 +252,11 @@ const InsruanceCompany = () => {
                 value={zipCode}
                 onChange={onChange}
                 type="number"
-
                 required
               />
             </div>
           </div>
-          <div className="flex gap-7 flex-col mb-7">
+          <div className="mb-7 flex flex-col gap-7">
             <Input
               name="twitter_link"
               value={twitter_link}
@@ -301,10 +307,11 @@ const InsruanceCompany = () => {
             labelText="Description"
             name="description"
             value={description}
-            onChange={onChange}type="textarea"
+            onChange={onChange}
+            type="textarea"
             required
           />
-          <div className="flex justify-between flex-wrap gap-3 !my-11">
+          <div className="!my-11 flex flex-wrap justify-between gap-3">
             <Button
               content="Cancel"
               additionalClasses="w-full md:w-auto"
@@ -330,4 +337,4 @@ const InsruanceCompany = () => {
   );
 };
 
-export default InsruanceCompany;
+export default InsuranceCompany;

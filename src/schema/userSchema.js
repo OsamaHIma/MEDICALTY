@@ -1,26 +1,40 @@
-import { object, string, } from "yup";
+import { object, string } from "yup";
 
 export const loginUserSchema = object().shape({
-  email: string().email().required("Please Enter Email"),
+  email: string()
+    .email("Please enter a valid email address.")
+    .matches(
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      "Please enter a valid email address."
+    ),
   password: string()
     .required("No password provided.")
     .min(6, "Password is too short - should be 6 chars minimum."),
 });
 
 export const signUpSchema = object().shape({
-  name: string().required("Please Enter Your Name"),
-  centerName: string().required("Please Enter Your Center Name"),
-  email: string().email().required("Please Enter Email"),
+  full_name: string()
+    .required("Please enter your name.")
+    .matches(
+      /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/,
+      "Please enter a valid name."
+    ),
+  email: string()
+    .email("Please enter a valid email address.")
+    .matches(
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      "Please enter a valid email address."
+    ),
   password: string()
-    .required("No password provided.")
-    .min(8, "Password is too short - should be 8 chars minimum."),
-  country: string().required("Please Enter Your Country Name"),
-  subscriptionType: string().oneOf(
-    ["medical_center", "doctor", "nurse", "physical_therapy"],
-    "Please Select a Subscription Type"
+    .required("Please enter a password.")
+    .min(8, "Password should be at least 8 characters long."),
+  country: string().required("Please select your country."),
+  subscription_type: string().oneOf(
+    ["Basic", "Premium"],
+    "Please select a subscription type."
   ),
-  subscriptionDuration: string().oneOf(
-    ["free_trial", "monthly", "yearly"],
-    "Please Select a Subscription Duration"
+  subscription_period: string().oneOf(
+    ["Free_trial", "Month", "Year"],
+    "Please select a subscription period."
   ),
 });

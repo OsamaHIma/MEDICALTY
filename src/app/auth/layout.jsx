@@ -1,15 +1,27 @@
-'use client'
+"use client";
 import Image from "next/image";
 import ToggleThemeBtn from "@/components/ToggleThemeBtn";
 import LanguageSelector from "@/components/LanguageSelector";
+import { Poppins, Cairo } from "next/font/google";
 import { useLanguage } from "@/context/LanguageContext";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+const cairo = Cairo({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 const Layout = ({ children }) => {
   const { selectedLanguage } = useLanguage();
 
   return (
     <div
-      className=" max-w-[1400px] mx-auto min-h-[100vh] "
+      className={`${
+        selectedLanguage === "ar" ? cairo.className : poppins.className
+      } max-w-[1400px] mx-auto min-h-[100vh]`}
       dir={selectedLanguage === "ar" ? "rtl" : "ltr"}
     >
       <div className="flex   min-h-[100vh] ">

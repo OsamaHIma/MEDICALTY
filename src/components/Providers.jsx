@@ -4,8 +4,9 @@ import { ToastContainer } from "react-toastify";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import { PhotoProvider } from "@/context/PhotoContext";
 import { LanguageProvider } from "@/context/LanguageContext";
-import "react-toastify/dist/ReactToastify.css";
+import { CountriesProvider } from "@/context/CountriesContext";
 import { SessionProvider } from "next-auth/react";
+import "react-toastify/dist/ReactToastify.css";
 
 const Providers = ({ children }) => {
   return (
@@ -14,7 +15,9 @@ const Providers = ({ children }) => {
       <ProSidebarProvider>
         <SessionProvider>
           <LanguageProvider>
-            <PhotoProvider>{children}</PhotoProvider>
+            <CountriesProvider>
+              <PhotoProvider>{children}</PhotoProvider>
+            </CountriesProvider>
           </LanguageProvider>
         </SessionProvider>
       </ProSidebarProvider>

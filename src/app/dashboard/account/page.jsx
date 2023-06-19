@@ -7,91 +7,83 @@ import { useDropzone } from "react-dropzone";
 import { MdGroup, MdSupervisorAccount, MdMailOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
+import { useCountries } from "@/context/CountriesContext";
+import SelectInputNoLabel from "@/components/SelectInputNoLabel";
+
 const MyAccount = () => {
   // State variables
-  const [options, setOptions] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const { countries, isCountriesLoading } = useCountries();
   const { data: session } = useSession();
   const [token, setToken] = useState("");
-  const [user, setUser] = useState({});
-  const [userId, setUserId] = useState({});
-  const [updatedUser, setUpdatedUser] = useState({});
+  const [user, setUser] = useState({
+    // "logo": "data:image/https://example.com/logo.png",
+    name: "Example Center",
+    username: "example_center",
+    email: "d@1aexample.ccom",
+    password: "password123",
+    country: "US",
+    subscription_type: "Basic",
+    subscription_period: "Month",
+    formal_email: "example@example.com",
+    phone: "555-1234",
+    formal_phone: "555-5678",
+    website: "https://example.com",
+    address1: "123 Main St",
+    address2: "Apt 4",
+    state: "CA",
+    province: "California",
+    zip_code: "90210",
+    facebook: "https://www.facebook.com/example",
+    instagram: "https://www.instagram.com/example",
+    twitter: "https://www.twitter.com/example",
+    snapchat: "https://www.snapchat.com/example",
+    youtube: "https://www.youtube.com/channel/example",
+  });
   const [isEditing, setIsEditing] = useState(false);
+  const onChangeInput = (event) => {
+    console.log(event.target);
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
   // Input component
-  const InputField = ({ label, placeholder, type = "text", defaultValue }) => {
-    const [value, setValue] = useState(defaultValue);
+  const InputField = ({ label, placeholder, type = "text", value }) => {
     return (
       <div className="mb-6">
-        <label htmlFor={label} className="block mb-2">
+        <label htmlFor={label} className="mb-2 block capitalize">
           {label}
         </label>
-        <div className="border-b-2 border-green-200 dark:border-slate-700 pt-2 pb-3">
+        <div className="border-b-2 border-green-200 pb-3 pt-2 dark:border-slate-700">
           <input
             type={type}
-            id={label}
-            className={`w-full bg-transparent border-none focus:outline-none ${
-              value && "pt-2"
-            }`}
+            id={value}
+            className={`w-full border-none bg-transparent  focus:outline-none`}
             placeholder={placeholder}
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={onChangeInput}
             disabled={!isEditing}
           />
         </div>
       </div>
     );
   };
-  // Fetch user data
-  const fetchUser = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user/${userId}`,
-        {
-          headers: {
-            method: "GET",
-            "Content-Type": "application/json",
-            token:  token,
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-      const { user } = await response.json();
-      setUser(user);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+
   // Set token and user on session change
   useEffect(() => {
     if (session) {
       setToken(session.user.token);
-      setUserId(session.user.user.id || 3);
-      fetchUser();
     }
   }, [session]);
-  // Update user state when user changes
-  useEffect(() => {
-    setUpdatedUser(user);
-  }, [user]);
-  // Update user state on field change
-  const handleUpdateUser = (field, value) => {
-    setUser((prevState) => ({
-      ...prevState,
-      [field]: value,
-    }));
-  };
+
   // Save changes to user data
   const handleSaveChanges = () => {
-    console.log(updatedUser);
+    console.log(user);
     fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user/${user.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        token:  token,
+        token: token,
       },
-      body: JSON.stringify(updatedUser),
+      body: JSON.stringify(user),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -104,16 +96,14 @@ const MyAccount = () => {
         console.log(error);
       });
   };
-  // Profile picture editing
-  // const [isEditingProfilePicture, setIsEditingProfilePicture] = useState(false);
-  // const handleProfilePictureEditClick = () => {
-  //   setIsEditingProfilePicture(true);
-  // };
+  const onSelectInputChange = ({ value }, { name }) => {
+    setUser({ ...user, [name]: value });
+  };
   // Handle file drop for profile picture
   const onDrop = useCallback((acceptedFiles, fileRejections) => {
     if (acceptedFiles.length) {
       const imageUrl = URL.createObjectURL(acceptedFiles[0]);
-      setUpdatedUser((prevState) => ({
+      setUser((prevState) => ({
         ...prevState,
         image: imageUrl,
       }));
@@ -129,78 +119,29 @@ const MyAccount = () => {
     accept: { [`image/*`]: [] },
     maxFiles: 1,
   });
-  // Fetch countries for nationality selection
-  useEffect(() => {
-    setLoading(true);
-    const fetchCountries = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
-        const countryOptions = data.map((country) => ({
-          value: country.cca3,
-          label: country.name.common,
-        }));
-        setOptions(countryOptions);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCountries();
-  }, []);
-  const SelectField = ({ label, options, defaultValue, ...rest }) => {
-    const [selectedOption, setSelectedOption] = useState({});
-    const [value, setValue] = useState(defaultValue);
-    const handelSelectedOption = (option, { name }) => {
-      setSelectedOption(option);
-      setUpdatedUser((prevState) => ({
-        ...prevState,
-        [name]: option.value,
-      }));
-      console.log("selectedOption" + selectedOption);
-    };
-    return (
-      <div className="mb-6 ">
-        <label htmlFor={label} className="block mb-2">
-          {label}
-        </label>
-        <Select
-          options={options}
-          value={selectedOption}
-          placeholder="select"
-          defaultInputValue={value}
-          onChange={handelSelectedOption}
-          className="w-full text-slate-700 "
-          required
-          isDisabled={!isEditing}
-          {...rest}
-        />
-      </div>
-    );
-  };
   return (
     <div className="container px-10 py-12">
-      <h1 className="text-3xl font-bold mb-6">Account Information</h1>
-      <div className="flex items-center space-x-4 mb-8">
-        <div className="w-20 h-20 relative" {...getRootProps()}>
+      <h1 className="mb-6 text-3xl font-bold">Account Information</h1>
+      <div className="mb-8 flex items-center space-x-4">
+        <div className="relative h-20 w-20" {...getRootProps()}>
           <input {...getInputProps()} />
-          {updatedUser.image ? (
+          {user.image ? (
             <img
-              src={updatedUser.image}
-              alt={updatedUser.name}
-              className="w-full h-full object-cover rounded-full"
+              src={user.image}
+              alt={user.name}
+              className="h-full w-full rounded-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gray-200 rounded-full flex justify-center items-center text-gray-500 font-bold text-xl">
-              {updatedUser?.name && (
-                <div className="w-full h-full bg-gray-200 rounded-full flex justify-center items-center text-gray-500 font-bold text-xl">
-                  {updatedUser.name.charAt(0).toUpperCase()}
+            <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
+              {user?.name && (
+                <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
+                  {user.name.charAt(0).toUpperCase()}
                 </div>
               )}
             </div>
           )}
           {isEditing && (
-            <div className="absolute bottom-0 right-0 p-1 bg-green-500 rounded-full cursor-pointer">
+            <div className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-green-500 p-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -209,7 +150,7 @@ const MyAccount = () => {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="w-5 h-5 text-white"
+                className="h-5 w-5 text-white"
               >
                 <path d="M12 20v-6m0-4V4M4 8l16 0m-8 12l0-6"></path>
               </svg>
@@ -217,123 +158,165 @@ const MyAccount = () => {
           )}
         </div>
         <div className="flex-1">
-          <h2 className="text-2xl font-bold mb-2">{user.name}</h2>
-          <p className="px-4 w-full rounded-tr-md rounded-tl-md bg-green-50 dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
+          <h2 className="mb-2 text-2xl font-bold">{user.name}</h2>
+          <p className="w-full rounded-tl-md rounded-tr-md bg-green-50 px-4 py-2 text-gray-500 focus:outline-gray-200 dark:bg-slate-800 dark:text-slate-200">
             <MdMailOutline
               size={24}
-              className="inline-block mr-2 text-green-500"
+              className="mr-2 inline-block text-green-500"
             />
             {user.email}
           </p>
           {user.type === "admin" ? (
-            <p className="px-4 w-full bg-green-50 dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
+            <p className="w-full bg-green-50 px-4 py-2 text-gray-500 focus:outline-gray-200 dark:bg-slate-800 dark:text-slate-200">
               <MdSupervisorAccount
                 size={24}
-                className="inline-block mr-2 text-green-500"
+                className="mr-2 inline-block text-green-500"
               />
               Admin
             </p>
           ) : (
-            <p className="px-4 w-full bg-green-50 dark:bg-slate-800 dark:text-slate-200 focus:outline-gray-200 py-2 text-gray-500">
-              <MdGroup size={24} className="inline-block mr-2 text-green-500" />
+            <p className="w-full bg-green-50 px-4 py-2 text-gray-500 focus:outline-gray-200 dark:bg-slate-800 dark:text-slate-200">
+              <MdGroup size={24} className="mr-2 inline-block text-green-500" />
               Employee
             </p>
           )}
         </div>
       </div>
-      <h3 className="py-2 w-full rounded-md dark:text-slate-200 font-bold mb-4">
+      <h3 className="mb-4 w-full rounded-md py-2 font-bold dark:text-slate-200">
         Personal Information:
       </h3>
       <div className="grid gap-8 lg:grid-cols-2">
-        <InputField
+        {Object.entries(user)
+          .filter(
+            ([key]) =>
+              !["country", "nationality", "image", "gender"].includes(key)
+          )
+          .map(([key, value]) => {
+            const label = key.replace(/_/g, " ");
+            const placeholder = `Enter your ${key.replace(/_/g, " ")}`;
+            return (
+              <InputField
+                key={key}
+                label={label}
+                placeholder={placeholder}
+                value={user[key]}
+              />
+            );
+          })}
+        {/* <InputField
           label="Full name"
           placeholder="Enter your full name"
-          defaultValue={user.fullName}
-          onChange={(e) => handleUpdateUser("fullName", e.target.value)}
+          value={user.fullName}
         />
         <InputField
           label="Email"
           placeholder="Enter your email"
           type="email"
-          defaultValue={user.email}
-          onChange={(e) => handleUpdateUser("email", e.target.value)}
+          value={user.email}
         />
         <InputField
-          label="@username"
+          label="Username"
           placeholder="Enter your username"
-          defaultValue={user.username}
-          onChange={(e) => handleUpdateUser("username", e.target.value)}
+          value={user.username}
         />
         <InputField
           label="Date of birth"
           placeholder="DD/MM/YYYY"
           type="date"
-          defaultValue={user.dateOfBirth}
-          onChange={(e) => handleUpdateUser("dateOfBirth", e.target.value)}
+          value={user.dateOfBirth}
         />
         <InputField
           label="National number"
           placeholder="Enter your national number"
           type="number"
-          defaultValue={user.nationalNumber}
-          onChange={(e) => handleUpdateUser("nationalNumber", e.target.value)}
+          value={user.nationalNumber}
         />
         <InputField
           label="Phone number"
           placeholder="Enter your phone number"
           type="tel"
-          defaultValue={user.phoneNumber}
-          onChange={(e) => handleUpdateUser("phoneNumber", e.target.value)}
+          value={user.phoneNumber}
         />
         <InputField
           label="Home address"
           placeholder="Enter your home address"
-          defaultValue={user.homeAddress}
-          onChange={(e) => handleUpdateUser("homeAddress", e.target.value)}
+          value={user.homeAddress}
         />
         <InputField
           label="Height (cm)"
           placeholder="Enter your height in cm"
           type="number"
-          defaultValue={user.height}
-          onChange={(e) => handleUpdateUser("height", e.target.value)}
+          value={user.height}
         />
         <InputField
           label="Weight (kg)"
           placeholder="Enter your weight in kg"
           type="number"
-          defaultValue={user.weight}
-          onChange={(e) => handleUpdateUser("weight", e.target.value)}
-        />
-        <SelectField
-          label="Blood type"
-          name="blood-type"
-          defaultValue={user.blood_type}
-          options={[
-            { value: "A+", label: "A+" },
-            { value: "A-", label: "A-" },
-            { value: "B+", label: "B+" },
-            { value: "B-", label: "B-" },
-            { value: "O+", label: "O+" },
-            { value: "O-", label: "O-" },
-          ]}
-        />
-        <SelectField
-          label="Gender"
-          name="gender"
-          defaultValue={user.gender}
-          options={[
-            { value: "male", label: "Male" },
-            { value: "female", label: "Female" },
-          ]}
-        />
-        <SelectField
-          label="Nationality"
-          isLoading={isLoading}
-          name="nationality"
-          options={options}
-          defaultValue={user.country}
-        />
+          value={user.weight}
+        /> */}
+        <div className="mb-6 ">
+          <label htmlFor="blood_type" className="mb-2 block">
+            Blood type
+          </label>
+          <SelectInputNoLabel
+            onChange={onSelectInputChange}
+            isDisabled={!isEditing}
+            name="blood_type"
+            value={[
+              {
+                value: user.blood_type || "Select your blood type",
+                label: user.blood_type || "Select your blood type",
+              },
+            ]}
+            options={[
+              { value: "A+", label: "A+" },
+              { value: "A-", label: "A-" },
+              { value: "B+", label: "B+" },
+              { value: "B-", label: "B-" },
+              { value: "O+", label: "O+" },
+              { value: "O-", label: "O-" },
+            ]}
+          />
+        </div>
+        <div className="mb-6 ">
+          <label htmlFor="gender" className="mb-2 block">
+            Gender
+          </label>
+          <SelectInputNoLabel
+            onChange={onSelectInputChange}
+            isDisabled={!isEditing}
+            label="Gender"
+            name="gender"
+            value={[
+              {
+                value: user.gender || "Select your gender",
+                label: user.gender || "Select your gender",
+              },
+            ]}
+            options={[
+              { value: "Male", label: "Male" },
+              { value: "Female", label: "Female" },
+            ]}
+          />
+        </div>
+        <div className="mb-6 ">
+          <label htmlFor="nationality" className="mb-2 block">
+            Nationality
+          </label>
+          <SelectInputNoLabel
+            onChange={onSelectInputChange}
+            isDisabled={!isEditing}
+            isLoading={isCountriesLoading}
+            name="nationality"
+            options={countries}
+            value={[
+              {
+                value: user.nationality || "Select your nationality",
+                label: user.nationality || "Select your nationality",
+              },
+            ]}
+          />
+        </div>
       </div>
       <div className="flex justify-end">
         {isEditing ? (
