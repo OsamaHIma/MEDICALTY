@@ -13,6 +13,7 @@ import {
 import { useTheme } from "next-themes";
 import { FiMonitor, FiMoon, FiSun } from "react-icons/fi";
 import { BsMoonStarsFill } from "react-icons/bs";
+// import { signOut as nextAuthSignOut, useSession } from "next-auth/react";
 import { signOut, useSession } from "next-auth/react";
 import LoadingComponent from "@/components/Loading";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -23,19 +24,35 @@ const CustomSidebar = () => {
   const { setTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [userType, setUserType] = useState("admin");
+  const [token, setToken] = useState("");
   const { data: session } = useSession();
-  const [userType, setUserType] = useState("");
   useEffect(() => {
     if (session) {
       setUserType(session.user.userType);
-      console.log(userType);
+      setToken(session.user.token);
     }
   }, [session]);
+  // const signOut = async (data) => {
+  //   const response = await fetch("/api/auth/signout", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       token:token,
+  //     },
+  //     body: JSON.stringify(data),
+  //   });
+  //   if (response.ok) {
+  //     await nextAuthSignOut();
+  //   } else {
+  //     throw new Error("Failed to sign out");
+  //   }
+  // };
   const handleSignOut = async () => {
     setLoading(true);
-
     try {
-      await signOut({ body: { userType } });
+      // await signOut({ userType,token });
+      await signOut();
       setLoading(false);
       setShowModal(false);
       location.reload();

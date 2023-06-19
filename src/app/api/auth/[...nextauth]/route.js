@@ -64,7 +64,7 @@ const SignIn = async (email, password, userType) => {
     );
     return data;
   } catch (resp) {
-    return resp.response.data.message;
+    return resp.response.msg;
   }
 };
 

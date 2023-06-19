@@ -4,11 +4,22 @@ import { MdVisibilityOff, MdWavingHand, MdVisibility } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { signUpSchema } from "@/schema/userSchema";
 import { useRouter } from "next/navigation";
-import Select from "react-select";
 import Button from "@/components/Button";
 import LoadingComponent from "@/components/Loading";
+import SelectInputNoLabel from "@/components/SelectInputNoLabel";
+import { useSession } from "next-auth/react";
+
+const defaultProps = {
+  name: "",
+  centerName: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+  country: "",
+  subscriptionType: "",
+  subscriptionDuration: "",
+};
 const doctorProps = {
   center_id: "",
   department_id: "",
@@ -28,21 +39,32 @@ const doctorProps = {
   experience_years: "",
   salary: "",
   gender: "",
+  nationality: "",
 };
-const defaultProps = {
+const centerProps = {
   name: "",
-  centerName: "",
+  username: "",
+  phone: "",
+  formal_phone: "",
+  website: "",
   email: "",
-  password: "",
-  password_confirmation: "",
+  formal_email: "",
   country: "",
-  subscriptionType: "",
-  subscriptionDuration: "",
+  address1: "",
+  address2: "",
+  province: "",
+  state: "",
+  zip_code: "",
+  facebook: "",
+  twitter: "",
+  youtube: "",
+  instagram: "",
+  snapchat: "",
 };
 
 const getInitialFormData = (type) => {
   switch (type) {
-    case "medical_center":
+    case "center":
       return defaultProps;
       break;
     case "doctor":
@@ -60,30 +82,26 @@ const getInitialFormData = (type) => {
     // case "hospital":
     //   return hospitalProps || defaultProps;
     //   break;
-    // case "center":
-    //   return centerProps || defaultProps;
-    //   break;
+    case "center":
+      return centerProps;
+      break;
     default:
       defaultProps;
       break;
   }
 };
+
 const SignUpPage = ({ params }) => {
   const { type } = params;
-
-  const subscriptionDurationOptions = [
-    { value: "free_trial", label: "Free Trial" },
-    { value: "monthly", label: "Monthly" },
-    { value: "yearly", label: "Yearly" },
-  ];
-
-  const subscriptionTypeOptions = [
-    { value: "medical_center", label: "Medical Center" },
-    { value: "doctor", label: "Doctor" },
-    { value: "nurse", label: "Nurse" },
-  ];
-
+  const [token, setToken] = useState("");
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (session) {
+      setToken(session.user.token);
+    }
+  }, [session]);
   const [countries, setCountries] = useState([]);
+  const [password_confirmation, setPassword_confirmation] = useState("");
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -111,8 +129,8 @@ const SignUpPage = ({ params }) => {
   const [passwordIcon, setPasswordIcon] = useState(false);
   const [InputValues, setInputValues] = useState({
     country: {},
-    subscriptionType: {},
-    subscriptionDuration: {},
+    subscription_period: "",
+    subscription_type: "",
   });
 
   const togglePasswordIcon = () => {
@@ -141,21 +159,24 @@ const SignUpPage = ({ params }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (formData.password !== formData.password_confirmation) {
-      toast.error("Passwords do not match.");
-      return;
-    }
+    // if (formData.password !== password_confirmation) {
+    //   toast.error("Passwords do not match.");
+    //   return;
+    // }
 
     setError(null);
     try {
       setLoading(true);
       console.log(formData);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/access-tokens/register`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/${
+          userType === "admin" ? "center/admin" : userType
+        }/save`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            token: token,
           },
           body: JSON.stringify(formData),
         }
@@ -175,7 +196,7 @@ const SignUpPage = ({ params }) => {
   const renderMedicalCenterInputs = () => {
     return (
       <>
-        {Object.keys(defaultProps).map((key) => (
+        {Object.keys(centerProps).map((key) => (
           <div key={key} className="flex flex-col">
             <label htmlFor={key} className="font-medium">
               {key.replace("_", " ")}
@@ -257,7 +278,7 @@ const SignUpPage = ({ params }) => {
         <h1 className="text-3xl font-bold  mb-4">Sign up</h1>
         <form onSubmit={handleSubmit} noValidate>
           <div className="flex flex-col gap-4">
-            {type === "medical_center" && renderMedicalCenterInputs()}
+            {type === "center" && renderMedicalCenterInputs()}
             {type === "doctor" && renderDoctorInputs()}
             {type === "nurse" && renderNurseInputs()}
 
@@ -298,8 +319,10 @@ const SignUpPage = ({ params }) => {
                 type={passwordIcon ? "text" : "password"}
                 name="password_confirmation"
                 id="password_confirmation"
-                // value={formData.password_confirmation}
-                onChange={handleInputChange}
+                value={password_confirmation}
+                onChange={(event) =>
+                  setPassword_confirmation(event.target.value)
+                }
                 required
                 className={`px-4 w-full rounded-md dark:bg-slate-800 dark:placeholder:text-slate-200 focus:outline-gray-200 py-2 ${
                   error && "border-red-500"
@@ -312,47 +335,59 @@ const SignUpPage = ({ params }) => {
                 Country
               </label>
               <div>
-                <Select
+                <SelectInputNoLabel
                   options={countries}
                   value={InputValues.country}
                   name="country"
                   onChange={handleSelectChange}
                   placeholder="Select country"
-                  className="mt-1 dark:text-slate-800"
-                  styles={{
-                    control: (provided) => ({
-                      ...provided,
-                      borderRadius: "0.5rem",
-                      borderColor: error?.country
-                        ? "red"
-                        : provided.borderColor,
-                    }),
-                  }}
                 />
               </div>
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="subscriptionDuration" className=" font-medium">
+              <label htmlFor="subscription_type" className=" font-medium">
                 Subscription Duration
               </label>
               <div>
-                <Select
-                  options={subscriptionDurationOptions}
-                  value={InputValues?.subscriptionDuration}
-                  name="subscriptionDuration"
+                <SelectInputNoLabel
+                  options={[{ value: "Basic", label: "Basic" }]}
+                  name="subscription_type"
+                  value={[
+                    {
+                      value:
+                        InputValues.subscription_type ||
+                        "Select subscription type",
+                      label: InputValues.subscription_type,
+                    },
+                  ]}
                   onChange={handleSelectChange}
-                  placeholder="Select subscription duration"
-                  className="mt-1 dark:text-slate-800"
-                  styles={{
-                    control: (provided) => ({
-                      ...provided,
-                      borderRadius: "0.5rem",
-                      borderColor: error?.subscriptionDuration
-                        ? "red"
-                        : provided.borderColor,
-                    }),
-                  }}
+                  placeholder="Select subscription type"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="subscription_period" className="font-medium">
+                Subscription Period
+              </label>
+              <div>
+                <SelectInputNoLabel
+                  options={[
+                    { value: "Free_trail", label: "Free trail" },
+                    { value: "Month", label: "Month" },
+                    { value: "Year", label: "Year" },
+                  ]}
+                  name="subscription_period"
+                  value={[
+                    {
+                      value:
+                        InputValues.subscription_period ||
+                        "Select subscription period",
+                      label: InputValues.subscription_period,
+                    },
+                  ]}
+                  onChange={handleSelectChange}
+                  placeholder="Select subscription period"
                 />
               </div>
             </div>
