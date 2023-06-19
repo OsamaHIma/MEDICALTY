@@ -1,18 +1,17 @@
-'use client';
-import Button from '@/components/Button';
-import Header from '@/components/Header';
-import {Input} from '@/components/Input';
+"use client";
+import Button from "@/components/Button";
+import Header from "@/components/Header";
+import { Input } from "@/components/Input";
 
-
-import { usePhoto } from '@/context/PhotoContext';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import { FaUserAlt } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+import { usePhoto } from "@/context/PhotoContext";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const AddNewSection = () => {
   const { data: session } = useSession();
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
   useEffect(() => {
     if (session) {
       setToken(session.user.token);
@@ -21,9 +20,9 @@ const AddNewSection = () => {
   const { uploadedPhoto } = usePhoto();
 
   const [formFields, setFormFields] = useState({
-    name: '',
-    description: '',
-    section_id: '',
+    name: "",
+    description: "",
+    section_id: "",
   });
 
   const { name, description, section_id } = formFields;
@@ -35,19 +34,19 @@ const AddNewSection = () => {
 
   const resetFormFields = () => {
     setFormFields({
-      name: '',
-      description: '',
-      section_id: '',
+      name: "",
+      description: "",
+      section_id: "",
     });
   };
 
   const handlePostRequest = async () => {
     try {
-      const response = await fetch('/api/department', {
-        method: 'POST',
+      const response = await fetch("/api/department", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          token:  token,
+          "Content-Type": "application/json",
+          token: token,
         },
         body: JSON.stringify({ ...formFields, image: uploadedPhoto }),
       });
@@ -55,7 +54,7 @@ const AddNewSection = () => {
       const data = await response.json();
       console.log(response);
       if (response.ok) {
-        toast.success('Specialization department saved successfully');
+        toast.success("Specialization department saved successfully");
         console.log({ ...formFields, image: uploadedPhoto });
         resetFormFields();
       } else {
@@ -66,22 +65,22 @@ const AddNewSection = () => {
       }
     } catch (error) {
       toast.error(`${error.method}: ${error.message}`);
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
-  const [isValid, setIsValid] = useState('');
+  const [isValid, setIsValid] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!event.target.checkValidity() || !uploadedPhoto) {
       event.stopPropagation();
-      setIsValid('not-validated');
-      toast.error('Please fill in all required fields');
+      setIsValid("not-validated");
+      toast.error("Please fill in all required fields");
       return;
     }
 
-    setIsValid('validated');
+    setIsValid("validated");
     handlePostRequest();
   };
   return (
@@ -92,28 +91,25 @@ const AddNewSection = () => {
         chooseInputText="Choose Employee"
         imageUploader
       />
-      <div className="px-10 flex flex-col gap-6">
+      <div className="flex flex-col gap-6 px-10">
         <form onSubmit={handleSubmit} className={`${isValid}`} noValidate>
-          <div className="flex flex-row gap-[52px] flex-wrap justify-between">
-            <div className="flex flex-col gap-[23px] flex-1">
-              <Input
-                labelText="Name"
-                icon={<FaUserAlt />}
-                name="name"
-                value={name}
-                onChange={onChange}
-                required
-              />
-            </div>
-            <div className="flex flex-col gap-[23px] mb-5 flex-1">
-              <Input
-                labelText="Section id"
-                name="section_id"
-                value={section_id}
-                onChange={onChange}
-                required
-              />
-            </div>
+          <div className="mb-6 grid gap-6 lg:grid-cols-2">
+            <Input
+              labelText="Name"
+              icon={<FaUserAlt />}
+              name="name"
+              value={name}
+              onChange={onChange}
+              required
+            />
+
+            <Input
+              labelText="Section id"
+              name="section_id"
+              value={section_id}
+              onChange={onChange}
+              required
+            />
           </div>
           <Input
             labelText="Job description"
@@ -124,11 +120,8 @@ const AddNewSection = () => {
             onChange={onChange}
             required
           />
-          <div className="flex justify-between flex-wrap gap-3 !my-11">
-            <Button
-              content="Cancel"
-              additionalClasses="w-full md:w-auto"
-            />
+          <div className="!my-11 flex flex-wrap justify-between gap-3">
+            <Button content="Cancel" additionalClasses="w-full md:w-auto" />
             <div className="saveBtns flex flex-wrap gap-2">
               <Button
                 content="save an create another one"
@@ -149,5 +142,4 @@ const AddNewSection = () => {
   );
 };
 
-export default AddNewSection
-    ;
+export default AddNewSection;

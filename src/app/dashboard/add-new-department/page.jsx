@@ -85,7 +85,7 @@ const AddDepartment = () => {
         onSubmit={handleFormSubmit}
         noValidate
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px] mb-3">
+        <div className="mb-6 grid gap-6 lg:grid-cols-2">
           <Input
             ClassesForTheInput="h-12"
             ClassesForTheLabel="h-12 !text-center !py-3"

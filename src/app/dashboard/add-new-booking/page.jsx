@@ -104,7 +104,7 @@ const BookingPage = () => {
         onSubmit={handleFormSubmit}
         noValidate
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px] mb-14">
+        <div className="mb-6 grid gap-6 lg:grid-cols-2">
           <Input
             id="doctor"
             name="doctor"

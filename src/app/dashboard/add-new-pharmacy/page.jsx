@@ -2,7 +2,7 @@
 import Button from "@/components/Button";
 
 import Header from "@/components/Header";
-import {Input} from "@/components/Input";
+import { Input } from "@/components/Input";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -22,9 +22,6 @@ import {
 import { toast } from "react-toastify";
 
 const Pharmacy = () => {
- 
-
-  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -75,7 +72,7 @@ const Pharmacy = () => {
     snapChat_link,
     youtube_link,
     twitter_link,
-    description
+    description,
   } = formFields;
 
   const onChange = (event) => {
@@ -93,7 +90,7 @@ const Pharmacy = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          token:  token,
+          token: token,
         },
         body: JSON.stringify({ ...formFields, image: uploadedPhoto }),
       });
@@ -136,121 +133,116 @@ const Pharmacy = () => {
         // chooseInputText="Choose Employee"
         imageUploader
       />
-      <div className="px-10 flex flex-col gap-6">
+      <div className="flex flex-col gap-6 px-10">
         <form onSubmit={handleSubmit} className={`${isValid}`} noValidate>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px]">
-            <div className="flex flex-col gap-[23px] flex-1">
-              <Input
-                labelText="Pharmacy Name"
-                icon={<FaBuilding />}
-                name="pharmacyName"
-                value={pharmacyName}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="Pharmacy ID"
-                icon={<FaUserAlt />}
-                name="pharmacy_id"
-                value={pharmacy_id}
-                onChange={onChange}
-                type="number"
+          <div className="mb-6 grid gap-6 lg:grid-cols-2">
+            <Input
+              labelText="Pharmacy Name"
+              icon={<FaBuilding />}
+              name="pharmacyName"
+              value={pharmacyName}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="Pharmacy ID"
+              icon={<FaUserAlt />}
+              name="pharmacy_id"
+              value={pharmacy_id}
+              onChange={onChange}
+              type="number"
+              required
+            />
+            <Input
+              labelText="Phone number"
+              icon={<FaPhone />}
+              name="phoneNumber"
+              value={phoneNumber}
+              onChange={onChange}
+              required
+              type="tel"
+            />
+            <Input
+              labelText="Phone number 2"
+              icon={<FaPhone />}
+              name="phoneNumber2"
+              value={phoneNumber2}
+              onChange={onChange}
+              type="tel"
+            />
+            <Input
+              labelText="Website"
+              icon={<FaGlobe />}
+              name="website"
+              value={website}
+              onChange={onChange}
+              type="url"
+            />
+            <Input
+              labelText="Email"
+              icon={<FaEnvelope />}
+              name="email"
+              value={email}
+              onChange={onChange}
+              type="email"
+            />
 
-                required
-              />
-              <Input
-                labelText="Phone number"
-                icon={<FaPhone />}
-                name="phoneNumber"
-                value={phoneNumber}
-                onChange={onChange}
-                required
-                type="tel"
-              />
-              <Input
-                labelText="Phone number 2"
-                icon={<FaPhone />}
-                name="phoneNumber2"
-                value={phoneNumber2}
-                onChange={onChange}
-                type="tel"
-              />
-              <Input
-                labelText="Website"
-                icon={<FaGlobe />}
-                name="website"
-                value={website}
-                onChange={onChange}
-                type="url"
-              />
-              <Input
-                labelText="Email"
-                icon={<FaEnvelope />}
-                name="email"
-                value={email}
-                onChange={onChange}
-                type="email"
-              />
-            </div>
-            <div className="flex flex-col gap-[23px] mb-5 flex-1">
-              <Input
-                labelText="Official Email"
-                placeHolder="Official Email for the pharmacy"
-                name="officialEmail"
-                value={officialEmail}
-                onChange={onChange}
-                icon={<FaEnvelope />}
-                required
-              />
-              <Input
-                labelText="Country"
-                name="country"
-                value={country}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="Address 1"
-                name="address1"
-                value={address1}
-                icon={<FaMapPin />}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="Address 2"
-                name="address2"
-                icon={<FaMapPin />}
-                value={address2}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="State Name"
-                name="stateName"
-                value={stateName}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="County"
-                name="county"
-                value={county}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="Zip code"
-                name="zipCode"
-                value={zipCode}
-                onChange={onChange}
-                type="number"
-
-                required
-              />
-            </div>
+            <Input
+              labelText="Official Email"
+              placeHolder="Official Email for the pharmacy"
+              name="officialEmail"
+              value={officialEmail}
+              onChange={onChange}
+              icon={<FaEnvelope />}
+              required
+            />
+            <Input
+              labelText="Country"
+              name="country"
+              value={country}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="Address 1"
+              name="address1"
+              value={address1}
+              icon={<FaMapPin />}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="Address 2"
+              name="address2"
+              icon={<FaMapPin />}
+              value={address2}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="State Name"
+              name="stateName"
+              value={stateName}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="County"
+              name="county"
+              value={county}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="Zip code"
+              name="zipCode"
+              value={zipCode}
+              onChange={onChange}
+              type="number"
+              required
+            />
           </div>
-          <div className="flex gap-7 flex-col mb-7">
+          <div className="mb-7 flex flex-col gap-7">
             <Input
               name="twitter_link"
               value={twitter_link}
@@ -301,10 +293,11 @@ const Pharmacy = () => {
             labelText="Description"
             name="description"
             value={description}
-            onChange={onChange}type="textarea"
+            onChange={onChange}
+            type="textarea"
             required
           />
-          <div className="flex justify-between flex-wrap gap-3 !my-11">
+          <div className="!my-11 flex flex-wrap justify-between gap-3">
             <Button
               content="Cancel"
               additionalClasses="w-full md:w-auto"

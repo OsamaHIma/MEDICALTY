@@ -99,80 +99,77 @@ const AddLap = () => {
         onSubmit={handleFormSubmit}
         noValidate
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px] mb-3">
-          <div className="flex flex-col gap-4">
-            <Input
-              labelText="center id"
-              placeHolder="center id - from the system"
-              icon={<FaBuilding size={23} />}
-              name="center_id"
-              value={center_id}
-              onChange={onChange}
-              type="number"
-            />
+        <div className="mb-6 grid gap-6 lg:grid-cols-2">
+          <Input
+            labelText="center id"
+            placeHolder="center id - from the system"
+            icon={<FaBuilding size={23} />}
+            name="center_id"
+            value={center_id}
+            onChange={onChange}
+            type="number"
+          />
 
-            <Input
-              labelText="lab Name"
-              placeHolder="lab Name"
-              icon={<HiIdentification size={23} />}
-              name="name"
-              value={name}
-              onChange={onChange}
-            />
-            <Input
-              labelText="username"
-              icon={<HiUserCircle size={23} />}
-              name="username"
-              value={username}
-              onChange={onChange}
-            />
-            <Input
-              labelText="email"
-              placeHolder="email - from the system"
-              icon={<MdEmail size={23} />}
-              name="email"
-              value={email}
-              onChange={onChange}
-              type="email"
-            />
-          </div>
-          <div className="flex flex-col gap-4">
-            <Input
-              labelText="password"
-              icon={<FaKey size={23} />}
-              name="password"
-              value={password}
-              onChange={onChange}
-              type="password"
-              required
-            />
-            <Input
-              labelText="phone number"
-              icon={<FaPhone size={23} />}
-              name="phone"
-              value={phone}
-              onChange={onChange}
-              type="tel"
-            />
-            <Input
-              labelText="website"
-              icon={<FaGlobe size={23} />}
-              name="website"
-              value={website}
-              onChange={onChange}
-              type="url"
-            />
-            <Input
-              labelText="address"
-              icon={<FaUser size={23} />}
-              name="address"
-              value={address}
-              onChange={onChange}
-            />
-          </div>
+          <Input
+            labelText="lab Name"
+            placeHolder="lab Name"
+            icon={<HiIdentification size={23} />}
+            name="name"
+            value={name}
+            onChange={onChange}
+          />
+          <Input
+            labelText="username"
+            icon={<HiUserCircle size={23} />}
+            name="username"
+            value={username}
+            onChange={onChange}
+          />
+          <Input
+            labelText="email"
+            placeHolder="email - from the system"
+            icon={<MdEmail size={23} />}
+            name="email"
+            value={email}
+            onChange={onChange}
+            type="email"
+          />
+
+          <Input
+            labelText="password"
+            icon={<FaKey size={23} />}
+            name="password"
+            value={password}
+            onChange={onChange}
+            type="password"
+            required
+          />
+          <Input
+            labelText="phone number"
+            icon={<FaPhone size={23} />}
+            name="phone"
+            value={phone}
+            onChange={onChange}
+            type="tel"
+          />
+          <Input
+            labelText="website"
+            icon={<FaGlobe size={23} />}
+            name="website"
+            value={website}
+            onChange={onChange}
+            type="url"
+          />
+          <Input
+            labelText="address"
+            icon={<FaUser size={23} />}
+            name="address"
+            value={address}
+            onChange={onChange}
+          />
         </div>
 
-        <div className="flex w-full justify-center mt-5">
+        <div className="mt-5 flex w-full justify-center">
           <Button
             type="submit"
             content="Add lab"

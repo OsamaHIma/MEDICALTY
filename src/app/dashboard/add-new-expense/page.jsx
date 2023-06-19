@@ -10,8 +10,6 @@ import { useSession } from "next-auth/react";
 import { FaFile } from "react-icons/fa";
 
 const Expense = () => {
- 
-
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -54,7 +52,7 @@ const Expense = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          token:  token,
+          token: token,
         },
         body: JSON.stringify(formFields),
       });
@@ -103,49 +101,42 @@ const Expense = () => {
       />
       <div className="px-10">
         <form className={`pb-7 ${isValid}`} onSubmit={handleSubmit} noValidate>
-          <div className="flex gap-6 flex-col">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-[23px] my-[23px]">
-              <Input
-                labelText="Accounting code"
-                placeHolder="Accounting code"
-                icon={<BsPerson />}
-                name="accounting_code"
-                value={accounting_code}
-                onChange={onChange}
-                type="number"
-                required
-              />
+          <div className="mb-6 grid gap-6 lg:grid-cols-2">
+            <Input
+              labelText="Accounting code"
+              placeHolder="Accounting code"
+              icon={<BsPerson />}
+              name="accounting_code"
+              value={accounting_code}
+              onChange={onChange}
+              type="number"
+            />
 
-              <Input
-                labelText="Title"
-                placeHolder="Expense title"
-                icon={<BsFillPersonLinesFill />}
-                name="title"
-                value={title}
-                onChange={onChange}
-                required
-              />
+            <Input
+              labelText="Title"
+              placeHolder="Expense title"
+              icon={<BsFillPersonLinesFill />}
+              name="title"
+              value={title}
+              onChange={onChange}
+            />
 
-              <Input
-                labelText="Time"
-                icon={<BsCalendar />}
-                name="time"
-                value={time}
-                onChange={onChange}
-                type="time"
-                required
-              />
-              <Input
-                labelText="Date"
-                icon={<BsCalendar />}
-                name="date"
-                value={date}
-                onChange={onChange}
-                type="date"
-                required
-              />
-            </div>
-
+            <Input
+              labelText="Time"
+              icon={<BsCalendar />}
+              name="time"
+              value={time}
+              onChange={onChange}
+              type="time"
+            />
+            <Input
+              labelText="Date"
+              icon={<BsCalendar />}
+              name="date"
+              value={date}
+              onChange={onChange}
+              type="date"
+            />
             <Input
               labelText="Amount"
               icon={<BsCalendar />}
@@ -153,7 +144,6 @@ const Expense = () => {
               value={amount}
               onChange={onChange}
               type="number"
-              required
             />
 
             <Input
@@ -163,51 +153,50 @@ const Expense = () => {
               name="description"
               value={description}
               onChange={onChange}
-              required
             />
-            <div className="dropzone-container">
-              <Dropzone
-                onDrop={(acceptedFiles) => {
-                  setFormFields({
-                    ...formFields,
-                    attachment: acceptedFiles[0],
-                  });
-                }}
-              >
-                {({ getRootProps, getInputProps }) => (
-                  <div
-                    {...getRootProps()}
-                    className="dropzone border-2 border-dashed border-gray-400 h-36 p-5 flex gap-3 items-center justify-center text-center"
-                  >
-                    <input {...getInputProps()} />
+          </div>
+          <div className="dropzone-container">
+            <Dropzone
+              onDrop={(acceptedFiles) => {
+                setFormFields({
+                  ...formFields,
+                  attachment: acceptedFiles[0],
+                });
+              }}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <div
+                  {...getRootProps()}
+                  className="dropzone flex h-36 items-center justify-center gap-3 border-2 border-dashed border-gray-400 p-5 text-center"
+                >
+                  <input {...getInputProps()} />
 
-                    <FaFile className="text-green-300" size={25} />
-                    <p>Drag and drop a file here, or click to select a file</p>
-                  </div>
-                )}
-              </Dropzone>
-              {attachment && (
-                <div className="attachment-preview">
-                  {attachment.type.includes("image") ? (
-                    <img
-                      src={URL.createObjectURL(attachment)}
-                      alt="Attachment preview"
-                    />
-                  ) : attachment.type.includes("video") ? (
-                    <video
-                      src={URL.createObjectURL(attachment)}
-                      alt="Uploaded Video"
-                      className="h-full w-full object-cover rounded-lg"
-                      controls
-                    />
-                  ) : (
-                    <p>{attachment.name}</p>
-                  )}
+                  <FaFile className="text-green-300" size={25} />
+                  <p>Drag and drop a file here, or click to select a file</p>
                 </div>
               )}
-            </div>
+            </Dropzone>
+            {attachment && (
+              <div className="attachment-preview">
+                {attachment.type.includes("image") ? (
+                  <img
+                    src={URL.createObjectURL(attachment)}
+                    alt="Attachment preview"
+                  />
+                ) : attachment.type.includes("video") ? (
+                  <video
+                    src={URL.createObjectURL(attachment)}
+                    alt="Uploaded Video"
+                    className="h-full w-full rounded-lg object-cover"
+                    controls
+                  />
+                ) : (
+                  <p>{attachment.name}</p>
+                )}
+              </div>
+            )}
           </div>
-          <div className="flex justify-between flex-wrap gap-3 my-11">
+          <div className="my-11 flex flex-wrap justify-between gap-3">
             <Button
               content="Cancel"
               additionalClasses="w-full md:w-auto"

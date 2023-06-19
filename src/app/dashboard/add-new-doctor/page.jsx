@@ -13,6 +13,7 @@ import {
   FaPhone,
   FaEnvelope,
   FaHome,
+  FaKey,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { usePhoto } from "@/context/PhotoContext";
@@ -139,8 +140,7 @@ const RegisterDoctorPage = () => {
     <section className="px-10">
       <Header imageUploader headerText="Add New Doctor" />
       <form className={`${isValid}`} onSubmit={handleSubmit} noValidate>
-        <div className=" my-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="flex flex-col gap-4">
+      <div className="mb-6 grid gap-6 lg:grid-cols-2">
             <Input
               labelText="center_id"
               name="center_id"
@@ -210,9 +210,7 @@ const RegisterDoctorPage = () => {
               icon={<FaPhone />}
               type="tel"
             />
-          </div>
 
-          <div className="flex flex-col gap-4">
             <Input
               labelText="ssn"
               name="ssn"
@@ -241,7 +239,7 @@ const RegisterDoctorPage = () => {
               name="password"
               value={password}
               onChange={onChange}
-              icon={<FaBriefcase />}
+              icon={<FaKey />}
               type="password"
               minLength={8}
             />
@@ -295,7 +293,6 @@ const RegisterDoctorPage = () => {
               icon={<FaEnvelope />}
               type="email"
             />
-          </div>
         </div>
 
         <div className="flex flex-col gap-5">
@@ -307,7 +304,7 @@ const RegisterDoctorPage = () => {
             icon={<FaHome />}
           />
         </div>
-        <div className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="my-6 grid gap-6 lg:grid-cols-2">
           <Input
             labelText="full brief"
             name="full_brief"

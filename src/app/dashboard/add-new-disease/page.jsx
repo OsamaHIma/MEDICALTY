@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import {Input} from "@/components/Input";
+import { Input } from "@/components/Input";
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { GiVirus } from "react-icons/gi";
@@ -59,9 +59,6 @@ const AddDiseasePage = () => {
     };
   };
 
- 
-
-  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -146,7 +143,7 @@ const AddDiseasePage = () => {
       const response = await fetch("/api/disease", {
         method: "POST",
         headers: {
-          token:  token,
+          token: token,
         },
         body: formData,
       });
@@ -184,62 +181,50 @@ const AddDiseasePage = () => {
         onSubmit={handleFormSubmit}
         noValidate
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px] mb-14">
-          <div className="flex flex-col gap-6 flex-1 md:w-full">
-            <Input
-              ClassesForTheInput="h-12"
-              ClassesForTheLabel="h-12 !text-center !py-3"
-              labelText="Disease Number"
-              placeHolder="Disease Number"
-              icon={<MdConfirmationNumber  size={23} />}
-              name="diseaseNumber"
-              value={diseaseNumber}
-              onChange={onChange}
-              required
-            />
-            <Input
-              ClassesForTheInput="h-12"
-              ClassesForTheLabel="h-12 !text-center !py-3"
-              labelText="Disease Name"
-              placeHolder="Disease Name"
-              icon={<GiVirus  ngCart size={23} />}
-              name="name"
-              value={name}
-              onChange={onChange}
-              required
-            />
-          </div>
-          <div className="flex flex-col gap-6 flex-1 md:w-full">
-            <Input
-              ClassesForTheInput="h-11 "
-              ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
-              labelText="Disease Description"
-              placeHolder="Disease Description"
-              icon={<MdDescription size={23} />}
-              name="description"
-              value={description}
-              onChange={onChange}
-              required
-            />
-            <Input
-              ClassesForTheInput="h-12"
-              ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
-              labelText="Date"
-              placeHolder="Date of diagnosis"
-              icon={<MdCake  size={23} />}
-              name="date"
-              value={date}
-              onChange={onChange}
-              type="date"
-              max={new Date().toISOString().split("T")[0]}
-              required
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px] mb-14">
+        <div className="mb-6 grid gap-6 lg:grid-cols-2">
+          <Input
+            labelText="Disease Number"
+            placeHolder="Disease Number"
+            icon={<MdConfirmationNumber size={23} />}
+            name="diseaseNumber"
+            value={diseaseNumber}
+            onChange={onChange}
+            required
+          />
+          <Input
+            labelText="Disease Name"
+            placeHolder="Disease Name"
+            icon={<GiVirus ngCart size={23} />}
+            name="name"
+            value={name}
+            onChange={onChange}
+            required
+          />
+
+          <Input
+            labelText="Disease Description"
+            placeHolder="Disease Description"
+            icon={<MdDescription size={23} />}
+            name="description"
+            value={description}
+            onChange={onChange}
+            required
+          />
+          <Input
+            labelText="Date"
+            placeHolder="Date of diagnosis"
+            icon={<MdCake size={23} />}
+            name="date"
+            value={date}
+            onChange={onChange}
+            type="date"
+            max={new Date().toISOString().split("T")[0]}
+            required
+          />
+
           <div
             {...getPhotoRootProps({ className: "dropzone", style: photoStyle })}
-            className={`h-48 flex flex-col items-center justify-center border-2 border-dashed dark:border-slate-100 border-slate-800 rounded-lg cursor-pointer${
+            className={`flex h-48 flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-800 dark:border-slate-100 cursor-pointer${
               isPhotoDragActive ? "border-green-500" : ""
             } ${isPhotoDragReject ? "border-red-500" : ""}`}
           >
@@ -248,7 +233,7 @@ const AddDiseasePage = () => {
               <img
                 src={uploadedPhoto}
                 alt="Uploaded Result Image"
-                className="h-full w-full object-cover rounded-lg"
+                className="h-full w-full rounded-lg object-cover"
               />
             ) : (
               <>
@@ -259,7 +244,7 @@ const AddDiseasePage = () => {
           </div>
           <div
             {...getVideoRootProps({ className: "dropzone", style: videoStyle })}
-            className={`h-48 flex flex-col items-center justify-center border-2 border-dashed dark:border-slate-100 border-slate-800 rounded-lg cursor-pointer ${
+            className={`flex h-48 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-800 dark:border-slate-100 ${
               isVideoDragActive ? "border-green-500" : ""
             } ${isVideoDragReject ? "border-red-500" : ""}`}
           >
@@ -268,7 +253,7 @@ const AddDiseasePage = () => {
               <video
                 src={uploadedVideo}
                 alt="Uploaded Video"
-                className="h-full w-full object-cover rounded-lg"
+                className="h-full w-full rounded-lg object-cover"
                 controls
               />
             ) : (

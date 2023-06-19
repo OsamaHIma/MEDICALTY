@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import  {Input, SelectInput } from "@/components/Input";
+import { Input, SelectInput } from "@/components/Input";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -12,7 +12,6 @@ import { HiIdentification } from "react-icons/hi";
 
 import { toast } from "react-toastify";
 
-
 const AddProductPage = () => {
   const [forDisplayOnly, setForDisplayOnly] = useState(false);
 
@@ -22,12 +21,10 @@ const AddProductPage = () => {
   ];
 
   const handleCategoryChange = ({ value }) => {
-    console.log(forDisplayOnly)
+    console.log(forDisplayOnly);
     setForDisplayOnly(value === "for-display-only" ? true : false);
   };
- 
 
-  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -66,7 +63,7 @@ const AddProductPage = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          token:  token,
+          token: token,
         },
         body: JSON.stringify({
           ...formFields,
@@ -103,21 +100,23 @@ const AddProductPage = () => {
   return (
     <section>
       <Header imageUploader headerText="Add new product" />
-      <form className={`px-10 ${isValid}`} onSubmit={handleFormSubmit} noValidate>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[52px] mb-20">
-          <div className="flex flex-col gap-6 flex-1 md:w-full">
-            <Input
-              ClassesForTheInput="h-12"
-              ClassesForTheLabel="h-12 !text-center !py-3"
-              labelText="Product Code"
-              placeHolder="Product Code - from the system"
-              icon={<RiFileUserLine size={23} />}
-              name="productCode"
-              value={productCode}
-              onChange={onChange}
-              required
-            />
-            {/* <Input
+      <form
+        className={`px-10 ${isValid}`}
+        onSubmit={handleFormSubmit}
+        noValidate
+      >
+        <div className="mb-6 grid gap-6 lg:grid-cols-2">
+          <Input
+            ClassesForTheInput="h-12"
+            ClassesForTheLabel="h-12 !text-center !py-3"
+            labelText="Product Code"
+            placeHolder="Product Code - from the system"
+            icon={<RiFileUserLine size={23} />}
+            name="productCode"
+            value={productCode}
+            onChange={onChange}
+          />
+          {/* <Input
               ClassesForTheInput="h-12"
               ClassesForTheLabel="h-12 !text-center !py-3"
               labelText="Product Category"
@@ -126,74 +125,65 @@ const AddProductPage = () => {
               name="category"
               value={category}
               onChange={onChange}
-              required
+              
             /> */}
 
-            <Input
-              ClassesForTheInput="h-11 "
-              ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
-              labelText="Product Name "
-              placeHolder="Product Name"
-              icon={<HiIdentification size={23} />}
-              name="name"
-              value={name}
-              onChange={onChange}
-              required
-            />
-            <SelectInput
-              labelText="Product Category"
-              icon={<FaShoppingCart size={23} />}
-              name="category"
-              required
-              options={categoryOptions}
-              onChange={handleCategoryChange}
+          <Input
+            ClassesForTheInput="h-11 "
+            ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
+            labelText="Product Name "
+            placeHolder="Product Name"
+            icon={<HiIdentification size={23} />}
+            name="name"
+            value={name}
+            onChange={onChange}
+          />
+          <SelectInput
+            labelText="Product Category"
+            // icon={<FaShoppingCart size={23} />}
+            name="category"
+            options={categoryOptions}
+            onChange={handleCategoryChange}
+          />
 
-            />
-          </div>
-
-          <div className="flex flex-col gap-6 flex-1 md:w-full">
-            {!forDisplayOnly && (
-              <Input
-                ClassesForTheInput="h-12"
-                ClassesForTheLabel="h-12 !text-center !py-3"
-                labelText="Product Price"
-                placeHolder="Price"
-                icon={<FaDollarSign size={23} />}
-                name="price"
-                value={price}
-                onChange={onChange}
-                type="number"
-                min="0"
-                required
-              />
-            )}
-
+          {!forDisplayOnly && (
             <Input
               ClassesForTheInput="h-12"
               ClassesForTheLabel="h-12 !text-center !py-3"
-              labelText="Product Quantity"
-              placeHolder="Quantity"
-              icon={<MdOutlineFormatListNumbered size={23} />}
-              name="quantity"
-              value={quantity}
+              labelText="Product Price"
+              placeHolder="Price"
+              icon={<FaDollarSign size={23} />}
+              name="price"
+              value={price}
               onChange={onChange}
               type="number"
               min="0"
-              required
             />
+          )}
 
-            <Input
-              ClassesForTheInput="h-12"
-              ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
-              labelText="Product Description"
-              placeHolder="Description"
-              icon={<MdDescription size={23} />}
-              name="description"
-              value={description}
-              onChange={onChange}
-              required
-            />
-          </div>
+          <Input
+            ClassesForTheInput="h-12"
+            ClassesForTheLabel="h-12 !text-center !py-3"
+            labelText="Product Quantity"
+            placeHolder="Quantity"
+            icon={<MdOutlineFormatListNumbered size={23} />}
+            name="quantity"
+            value={quantity}
+            onChange={onChange}
+            type="number"
+            min="0"
+          />
+
+          <Input
+            ClassesForTheInput="h-12"
+            ClassesForTheLabel="h-12 !text-center w-[20%] !py-3"
+            labelText="Product Description"
+            placeHolder="Description"
+            icon={<MdDescription size={23} />}
+            name="description"
+            value={description}
+            onChange={onChange}
+          />
         </div>
 
         <div className="flex w-full justify-center">

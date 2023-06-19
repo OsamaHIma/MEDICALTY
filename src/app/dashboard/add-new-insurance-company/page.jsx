@@ -138,125 +138,130 @@ const InsuranceCompany = () => {
       />
       <div className="flex flex-col gap-6 px-10">
         <form onSubmit={handleSubmit} className={`${isValid}`} noValidate>
-          <div className="grid grid-cols-1 gap-[52px] md:grid-cols-2">
-            <div className="flex flex-1 flex-col gap-[23px]">
-              <Input
-                labelText="Company Name"
-                icon={<FaBuilding />}
-                name="companyName"
-                value={companyName}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="Company ID"
-                icon={<FaUserAlt />}
-                name="company_id"
-                value={company_id}
-                onChange={onChange}
-                type="number"
-                required
-              />
-              <Input
-                labelText="Phone number"
-                icon={<FaPhone />}
-                name="phoneNumber"
-                value={phoneNumber}
-                onChange={onChange}
-                required
-                type="tel"
-              />
-              <Input
-                labelText="Phone number 2"
-                icon={<FaPhone />}
-                name="phoneNumber2"
-                value={phoneNumber2}
-                onChange={onChange}
-                type="tel"
-              />
-              <Input
-                labelText="Website"
-                icon={<FaGlobe />}
-                name="website"
-                value={website}
-                onChange={onChange}
-                type="url"
-              />
-              <Input
-                labelText="Email"
-                icon={<FaEnvelope />}
-                name="email"
-                value={email}
-                onChange={onChange}
-                type="email"
-              />
-            </div>
-            <div className="mb-5 flex flex-1 flex-col gap-[23px]">
-              <Input
-                labelText="Official Email"
-                placeHolder="Official Email for the company"
-                name="officialEmail"
-                value={officialEmail}
-                onChange={onChange}
-                icon={<FaEnvelope />}
-                required
-              />
+          <div className="mb-6 grid gap-6 lg:grid-cols-2">
+            <Input
+              labelText="Company Name"
+              icon={<FaBuilding />}
+              name="companyName"
+              value={companyName}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="Company ID"
+              icon={<FaUserAlt />}
+              name="company_id"
+              value={company_id}
+              onChange={onChange}
+              type="number"
+              required
+            />
+            <Input
+              labelText="Phone number"
+              icon={<FaPhone />}
+              name="phoneNumber"
+              value={phoneNumber}
+              onChange={onChange}
+              required
+              type="tel"
+            />
+            <Input
+              labelText="Phone number 2"
+              icon={<FaPhone />}
+              name="phoneNumber2"
+              value={phoneNumber2}
+              onChange={onChange}
+              type="tel"
+            />
+            <Input
+              labelText="Website"
+              icon={<FaGlobe />}
+              name="website"
+              value={website}
+              onChange={onChange}
+              type="url"
+            />
+            <Input
+              labelText="Email"
+              icon={<FaEnvelope />}
+              name="email"
+              value={email}
+              onChange={onChange}
+              type="email"
+            />
 
-              <SelectInput
-                labelText="country"
-                options={countries}
-                name="country"
-                value={[
-                  {
-                    value: country || "Select your country",
-                    label: country || "Select your country",
-                  },
-                ]}
-                onChange={onSelectInputChange}
-                placeholder="Select country"
-                isLoading={isCountriesLoading}
-              />
-              <Input
-                labelText="Address 1"
-                name="address1"
-                value={address1}
-                icon={<FaMapPin />}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="Address 2"
-                name="address2"
-                icon={<FaMapPin />}
-                value={address2}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="State Name"
-                name="stateName"
-                value={stateName}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="County"
-                name="county"
-                value={county}
-                onChange={onChange}
-                required
-              />
-              <Input
-                labelText="Zip code"
-                name="zipCode"
-                value={zipCode}
-                onChange={onChange}
-                type="number"
-                required
-              />
-            </div>
+            <Input
+              labelText="Official Email"
+              placeHolder="Official Email for the company"
+              name="officialEmail"
+              value={officialEmail}
+              onChange={onChange}
+              icon={<FaEnvelope />}
+              required
+            />
+
+            <SelectInput
+              labelText="country"
+              options={countries}
+              name="country"
+              value={[
+                {
+                  value: country || "Select your country",
+                  label: country || "Select your country",
+                },
+              ]}
+              onChange={onSelectInputChange}
+              placeholder="Select country"
+              isLoading={isCountriesLoading}
+            />
+            <Input
+              labelText="Address 1"
+              name="address1"
+              value={address1}
+              icon={<FaMapPin />}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="Address 2"
+              name="address2"
+              icon={<FaMapPin />}
+              value={address2}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="State Name"
+              name="stateName"
+              value={stateName}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="County"
+              name="county"
+              value={county}
+              onChange={onChange}
+              required
+            />
+            <Input
+              labelText="Zip code"
+              name="zipCode"
+              value={zipCode}
+              onChange={onChange}
+              type="number"
+              required
+            />
           </div>
-          <div className="mb-7 flex flex-col gap-7">
+          <Input
+            labelText="Description"
+            name="description"
+            value={description}
+            onChange={onChange}
+            type="textarea"
+            required
+          />
+          <div className="mb-7 flex flex-col gap-7 mt-6">
             <Input
               name="twitter_link"
               value={twitter_link}
@@ -303,14 +308,6 @@ const InsuranceCompany = () => {
               type="url"
             />
           </div>
-          <Input
-            labelText="Description"
-            name="description"
-            value={description}
-            onChange={onChange}
-            type="textarea"
-            required
-          />
           <div className="!my-11 flex flex-wrap justify-between gap-3">
             <Button
               content="Cancel"

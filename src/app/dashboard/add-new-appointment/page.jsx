@@ -11,9 +11,6 @@ import { useSession } from "next-auth/react";
 import { SelectInput, Input } from "@/components/Input";
 
 const Appointment = () => {
- 
-
-  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -55,7 +52,7 @@ const Appointment = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          token:  token,
+          token: token,
         },
         body: JSON.stringify({ ...appointment, image: uploadedImage }),
       });
@@ -109,12 +106,8 @@ const Appointment = () => {
   return (
     <section>
       <Header imageUploader headerText="Book Appointment" />
-      <form
-        className={`px-10 flex flex-col gap-6 ${isValid}`}
-        onSubmit={handleSubmit}
-        noValidate
-      >
-        <div className="flex flex-col gap-6">
+      <form className={`px-10 ${isValid}`} onSubmit={handleSubmit} noValidate>
+        <div className="mb-6 grid gap-6 lg:grid-cols-2">
           <SelectInput
             labelText="Select A Doctor"
             options={doctorOptions}
@@ -153,30 +146,29 @@ const Appointment = () => {
             type="date"
             icon={<HiOutlineMail />}
           />
-          <div className="grid grid-cols-2 gap-6">
-            <Input
-              labelText="Start Time"
-              name="start_time"
-              value={appointment.start_time}
-              onChange={(e) =>
-                setAppointment({ ...appointment, start_time: e.target.value })
-              }
-              type="time"
-              icon={<FaClock />}
-            />
-            <Input
-              labelText="End Time"
-              name="end_time"
-              value={appointment.end_time}
-              onChange={(e) =>
-                setAppointment({ ...appointment, end_time: e.target.value })
-              }
-              type="time"
-              icon={<FaClock />}
-            />
-          </div>
+
+          <Input
+            labelText="Start Time"
+            name="start_time"
+            value={appointment.start_time}
+            onChange={(e) =>
+              setAppointment({ ...appointment, start_time: e.target.value })
+            }
+            type="time"
+            icon={<FaClock />}
+          />
+          <Input
+            labelText="End Time"
+            name="end_time"
+            value={appointment.end_time}
+            onChange={(e) =>
+              setAppointment({ ...appointment, end_time: e.target.value })
+            }
+            type="time"
+            icon={<FaClock />}
+          />
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           <Button
             content="Book Appointment"
             filled
