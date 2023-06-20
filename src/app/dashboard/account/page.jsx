@@ -1,10 +1,9 @@
 "use client";
+import { toast } from "react-toastify";
 import { useCallback, useEffect, useState } from "react";
-
 import { useSession } from "next-auth/react";
 import { useDropzone } from "react-dropzone";
 import { MdSupervisorAccount, MdMailOutline } from "react-icons/md";
-import { toast } from "react-toastify";
 import Button from "@/components/Button";
 import { useCountries } from "@/context/CountriesContext";
 import SelectInputNoLabel from "@/components/SelectInputNoLabel";
@@ -159,7 +158,10 @@ const MyAccount = () => {
             </div>
           )}
           {!isEditing && (
-            <FaPlus size={30} className="absolute bottom-0 right-0 z-10 cursor-pointer rounded-full bg-green-500 p-1" />
+            <FaPlus
+              size={30}
+              className="absolute bottom-0 right-0 z-10 cursor-pointer rounded-full bg-green-500 p-1"
+            />
           )}
         </div>
         <div className="flex-1">
