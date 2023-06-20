@@ -14,14 +14,14 @@ import {
   FaEnvelope,
   FaHome,
   FaKey,
+  FaMoneyBillWave,
+  FaMoneyCheck,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useCountries } from "@/context/CountriesContext";
-import { MdHeight, MdLineWeight } from "react-icons/md";
-import { GiWeightScale } from "react-icons/gi";
-const RegisterPatientPage = () => {
+const RegisterNursePage = () => {
   const { countries, isCountriesLoading } = useCountries();
 
   const { uploadedPhoto } = usePhoto();
@@ -40,36 +40,40 @@ const RegisterPatientPage = () => {
 
   const defaultProps = {
     center_id: "",
-    insurance_company_id: "",
-    name: "",
+    department_id: "",
     username: "",
-    birth_date: "",
-    ssn: "",
-    phone: "",
+    name: "",
     email: "",
     password: "",
+    ssn: "",
+    phone: "",
+    salary_per_hour: "",
+    total_salary: "",
     address: "",
-    length: "",
-    weight: "",
-    bloodType: "",
+    country: "",
+    province: "",
+    city: "",
+    zip_code: "",
     gender: "",
     nationality: "",
   };
   const [formFields, setFormFields] = useState(defaultProps);
   const {
     center_id,
-    insurance_company_id,
-    name,
+    department_id,
     username,
-    birth_date,
-    ssn,
-    phone,
+    name,
     email,
     password,
+    ssn,
+    phone,
+    total_salary,
+    salary_per_hour,
+    job_id,
+    birth_date,
     address,
-    length,
-    weight,
-    bloodType,
+    salary,
+    zip_code,
     gender,
     nationality,
   } = formFields;
@@ -84,13 +88,13 @@ const RegisterPatientPage = () => {
   };
   const handlePostRequest = async () => {
     try {
-      const response = await fetch("/api/patient/register", {
+      const response = await fetch("/api/nurse/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           token: token,
         },
-        body: JSON.stringify({ ...formFields, image: uploadedPhoto }),
+        body: JSON.stringify({ ...formFields, image_path: uploadedPhoto }),
       });
 
       const data = await response.json();
@@ -129,11 +133,11 @@ const RegisterPatientPage = () => {
 
   return (
     <section className="px-10">
-      <Header imageUploader headerText="Add New Patient" />
+      <Header imageUploader headerText="Add New Nurse" />
       <form className={`${isValid}`} onSubmit={handleSubmit} noValidate>
-        <div className="grid gap-6 lg:grid-cols-2 mb-6">
+        <div className="mb-6 grid gap-6 lg:grid-cols-2">
           <Input
-            labelText="center_id"
+            labelText="center ID"
             name="center_id"
             value={center_id}
             onChange={onChange}
@@ -141,9 +145,9 @@ const RegisterPatientPage = () => {
             type="number"
           />
           <Input
-            labelText="insurance company id"
-            name="insurance_company_id"
-            value={insurance_company_id}
+            labelText="department ID"
+            name="department_id"
+            value={department_id}
             onChange={onChange}
             icon={<FaUser />}
             type="number"
@@ -162,7 +166,14 @@ const RegisterPatientPage = () => {
             onChange={onChange}
             icon={<FaIdBadge />}
           />
-
+          <Input
+            labelText="Zip code"
+            name="zip_code"
+            value={zip_code}
+            onChange={onChange}
+            icon={<FaBriefcase />}
+            type="number"
+          />
           <Input
             labelText="Date of Birth"
             name="birth_date"
@@ -187,15 +198,23 @@ const RegisterPatientPage = () => {
             icon={<FaEnvelope />}
             type="email"
           />
-
           <Input
-            labelText="password"
-            name="password"
-            value={password}
+            labelText="salary per hour"
+            name="salary_per_hour"
+            value={salary_per_hour}
             onChange={onChange}
-            icon={<FaKey />}
-            type="password"
+            icon={<FaMoneyCheck />}
+            type="number"
           />
+          <Input
+            labelText="Total salary"
+            name="total_salary"
+            value={total_salary}
+            onChange={onChange}
+            icon={<FaMoneyBillWave />}
+            type="number"
+          />
+
           <Input
             labelText="Social security number"
             name="ssn"
@@ -205,25 +224,14 @@ const RegisterPatientPage = () => {
             type="number"
           />
           <Input
-            labelText="weight"
-            placeHolder="Your Weight in KG"
-            name="weight"
-            value={weight}
+            labelText="password"
+            name="password"
+            value={password}
             onChange={onChange}
-            icon={<GiWeightScale />}
-            type="number"
+            icon={<FaKey />}
+            type="password"
+            minLength={8}
           />
-          <Input
-            labelText="length"
-            placeHolder="Your length in CM"
-            name="length"
-            value={length}
-            onChange={onChange}
-            icon={<MdHeight />}
-            type="number"
-
-          />
-
           <SelectInput
             labelText="Nationality"
             options={countries}
@@ -236,25 +244,6 @@ const RegisterPatientPage = () => {
             ]}
             onChange={onSelectInputChange}
             isLoading={isCountriesLoading}
-          />
-          <SelectInput
-            labelText="blood Type"
-            options={[
-              { value: "A+", label: "A+" },
-              { value: "A-", label: "A-" },
-              { value: "B+", label: "B+" },
-              { value: "B-", label: "B-" },
-              { value: "O+", label: "O+" },
-              { value: "O-", label: "O-" },
-            ]}
-            name="bloodType"
-            value={[
-              {
-                value: bloodType || "Select your blood Type",
-                label: bloodType || "Select your blood Type",
-              },
-            ]}
-            onChange={onSelectInputChange}
           />
           <SelectInput
             labelText="Gender"
@@ -270,21 +259,23 @@ const RegisterPatientPage = () => {
             placeholder="Select gender"
           />
         </div>
-        <Input
-          labelText="Address"
-          name="address"
-          value={address}
-          onChange={onChange}
-          icon={<FaHome />}
-          type="textarea"
-        />
+
+        <div className="flex flex-col gap-5">
+          <Input
+            labelText="Address"
+            name="address"
+            value={address}
+            onChange={onChange}
+            icon={<FaHome />}
+          />
+        </div>
         <div className="my-5 flex items-center justify-center gap-5">
           <Button content="Cancel" type="button" onClick={cancelFormSubmit} />
-          <Button content="Add patient" type="submit" filled />
+          <Button content="Add Nurse" type="submit" filled />
         </div>
       </form>
     </section>
   );
 };
 
-export default RegisterPatientPage;
+export default RegisterNursePage;

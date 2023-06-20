@@ -9,14 +9,16 @@ import { navLinks } from "@/constants";
 import Link from "next/link";
 import LanguageSelector from "@/components/LanguageSelector";
 import { FaUserCheck } from "react-icons/fa";
+import { useLanguage } from "@/context/LanguageContext";
 
 const Navbar = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [user, setUser] = useState({ name: "loading...", email: "loading..." });
+  const { selectedLanguage } = useLanguage();
   useEffect(() => {
     if (session) {
-      setUser(session.user.user || session.user);
+      setUser(session.user);
       console.log(session);
     }
   }, [session]);
@@ -61,9 +63,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex flex-col md:flex-row gap-3 md:gap-0 flex-wrap md:flex-nowrap justify-between relative items-center px-10 py-2">
+    <nav className="relative flex flex-col flex-wrap items-center justify-between gap-5 px-10 py-2 lg:flex-row lg:flex-nowrap lg:gap-0">
       {/* SearchBar */}
-      <div className="flex flex-1 md:flex-[0.4] w-full md:w-auto justify-center mt-2">
+      <div className="mt-2 flex w-full flex-1 justify-center md:w-auto md:flex-[0.4]">
         <button onClick={() => collapseSidebar()} className="mr-3">
           {collapsed ? (
             <FiMenu className="text-2xl text-gray-500 dark:text-green-200" />
@@ -73,20 +75,22 @@ const Navbar = () => {
         </button>
         <input
           type="search"
-          className="bg-gray-100 px-3 flex-1 rounded-l-md focus:outline-blue-400 dark:text-slate-900"
+          className={`flex-1 ${
+            selectedLanguage === "ar" ? "rounded-r-md" : "rounded-l-md"
+          } bg-gray-100 px-3 focus:outline-blue-400 dark:text-slate-900`}
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => handleSearchChange(e.target.value)}
         />
         {searchTerm && (
-          <div className="absolute bg-slate-200 dark:bg-slate-800 dark:text-slate-50 top-[77%] shadow-md p-2 rounded-md mt-1 z-10">
+          <div className="absolute top-[77%] z-10 mt-1 rounded-md bg-slate-200 p-2 shadow-md dark:bg-slate-800 dark:text-slate-50">
             {suggestions.length === 0 ? (
               <p className="p-1">No suggestions found</p>
             ) : (
               suggestions.map((navItem, index) => (
                 <Link href={navItem.link} key={index}>
                   <button
-                    className="block w-full dark:text-slate-50 transition-all dark:hover:bg-slate-700 text-left p-1 rounded-md hover:bg-gray-100"
+                    className="block w-full rounded-md p-1 text-left transition-all hover:bg-gray-100 dark:text-slate-50 dark:hover:bg-slate-700"
                     onClick={() => {
                       setSearchTerm("");
                       setSuggestions([]);
@@ -102,21 +106,23 @@ const Navbar = () => {
         )}
         <button
           type="button"
-          className="bg-green-500 p-2 !rounded-r-md flex items-center justify-center"
+          className={`flex items-center justify-center p-2 bg-green-500 ${
+            selectedLanguage === "ar" ? "rounded-l-md" : "rounded-r-md"
+          }`}
           onClick={handleSearch}
         >
-          <FiSearch className="text-slate-50 text-[35px]" />
+          <FiSearch className="text-[35px] text-slate-50" />
         </button>
       </div>
       {/* Icons */}
       <LanguageSelector />
 
-      <div className="flex gap-4 w-full md:w-auto justify-end md:justify-normal">
+      <div className="flex w-full justify-end gap-4 md:w-auto md:justify-normal">
         <button className="relative">
-          <FiBell className="text-[21px] md:text-[27px]  relative" />
-          <span className="absolute top-0 right-0 h-2 w-2 bg-red-600 rounded-full"></span>
+          <FiBell className="relative text-[21px]  md:text-[27px]" />
+          <span className="absolute right-0 top-0 h-2 w-2 rounded-full bg-red-600"></span>
         </button>
-        <button className="w-12 relative" onClick={handleMenu}>
+        <button className="relative w-12" onClick={handleMenu}>
           <img
             src={user.image ? user.image : "/assets/jhone.svg"}
             className="rounded-full"
@@ -124,29 +130,29 @@ const Navbar = () => {
           />
         </button>
         <div className="flex flex-col">
-          <p className="capitalize text-lg">
+          <p className="text-lg capitalize">
             {user ? user.name : "loading..."}
           </p>
           <p className="text-sm">{user ? user.email : "loading..."}</p>
         </div>
         {showMenu && (
-          <div className="absolute bg-gradient-to-tr from-slate-50 to-slate-200 dark:text-slate-900 shadow-md p-2 rounded-md mt-2 top-[80%] right-[10%] z-10">
-            <div className="capitalize flex gap-3 items-center w-full text-left p-1 rounded-md hover:bg-green-100">
+          <div className="absolute right-[10%] top-[80%] z-10 mt-2 rounded-md bg-gradient-to-tr from-slate-50 to-slate-200 p-2 shadow-md dark:text-slate-900">
+            <div className="flex w-full items-center gap-3 rounded-md p-1 text-left capitalize hover:bg-green-100">
               <FaUserCheck />
               <span>{user ? user.userType : "loading..."}</span>
             </div>
-            <Link href="/dashboard/profile">
-              <button className="block w-full text-left p-1 rounded-md hover:bg-green-100">
+            {/* <Link href="/dashboard/profile">
+              <button className="block w-full rounded-md p-1 text-left hover:bg-green-100">
                 Profile
               </button>
-            </Link>
+            </Link> */}
             <Link href="/dashboard/account">
-              <button className="block w-full text-left p-1 rounded-md hover:bg-green-100">
+              <button className="block w-full rounded-md p-1 text-left hover:bg-green-100">
                 My account
               </button>
             </Link>
             <button
-              className="block w-full text-left p-1 rounded-md hover:bg-green-100"
+              className="block w-full rounded-md p-1 text-left hover:bg-green-100"
               onClick={handleSignOut}
             >
               Logout

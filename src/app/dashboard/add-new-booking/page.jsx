@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import {Input} from "@/components/Input";
+import { Input } from "@/components/Input";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useCallback, useMemo } from "react";
@@ -11,14 +11,12 @@ import {
   GiCalendar,
   GiCheckeredFlag,
 } from "react-icons/gi";
+import { MdTextFields } from "react-icons/md";
 import { toast } from "react-toastify";
 
 const BookingPage = () => {
   const { uploadedPhoto, setUploadedPhoto } = usePhoto();
 
- 
-
-  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -29,14 +27,24 @@ const BookingPage = () => {
 
   const defaultProps = {
     doctor: "",
-    doctorID: "",
+    doctor_id: "",
     date: "",
     timeFrom: "",
     timeTo: "",
+    title: "",
+    service_description: "",
   };
 
   const [formFields, setFormFields] = useState(defaultProps);
-  const { doctor, doctorID, date, timeFrom, timeTo } = formFields;
+  const {
+    doctor,
+    doctor_id,
+    date,
+    timeFrom,
+    timeTo,
+    title,
+    service_description,
+  } = formFields;
 
   const onChange = (event) => {
     const { name, value } = event.target;
@@ -50,18 +58,18 @@ const BookingPage = () => {
 
   const handlePostRequest = async () => {
     try {
-      const formData = new FormData();
-      formData.append("doctor", doctor);
-      formData.append("doctorID", doctorID);
-      formData.append("date", date);
-      formData.append("timeFrom", timeFrom);
-      formData.append("timeTo", timeTo);
-      formData.append("image", uploadedPhoto);
+      // const formData = new FormData();
+      // formData.append("doctor", doctor);
+      // formData.append("doctor_id", doctor_id);
+      // formData.append("date", date);
+      // formData.append("timeFrom", timeFrom);
+      // formData.append("timeTo", timeTo);
+      // formData.append("image", uploadedPhoto);
 
-      const response = await fetch("/api/booking", {
+      const response = await fetch("/api/patient/bookingRequest", {
         method: "POST",
         headers: {
-          token:  token,
+          token: token,
         },
         body: { ...formData, image: uploadedPhoto },
       });
@@ -106,23 +114,29 @@ const BookingPage = () => {
       >
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
           <Input
+            id="title"
+            name="title"
+            labelText="Disease or illness name"
+            value={title}
+            onChange={onChange}
+            icon={<MdTextFields size={23} />}
+          />
+          <Input
             id="doctor"
             name="doctor"
             labelText="Doctor's Name"
             placeholder="Enter Doctor's Name"
             value={doctor}
             onChange={onChange}
-            required
             icon={<GiDoctorFace size={23} />}
           />
           <Input
-            id="doctorID"
-            name="doctorID"
+            id="doctor_id"
+            name="doctor_id"
             labelText="Doctor's ID"
             placeholder="Enter Doctor's ID"
-            value={doctorID}
+            value={doctor_id}
             onChange={onChange}
-            required
             icon={<GiCheckeredFlag size={23} />}
           />
           <Input
@@ -132,7 +146,6 @@ const BookingPage = () => {
             placeholder="Enter Date"
             value={date}
             onChange={onChange}
-            required
             type="date"
             icon={<GiCalendar size={23} />}
           />
@@ -143,7 +156,6 @@ const BookingPage = () => {
             placeholder="Enter Time From"
             value={timeFrom}
             onChange={onChange}
-            required
             type="time"
             icon={<GiClockwork size={23} />}
           />
@@ -154,11 +166,21 @@ const BookingPage = () => {
             placeholder="Enter Time To"
             value={timeTo}
             onChange={onChange}
-            required
             type="time"
             icon={<GiClockwork size={23} />}
           />
         </div>
+        <Input
+          id="service_description"
+          name="service_description"
+          labelText="Service description"
+          placeHolder="Write the illness or the disease in full detail"
+          value={service_description}
+          onChange={onChange}
+          type="textarea"
+          icon={<GiClockwork size={23} />}
+          ClassesForTheDiv="!mb-5"
+        />
         <Button content="Book Appointment" filled />
       </form>
     </section>

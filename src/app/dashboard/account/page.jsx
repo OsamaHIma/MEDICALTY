@@ -1,15 +1,41 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import Select from "react-select";
 
 import { useSession } from "next-auth/react";
 import { useDropzone } from "react-dropzone";
-import { MdGroup, MdSupervisorAccount, MdMailOutline } from "react-icons/md";
+import { MdSupervisorAccount, MdMailOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
 import { useCountries } from "@/context/CountriesContext";
 import SelectInputNoLabel from "@/components/SelectInputNoLabel";
-
+import { FaPlus } from "react-icons/fa";
+// Input component
+const InputField = ({
+  label,
+  type = "text",
+  name,
+  value,
+  disabled,
+  onChange,
+}) => {
+  return (
+    <div className="mb-6">
+      <label className="mb-2 block capitalize">{label}</label>
+      <div className="border-b-2 border-green-200 pb-3 pt-2 dark:border-slate-700">
+        <input
+          name={name}
+          id={value}
+          className={`w-full border-none bg-transparent ${
+            disabled && "!select-none text-gray-400"
+          } focus:outline-none`}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+        />
+      </div>
+    </div>
+  );
+};
 const MyAccount = () => {
   // State variables
   const { countries, isCountriesLoading } = useCountries();
@@ -22,6 +48,7 @@ const MyAccount = () => {
     email: "d@1aexample.ccom",
     password: "password123",
     country: "US",
+    userType: "center",
     subscription_type: "Basic",
     subscription_period: "Month",
     formal_email: "example@example.com",
@@ -40,31 +67,15 @@ const MyAccount = () => {
     youtube: "https://www.youtube.com/channel/example",
   });
   const [isEditing, setIsEditing] = useState(false);
+
   const onChangeInput = (event) => {
-    console.log(event.target);
+    event.preventDefault();
+    event.stopPropagation();
     const { name, value } = event.target;
-    setUser({ ...user, [name]: value });
-  };
-  // Input component
-  const InputField = ({ label, placeholder, type = "text", value }) => {
-    return (
-      <div className="mb-6">
-        <label htmlFor={label} className="mb-2 block capitalize">
-          {label}
-        </label>
-        <div className="border-b-2 border-green-200 pb-3 pt-2 dark:border-slate-700">
-          <input
-            type={type}
-            id={value}
-            className={`w-full border-none bg-transparent  focus:outline-none`}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChangeInput}
-            disabled={!isEditing}
-          />
-        </div>
-      </div>
-    );
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
   };
 
   // Set token and user on session change
@@ -77,14 +88,17 @@ const MyAccount = () => {
   // Save changes to user data
   const handleSaveChanges = () => {
     console.log(user);
-    fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user/${user.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        token: token,
-      },
-      body: JSON.stringify(user),
-    })
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/${user.userType}/${user.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          token: token,
+        },
+        body: JSON.stringify(user),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setUser(data.user);
@@ -123,7 +137,11 @@ const MyAccount = () => {
     <div className="container px-10 py-12">
       <h1 className="mb-6 text-3xl font-bold">Account Information</h1>
       <div className="mb-8 flex items-center space-x-4">
-        <div className="relative h-20 w-20" {...getRootProps()}>
+        <div
+          className="relative h-20 w-20 cursor-pointer"
+          {...getRootProps()}
+          title="Upload your photo"
+        >
           <input {...getInputProps()} />
           {user.image ? (
             <img
@@ -140,21 +158,8 @@ const MyAccount = () => {
               )}
             </div>
           )}
-          {isEditing && (
-            <div className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-green-500 p-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5 text-white"
-              >
-                <path d="M12 20v-6m0-4V4M4 8l16 0m-8 12l0-6"></path>
-              </svg>
-            </div>
+          {!isEditing && (
+            <FaPlus size={30} className="absolute bottom-0 right-0 z-10 cursor-pointer rounded-full bg-green-500 p-1" />
           )}
         </div>
         <div className="flex-1">
@@ -166,20 +171,13 @@ const MyAccount = () => {
             />
             {user.email}
           </p>
-          {user.type === "admin" ? (
-            <p className="w-full bg-green-50 px-4 py-2 text-gray-500 focus:outline-gray-200 dark:bg-slate-800 dark:text-slate-200">
-              <MdSupervisorAccount
-                size={24}
-                className="mr-2 inline-block text-green-500"
-              />
-              Admin
-            </p>
-          ) : (
-            <p className="w-full bg-green-50 px-4 py-2 text-gray-500 focus:outline-gray-200 dark:bg-slate-800 dark:text-slate-200">
-              <MdGroup size={24} className="mr-2 inline-block text-green-500" />
-              Employee
-            </p>
-          )}
+          <p className="w-full bg-green-50 px-4 py-2 text-gray-500 focus:outline-gray-200 dark:bg-slate-800 dark:text-slate-200">
+            <MdSupervisorAccount
+              size={24}
+              className="mr-2 inline-block text-green-500"
+            />
+            {user.userType}
+          </p>
         </div>
       </div>
       <h3 className="mb-4 w-full rounded-md py-2 font-bold dark:text-slate-200">
@@ -188,72 +186,25 @@ const MyAccount = () => {
       <div className="grid gap-8 lg:grid-cols-2">
         {Object.entries(user)
           .filter(
-            ([key]) =>
-              !["country", "nationality", "image", "gender"].includes(key)
+            ([fieldKey]) =>
+              !["country", "nationality", "image", "gender"].includes(fieldKey)
           )
-          .map(([key, value]) => {
-            const label = key.replace(/_/g, " ");
-            const placeholder = `Enter your ${key.replace(/_/g, " ")}`;
+          .map(([fieldKey, value], index) => {
+            const label = fieldKey.replace(/_/g, " ");
+            const placeholder = `Enter your ${fieldKey.replace(/_/g, " ")}`;
             return (
               <InputField
-                key={key}
+                key={index}
                 label={label}
                 placeholder={placeholder}
-                value={user[key]}
+                value={user[fieldKey]}
+                onChange={onChangeInput}
+                disabled={!isEditing}
+                name={fieldKey}
               />
             );
           })}
-        {/* <InputField
-          label="Full name"
-          placeholder="Enter your full name"
-          value={user.fullName}
-        />
-        <InputField
-          label="Email"
-          placeholder="Enter your email"
-          type="email"
-          value={user.email}
-        />
-        <InputField
-          label="Username"
-          placeholder="Enter your username"
-          value={user.username}
-        />
-        <InputField
-          label="Date of birth"
-          placeholder="DD/MM/YYYY"
-          type="date"
-          value={user.dateOfBirth}
-        />
-        <InputField
-          label="National number"
-          placeholder="Enter your national number"
-          type="number"
-          value={user.nationalNumber}
-        />
-        <InputField
-          label="Phone number"
-          placeholder="Enter your phone number"
-          type="tel"
-          value={user.phoneNumber}
-        />
-        <InputField
-          label="Home address"
-          placeholder="Enter your home address"
-          value={user.homeAddress}
-        />
-        <InputField
-          label="Height (cm)"
-          placeholder="Enter your height in cm"
-          type="number"
-          value={user.height}
-        />
-        <InputField
-          label="Weight (kg)"
-          placeholder="Enter your weight in kg"
-          type="number"
-          value={user.weight}
-        /> */}
+
         <div className="mb-6 ">
           <label htmlFor="blood_type" className="mb-2 block">
             Blood type

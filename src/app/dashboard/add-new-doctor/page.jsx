@@ -212,7 +212,7 @@ const RegisterDoctorPage = () => {
             />
 
             <Input
-              labelText="ssn"
+              labelText="Social security number"
               name="ssn"
               value={ssn}
               onChange={onChange}
