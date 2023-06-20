@@ -9,11 +9,9 @@ export const useLanguage = () => {
   }
   return context;
 };
-// window.Location. get the preferd user lang
+
 export const LanguageProvider = ({ children }) => {
-  const userLanguage =
-    typeof navigator !== "undefined" && navigator.language;
-  console.log(navigator.language);
+  const userLanguage = typeof navigator !== "undefined" && navigator.language;
   const [selectedLanguage, setSelectedLanguage] = useState(
     (typeof window !== "undefined" &&
       window.localStorage.getItem("selectedLanguage")) ||
