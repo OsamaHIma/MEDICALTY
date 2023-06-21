@@ -15,7 +15,7 @@ export const LanguageProvider = ({ children }) => {
   const [selectedLanguage, setSelectedLanguage] = useState(
     (typeof window !== "undefined" &&
       window.localStorage.getItem("selectedLanguage")) ||
-      userLanguage
+      userLanguage 
   );
 
   const handleLanguageChange = (language) => {

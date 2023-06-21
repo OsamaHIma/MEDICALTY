@@ -1,5 +1,7 @@
 import { object, string } from "yup";
 
+const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+
 export const loginUserSchema = object().shape({
   email: string()
     .email("Please enter a valid email address.")
@@ -7,9 +9,12 @@ export const loginUserSchema = object().shape({
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       "Please enter a valid email address."
     ),
-  password: string()
-    .required("No password provided.")
-    .min(6, "Password is too short - should be 6 chars minimum."),
+  password: string().required("No password provided."),
+  // .matches(
+  //   passwordRegex,
+  //   "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number."
+  // ),
+  user_type: string().required("Please Select your Specialty."),
 });
 
 export const signUpSchema = object().shape({
@@ -27,7 +32,10 @@ export const signUpSchema = object().shape({
     ),
   password: string()
     .required("Please enter a password.")
-    .min(8, "Password should be at least 8 characters long."),
+    .matches(
+      passwordRegex,
+      "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number."
+    ),
   country: string().required("Please select your country."),
   subscription_type: string().oneOf(
     ["Basic", "Premium"],

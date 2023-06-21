@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import Button from "@/components/Button";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { loginUserSchema } from "@/schema/userSchema";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
@@ -20,6 +20,14 @@ import { useLanguage } from "@/context/LanguageContext";
 
 const LoginPage = () => {
   // Define state variables
+  const { data: session } = useSession();
+  const [token, setToken] = useState("fsdfas");
+  useEffect(() => {
+    if (session) {
+      setToken(session.user.token);
+      console.log(token)
+    }
+  }, [session]);
   const [email, setEmail] = useState("");
   const [userType, setUserType] = useState("");
   const [password, setPassword] = useState("");
@@ -46,13 +54,16 @@ const LoginPage = () => {
   };
   const handleLogin = async (e) => {
     e.preventDefault();
+
     setError(null);
     try {
       loginUserSchema.validateSync(
         {
           email: email,
           password: password,
+          user_type: userType,
         },
+
         { abortEarly: false }
       );
     } catch (error) {
@@ -61,6 +72,7 @@ const LoginPage = () => {
     }
     setIsLoading(true);
     const user = await signIn("credentials", {
+      redirect: false,
       email,
       password,
       userType,

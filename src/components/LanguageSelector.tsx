@@ -35,7 +35,7 @@ const LanguageSelector = ({
   if (matchedLanguage) {
     name = matchedLanguage.name;
   } else {
-    name = "Unknown";
+    name = "English";
   }
   return (
     <div className={`relative inline-block ml-4 ${className}`} style={style}>

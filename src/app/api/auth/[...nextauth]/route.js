@@ -7,7 +7,7 @@ import axios from "axios";
 const authOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: "credentials",
       async authorize(credentials) {
         const email = credentials.email;
         const password = credentials.password;

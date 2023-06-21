@@ -281,7 +281,7 @@ const SignUpPage = ({ params }) => {
               <div>
                 <SelectInputNoLabel
                   options={[
-                    { value: "Free_trail", label: "Free trail" },
+                    { value: "Free_trial", label: "Free trial" },
                     { value: "Month", label: "Month" },
                     { value: "Year", label: "Year" },
                   ]}
@@ -292,7 +292,7 @@ const SignUpPage = ({ params }) => {
                         formData.subscription_period ||
                         "Select subscription period",
                       label:
-                        formData.subscription_period ||
+                        formData.subscription_period.replace(/_/g, " ") ||
                         "Select subscription period",
                     },
                   ]}
@@ -302,7 +302,7 @@ const SignUpPage = ({ params }) => {
               </div>
             </div>
             {error && (
-              <div className="mx-4  flex flex-col text-xs text-red-500">
+              <div className="mx-4 max-w-xs flex flex-col text-xs text-red-500">
                 {error.map((err, key) => {
                   return <p key={key}>*{err}</p>;
                 })}
