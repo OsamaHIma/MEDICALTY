@@ -11,6 +11,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 import { FaUserCheck } from "react-icons/fa";
 import { useLanguage } from "@/context/LanguageContext";
 import ConfirmModal from "@/components/ConfirmModal";
+import Loading from "@/components/Loading";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
@@ -200,7 +201,7 @@ const Navbar = () => {
               className="block w-full rounded-md p-1 text-left hover:bg-green-100"
               onClick={handleSignOutClick}
             >
-              Logout
+              {loading? <Loading/> :"Logout"}
             </button>
           </div>
         )}

@@ -52,10 +52,9 @@ const CustomSidebar = () => {
     setLoading(true);
     try {
       // await signOut({ userType,token });
-      await signOut();
+      await signOut({ redirect: "/auth/login" });
       setLoading(false);
       setShowModal(false);
-      location.reload();
     } catch (error) {
       console.log("Error signing out:", error);
     }
@@ -92,11 +91,11 @@ const CustomSidebar = () => {
   }, [showModal]);
 
   return (
-    <div className="flex relative !max-w-[256px]">
-      <div className="gradient absolute w-96 h-96 bg-gradient-to-r from-blue-300/25 to-green-600/25 blur-[100px] left-0 -z-[1]" />
+    <div className="relative flex !max-w-[256px]">
+      <div className="gradient absolute left-0 -z-[1] h-96 w-96 bg-gradient-to-r from-blue-300/25 to-green-600/25 blur-[100px]" />
       <Sidebar width="256px" defaultCollapsed>
         {!collapsed && (
-          <div className="sidebarHeader flex justify-start py-5 px-4">
+          <div className="sidebarHeader flex justify-start px-4 py-5">
             <Link href="/">
               <img src="/assets/MEDICALTY.png" alt="logo" />
             </Link>
@@ -165,6 +164,8 @@ const CustomSidebar = () => {
           </div>
         </Menu>
       </Sidebar>
+
+      {loading && toast.loading("Signing out...")}
     </div>
   );
 };

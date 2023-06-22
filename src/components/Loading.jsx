@@ -2,7 +2,7 @@
 import { Circles } from "react-loader-spinner";
 import PropTypes from "prop-types";
 
-function LoadingComponent({ ...props }) {
+function Loading({ ...props }) {
   const {
     type = "Circles",
     height = "24",
@@ -22,7 +22,7 @@ function LoadingComponent({ ...props }) {
   );
 }
 
-LoadingComponent.propTypes = {
+Loading.propTypes = {
   type: PropTypes.string,
   color: PropTypes.string,
   height: PropTypes.string,
@@ -30,4 +30,4 @@ LoadingComponent.propTypes = {
   ariaLabel: PropTypes.string,
 };
 
-export default LoadingComponent;
+export default Loading;
