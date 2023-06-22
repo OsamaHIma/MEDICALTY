@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import Button from "@/components/Button";
 import Link from "next/link";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { loginUserSchema } from "@/schema/userSchema";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
@@ -20,14 +20,6 @@ import { useLanguage } from "@/context/LanguageContext";
 
 const LoginPage = () => {
   // Define state variables
-  const { data: session } = useSession();
-  const [token, setToken] = useState("fsdfas");
-  useEffect(() => {
-    if (session) {
-      setToken(session.user.token);
-      console.log(token)
-    }
-  }, [session]);
   const [email, setEmail] = useState("");
   const [userType, setUserType] = useState("");
   const [password, setPassword] = useState("");
@@ -138,6 +130,8 @@ const LoginPage = () => {
               { value: "department", label: "Department" },
               { value: "admin", label: "Admin" },
               { value: "lab", label: "Lab" },
+              { value: "lab", label: "Lab" },
+              { value: "pharmacy", label: "Pharmacy" },
             ]}
             value={selectedOption}
             placeholder="select"

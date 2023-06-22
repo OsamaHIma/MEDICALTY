@@ -9,10 +9,7 @@ import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { toast } from "react-toastify";
 
-const Products = () => {
- 
-
-  
+const Doctors = () => {
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -23,12 +20,15 @@ const Products = () => {
   const [rows, setRows] = useState([]);
 
   const keys = [
-    "name",
-    "customer_id",
-    "description",
+    "title",
+    "discount",
+    "company_id",
+    "tax",
     "price",
-    "quantity",
-    "type",
+    "product_id",
+    "customer_id",
+    "message",
+    "address",
   ];
 
   const columns = [
@@ -100,11 +100,11 @@ const Products = () => {
     e.stopPropagation();
     try {
       const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/product/${row.id}`,
-      {
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/offer_prices/${row.id}`,
+        {
           headers: {
             "Content-Type": "application/json",
-            token:  token,
+            token: token,
           },
         }
       );
@@ -116,14 +116,14 @@ const Products = () => {
     }
   };
   const fetchData = async () => {
-    const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/product`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/offer_prices`;
 
     try {
       const response = await fetch(url, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          token:  token,
+          token: token,
         },
       });
 
@@ -131,35 +131,40 @@ const Products = () => {
         throw new Error(`HTTP error ${response.status}`);
       }
 
-      const { product } = await response.json();
+      const { offer } = await response.json();
       setRows(
-        product.map((user) => ({
+        offer.map((user) => ({
           id: user.id,
+          title: user.title,
+          discount: user.discount,
           company_id: user.company_id,
-          name: user.name,
+          tax: user.tax,
           image: user.image,
           price: user.price,
-          type: user.type,
+          product_id: user.product_id,
           customer_id: user.customer_id,
-          description: user.description,
+          message: user.message,
+          address: user.address,
         }))
       );
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, [token]);
+
   const handleDataGridUpdate = async (updatedData, id) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/product/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/offer_prices/${id}`,
         JSON.stringify(updatedData),
         {
           headers: {
             "Content-Type": "application/json",
-            token:  token,
+            token: token,
           },
         }
       );
@@ -192,19 +197,19 @@ const Products = () => {
   };
   return (
     <section className="px-8 pb-7">
-      <div className="flex items-center flex-wrap justify-between my-3">
+      <div className="my-3 flex flex-wrap items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold mb-2 dark:text-slate-100">
-            Products
+          <h1 className="mb-2 text-2xl font-semibold dark:text-slate-100">
+            Price Offers
           </h1>
           <p className="text-sm text-gray-400">
-            Total Number Of products ({rows.length})
+            Total Number Of Price Offers ({rows.length})
           </p>
         </div>
-        <Link href="/dashboard/add-new-product">
+        <Link href="/dashboard/add-new-offer_prices">
           <Button
             icon={<IoMdAdd />}
-            content="Add new product"
+            content="Add new offer"
             filled
             additionalClasses="mt-3 md:mt-0 w-full md:w-auto"
           />
@@ -219,4 +224,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Doctors;

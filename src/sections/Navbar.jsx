@@ -10,9 +10,13 @@ import Link from "next/link";
 import LanguageSelector from "@/components/LanguageSelector";
 import { FaUserCheck } from "react-icons/fa";
 import { useLanguage } from "@/context/LanguageContext";
+import ConfirmModal from "@/components/ConfirmModal";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { data: session } = useSession();
   const [user, setUser] = useState({ name: "loading...", email: "loading..." });
   const { selectedLanguage } = useLanguage();
@@ -57,10 +61,51 @@ const Navbar = () => {
     setShowMenu(!showMenu);
   };
 
-  const handleSignOut = async (e) => {
-    e.preventDefault();
-    signOut();
+  // handel sign out
+
+  const handleSignOut = async () => {
+    setLoading(true);
+    try {
+      // await signOut({ userType,token });
+      await signOut();
+      setLoading(false);
+      setShowModal(false);
+      location.reload();
+    } catch (error) {
+      console.log("Error signing out:", error);
+    }
   };
+
+  const handleConfirm = () => {
+    setShowModal(false);
+    handleSignOut();
+  };
+
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+
+  const handleSignOutClick = () => {
+    setShowModal(true);
+  };
+
+  const confirmModal = (
+    <ConfirmModal
+      message="Are you sure you want to sign out?"
+      onConfirm={handleConfirm}
+      onCancel={handleCancel}
+      // loading={loading}
+    />
+  );
+  useEffect(() => {
+    if (showModal) {
+      toast.warning(confirmModal, {
+        // loading:loading,
+        className: "dark:bg-slate-800",
+        onClose: () => setShowModal(false), // close the modal when the toast is closed
+      });
+    }
+  }, [showModal]);
 
   return (
     <nav className="relative flex flex-col flex-wrap items-center justify-between gap-5 px-10 py-2 lg:flex-row lg:flex-nowrap lg:gap-0">
@@ -106,7 +151,7 @@ const Navbar = () => {
         )}
         <button
           type="button"
-          className={`flex items-center justify-center p-2 bg-green-500 ${
+          className={`flex items-center justify-center bg-green-500 p-2 ${
             selectedLanguage === "ar" ? "rounded-l-md" : "rounded-r-md"
           }`}
           onClick={handleSearch}
@@ -153,7 +198,7 @@ const Navbar = () => {
             </Link>
             <button
               className="block w-full rounded-md p-1 text-left hover:bg-green-100"
-              onClick={handleSignOut}
+              onClick={handleSignOutClick}
             >
               Logout
             </button>

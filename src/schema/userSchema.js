@@ -10,10 +10,6 @@ export const loginUserSchema = object().shape({
       "Please enter a valid email address."
     ),
   password: string().required("No password provided."),
-  // .matches(
-  //   passwordRegex,
-  //   "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number."
-  // ),
   user_type: string().required("Please Select your Specialty."),
 });
 
@@ -37,12 +33,8 @@ export const signUpSchema = object().shape({
       "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number."
     ),
   country: string().required("Please select your country."),
-  subscription_type: string().oneOf(
-    ["Basic", "Premium"],
-    "Please select a subscription type."
-  ),
-  subscription_period: string().oneOf(
-    ["Free_trial", "Month", "Year"],
+  subscription_type: string().required("Please select a subscription type."),
+  subscription_period: string().required(
     "Please select a subscription period."
   ),
 });

@@ -30,28 +30,24 @@ import {
 import { FcComboChart } from "react-icons/fc";
 import { GiTestTubes } from "react-icons/gi";
 import { IoMdAdd } from "react-icons/io";
-import {
-  MdAddShoppingCart,
-  MdFlightTakeoff,
-  MdLocalPharmacy,
-} from "react-icons/md";
+import { MdLocalPharmacy } from "react-icons/md";
 
 const productLinks = [
   {
     name: "Show all products",
-    link: "dashboard/employees",
+    link: "dashboard/data/employees",
     icon: <FcComboChart size={20} />,
   },
   {
     name: "Create new product",
-    link: "dashboard/add-new-product",
+    link: "dashboard/data/add-new-product",
     icon: <IoMdAdd size={20} />,
   },
 ];
 const pharmacyLinks = [
   {
     name: "Show all pharmacies",
-    link: "dashboard/pharmacies",
+    link: "dashboard/data/pharmacies",
     icon: <FcComboChart size={20} />,
   },
   {
@@ -63,7 +59,7 @@ const pharmacyLinks = [
 const departmentLinks = [
   {
     name: "Show all",
-    link: "dashboard/departments",
+    link: "dashboard/data/departments",
     icon: <FcComboChart size={20} />,
   },
   {
@@ -75,7 +71,7 @@ const departmentLinks = [
 const employeeLinks = [
   {
     name: "Show all",
-    link: "dashboard/employees",
+    link: "dashboard/data/employees",
     icon: <FcComboChart size={20} />,
   },
   {
@@ -88,7 +84,7 @@ const employeeLinks = [
 const expenseLinks = [
   {
     name: "Show all",
-    link: "dashboard/expense",
+    link: "dashboard/data/expense",
     icon: <FcComboChart size={20} />,
   },
   {
@@ -100,7 +96,7 @@ const expenseLinks = [
 const appointmentLinks = [
   {
     name: "Show all",
-    link: "dashboard/appointments",
+    link: "dashboard/data/appointment",
     icon: <FcComboChart size={20} />,
   },
   {
@@ -110,27 +106,15 @@ const appointmentLinks = [
   },
 ];
 
-const ordersLinks = [
+const patientLinks = [
   {
     name: "Show all",
-    link: "dashboard/orders",
+    link: "dashboard/data/patient",
     icon: <FcComboChart size={20} />,
   },
   {
-    name: "Create new order",
-    link: "dashboard/add-new-order",
-    icon: <IoMdAdd size={20} />,
-  },
-];
-const customersLinks = [
-  {
-    name: "Show all",
-    link: "dashboard/customers",
-    icon: <FcComboChart size={20} />,
-  },
-  {
-    name: "Create new customer",
-    link: "dashboard/add-new-customer",
+    name: "Create new patient",
+    link: "dashboard/add-new-patient",
     icon: <IoMdAdd size={20} />,
   },
 ];
@@ -149,7 +133,7 @@ const salariesLinks = [
 const invoicesLinks = [
   {
     name: "Show all",
-    link: "dashboard/invoices",
+    link: "dashboard/data/invoices",
     icon: <FcComboChart size={20} />,
   },
   {
@@ -161,7 +145,7 @@ const invoicesLinks = [
 const tasksLinks = [
   {
     name: "Show all",
-    link: "dashboard/tasks",
+    link: "dashboard/task",
     icon: <FcComboChart size={23} />,
   },
   {
@@ -173,7 +157,7 @@ const tasksLinks = [
 const diseaseLinks = [
   {
     name: "Show all",
-    link: "dashboard/diseases",
+    link: "dashboard/data/disease",
     icon: <FcComboChart size={23} />,
   },
   {
@@ -185,7 +169,7 @@ const diseaseLinks = [
 const doctorLinks = [
   {
     name: "Show all",
-    link: "dashboard/doctors",
+    link: "dashboard/data/doctor",
     icon: <FcComboChart size={23} />,
   },
   {
@@ -197,7 +181,7 @@ const doctorLinks = [
 const insuranceLinks = [
   {
     name: "Show all",
-    link: "dashboard/doctors",
+    link: "dashboard/data/insurance-company",
     icon: <FcComboChart size={23} />,
   },
   {
@@ -209,7 +193,7 @@ const insuranceLinks = [
 const centersLinks = [
   {
     name: "Show all",
-    link: "dashboard/centers",
+    link: "dashboard/data/center",
     icon: <FcComboChart size={23} />,
   },
   {
@@ -224,16 +208,19 @@ export const navLinks = [
     name: "Add product",
     children: tasksLinks,
     icon: <FaShoppingCart size={23} />,
+    access: ["pharmacy", "insurance_company", "center"],
   },
   {
     name: "Appointments",
     children: appointmentLinks,
     icon: <FaRegCalendarAlt size={23} />,
+    access: ["pharmacy", "insurance_company", "center"],
   },
   {
     name: "Booking",
     link: "dashboard/add-new-booking",
     icon: <FaPlus size={20} />,
+    access: ["doctor", "patient", "center"],
   },
   {
     name: "Calendar",
@@ -244,6 +231,7 @@ export const navLinks = [
     name: "Centers",
     children: centersLinks,
     icon: <BsHospital size={20} />,
+    access: ["admin", "center"],
   },
   {
     name: "Dashboard",
@@ -277,7 +265,7 @@ export const navLinks = [
   // },
   {
     name: "Expense",
-    link: "dashboard/add-new-expense",
+    children: expenseLinks,
     icon: <FaMoneyBillWave size={20} />,
   },
   {
@@ -301,14 +289,9 @@ export const navLinks = [
     icon: <FaUserNurse size={20} />,
   },
   {
-    name: "Orders",
-    children: ordersLinks,
-    icon: <FaShoppingCart size={20} />,
-  },
-  {
     name: "Patient",
-    link:"dashboard/add-new-patient",
-    icon: <FaUserPlus size={20} />, // changed the icon to FaUserPlus
+    children: patientLinks,
+    icon: <FaUserPlus size={20} />,
   },
   {
     name: "Pharmacy",
@@ -327,7 +310,7 @@ export const navLinks = [
   },
   {
     name: "Section",
-    link:"dashboard/add-new-section",
+    link: "dashboard/add-new-section",
     icon: <FaHospital size={20} />,
   },
 ];
