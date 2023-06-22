@@ -11,11 +11,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 
-const PagesDataGrid = ({ params, apiUrl }) => {
+const PagesDataGrid = ({ params }) => {
   const { link } = params;
   const endpointUrl = link.map((param) => `${param}`).join("");
   const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/${endpointUrl}`;
-  console.log( endpointUrl);
+  const apiUrl = "";
+  console.log(endpointUrl);
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
