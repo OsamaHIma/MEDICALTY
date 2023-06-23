@@ -11,6 +11,7 @@ import LanguageSelector from "@/components/LanguageSelector";
 import { FaUserCheck } from "react-icons/fa";
 import { useLanguage } from "@/context/LanguageContext";
 import ConfirmModal from "@/components/ConfirmModal";
+import Translate from "@/components/Translate";
 import Loading from "@/components/Loading";
 import { toast } from "react-toastify";
 
@@ -112,7 +113,11 @@ const Navbar = () => {
     <nav className="relative flex flex-col flex-wrap items-center justify-between gap-5 px-10 py-2 lg:flex-row lg:flex-nowrap lg:gap-0">
       {/* SearchBar */}
       <div className="mt-2 flex w-full flex-1 justify-center md:w-auto md:flex-[0.4]">
-        <button onClick={() => collapseSidebar()} className="mr-3">
+        <button
+          onClick={() => collapseSidebar()}
+          className={`
+        mr-3 rtl:ml-3`}
+        >
           {collapsed ? (
             <FiMenu className="text-2xl text-gray-500 dark:text-green-200" />
           ) : (
@@ -182,7 +187,7 @@ const Navbar = () => {
           <p className="text-sm">{user ? user.email : "loading..."}</p>
         </div>
         {showMenu && (
-          <div className="absolute right-[10%] top-[80%] z-10 mt-2 rounded-md bg-gradient-to-tr from-slate-50 to-slate-200 p-2 shadow-md dark:text-slate-900">
+          <div className="absolute ltr:right-[10%] rtl:left-[10%] top-[80%] z-10 mt-2 rounded-md bg-gradient-to-tr from-slate-50 to-slate-200 p-2 shadow-md dark:text-slate-900">
             <div className="flex w-full items-center gap-3 rounded-md p-1 text-left capitalize hover:bg-green-100">
               <FaUserCheck />
               <span>{user ? user.userType : "loading..."}</span>
@@ -194,14 +199,14 @@ const Navbar = () => {
             </Link> */}
             <Link href="/dashboard/account">
               <button className="block w-full rounded-md p-1 text-left hover:bg-green-100">
-                My account
+                <Translate>My account</Translate>
               </button>
             </Link>
             <button
               className="block w-full rounded-md p-1 text-left hover:bg-green-100"
               onClick={handleSignOutClick}
             >
-              {loading? <Loading/> :"Logout"}
+              <Translate> {loading ? <Loading /> : "Logout"}</Translate>
             </button>
           </div>
         )}

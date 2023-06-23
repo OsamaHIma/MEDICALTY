@@ -17,6 +17,7 @@ import { BsMoonStarsFill } from "react-icons/bs";
 import { signOut, useSession } from "next-auth/react";
 import LoadingComponent from "@/components/Loading";
 import ConfirmModal from "@/components/ConfirmModal";
+import Translate from "@/components/Translate";
 import { toast } from "react-toastify";
 
 const CustomSidebar = () => {
@@ -52,9 +53,10 @@ const CustomSidebar = () => {
     setLoading(true);
     try {
       // await signOut({ userType,token });
-      await signOut({ redirect: "/auth/login" });
+      await signOut();
       setLoading(false);
       setShowModal(false);
+      location.reload();
     } catch (error) {
       console.log("Error signing out:", error);
     }
@@ -121,7 +123,11 @@ const CustomSidebar = () => {
                 <SubMenu
                   key={index}
                   icon={navItem.icon}
-                  label={navItem.name}
+                  label={
+                    <Translate >
+                      {navItem.name}
+                    </Translate>
+                  }
                   title={navItem.name}
                 >
                   {navItem.children.map((submenuItem, submenuIndex) => (
@@ -130,7 +136,7 @@ const CustomSidebar = () => {
                       component={<Link href={submenuItem.link} />}
                       icon={submenuItem.icon}
                     >
-                      {submenuItem.name}
+                      <Translate>{submenuItem.name}</Translate>
                     </MenuItem>
                   ))}
                 </SubMenu>
@@ -143,7 +149,7 @@ const CustomSidebar = () => {
                   icon={navItem.icon}
                   title={navItem.name}
                 >
-                  {navItem.name}
+                  <Translate>{navItem.name}</Translate>
                 </MenuItem>
               );
             }
@@ -153,7 +159,7 @@ const CustomSidebar = () => {
               component={<Link href="dashboard/settings" />}
               icon={<FaCog />}
             >
-              Settings
+              <Translate>Settings</Translate>
             </MenuItem>
             <MenuItem
               icon={loading ? <LoadingComponent /> : <FaSignOutAlt />}
@@ -165,7 +171,10 @@ const CustomSidebar = () => {
         </Menu>
       </Sidebar>
 
-      {loading && toast.loading("Signing out...")}
+      {loading &&
+        toast.loading("Signing out...", {
+          className: "dark:bg-slate-800",
+        })}
     </div>
   );
 };

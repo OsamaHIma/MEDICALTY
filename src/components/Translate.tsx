@@ -5,25 +5,30 @@ import { useLanguage } from "@/context/LanguageContext";
 interface TranslateProps {
   children: string;
   defaultLanguage?: string;
-  customTranslation?: string;
+  translations?: { [key: string]: string };
 }
 
 const Translate = ({
   children,
-  customTranslation,
+  translations = {},
+  defaultLanguage = "en",
 }: TranslateProps) => {
   const { selectedLanguage } = useLanguage();
   const [translatedText, setTranslatedText] = useState("");
   const [error, setError] = useState("");
-  const [mode, setMode] = useState("translated");
 
   useEffect(() => {
-    if (customTranslation) {
-      setTranslatedText(customTranslation);
-      return;
-    }
-
     const translateText = async () => {
+      if (selectedLanguage === defaultLanguage) {
+        setTranslatedText(children);
+        return;
+      }
+
+      if (translations[selectedLanguage]) {
+        setTranslatedText(translations[selectedLanguage]);
+        return;
+      }
+
       try {
         const response = await fetch(
           `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${selectedLanguage}&dt=t&q=${children}`
@@ -39,14 +44,14 @@ const Translate = ({
     };
 
     translateText();
-  }, [children, selectedLanguage, customTranslation]);
+  }, [children, selectedLanguage, defaultLanguage, translations]);
 
   return (
     <>
-      {mode === "translated" ? translatedText : children}
+      {translatedText}
       {error ? children : null}
     </>
   );
 };
 
-export default Translate;
+export default Translate
