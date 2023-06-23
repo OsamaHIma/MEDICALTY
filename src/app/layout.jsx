@@ -38,7 +38,7 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body
-        className={` bg-[#e1f5e8] dark:bg-slate-900 dark:text-slate-100 transition-all`}
+        className={`bg-[#e1f5e8] dark:bg-slate-900 dark:text-slate-100 transition-all`}
       >
         <Providers>{children}</Providers>
       </body>

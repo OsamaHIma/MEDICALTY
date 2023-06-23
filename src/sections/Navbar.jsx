@@ -21,7 +21,7 @@ const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
   const { data: session } = useSession();
   const [user, setUser] = useState({ name: "loading...", email: "loading..." });
-  const { selectedLanguage } = useLanguage();
+  const { isRtl } = useLanguage();
   useEffect(() => {
     if (session) {
       setUser(session.user);
@@ -126,9 +126,8 @@ const Navbar = () => {
         </button>
         <input
           type="search"
-          className={`flex-1 ${
-            selectedLanguage === "ar" ? "rounded-r-md" : "rounded-l-md"
-          } bg-gray-100 px-3 focus:outline-blue-400 dark:text-slate-900`}
+          className={`flex-1 rounded-l-md bg-gray-100
+           px-3 focus:outline-blue-400 rtl:rounded-r-md dark:text-slate-900`}
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => handleSearchChange(e.target.value)}
@@ -157,9 +156,7 @@ const Navbar = () => {
         )}
         <button
           type="button"
-          className={`flex items-center justify-center bg-green-500 p-2 ${
-            selectedLanguage === "ar" ? "rounded-l-md" : "rounded-r-md"
-          }`}
+          className={`flex items-center justify-center rounded-r-md bg-green-500 p-2 rtl:rounded-l-md`}
           onClick={handleSearch}
         >
           <FiSearch className="text-[35px] text-slate-50" />
@@ -187,7 +184,7 @@ const Navbar = () => {
           <p className="text-sm">{user ? user.email : "loading..."}</p>
         </div>
         {showMenu && (
-          <div className="absolute ltr:right-[10%] rtl:left-[10%] top-[80%] z-10 mt-2 rounded-md bg-gradient-to-tr from-slate-50 to-slate-200 p-2 shadow-md dark:text-slate-900">
+          <div className="absolute top-[80%] z-10 mt-2 rounded-md bg-gradient-to-tr from-slate-50 to-slate-200 p-2 shadow-md ltr:right-[10%] rtl:left-[10%] dark:text-slate-900">
             <div className="flex w-full items-center gap-3 rounded-md p-1 text-left capitalize hover:bg-green-100">
               <FaUserCheck />
               <span>{user ? user.userType : "loading..."}</span>

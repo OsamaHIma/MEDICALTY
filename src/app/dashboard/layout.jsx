@@ -17,10 +17,8 @@ const layout = ({ children }) => {
 
   return (
     <main
-      className={`${
-        selectedLanguage === "ar" ? cairo.className : poppins.className
-      } flex max-w-full`}
-      dir={selectedLanguage === "ar" ? "rtl" : "ltr"}
+      className={` flex max-w-full`}
+ 
     >
       <CustomSidebar />
       <div className="flex-1">

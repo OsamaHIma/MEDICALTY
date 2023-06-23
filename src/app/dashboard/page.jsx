@@ -19,6 +19,7 @@ import {
   Legend,
   Tooltip,
 } from "chart.js";
+import Translate from "@/components/Translate";
 
 Chart.register(
   CategoryScale,
@@ -42,7 +43,14 @@ Chart.register(
 
 // Bar Chart Data
 const barChartData = {
-  labels: ["Leaved", "New", "Waiting", "In Process", "Authenticated", "Unauthenticated"],
+  labels: [
+    "Leaved",
+    "New",
+    "Waiting",
+    "In Process",
+    "Authenticated",
+    "Unauthenticated",
+  ],
   datasets: [
     {
       label: "Needs attintion",
@@ -79,7 +87,14 @@ const barChartOptions = {
 
 // Doughnut Chart Data
 const doughnutChartData = {
-  labels: ["Leaved", "New", "Waiting", "In Process", "Authenticated", "Unauthenticated"],
+  labels: [
+    "Leaved",
+    "New",
+    "Waiting",
+    "In Process",
+    "Authenticated",
+    "Unauthenticated",
+  ],
 
   datasets: [
     {
@@ -154,7 +169,14 @@ const lineChartOptions = {
 
 // Pie Chart Data
 const pieChartData = {
-  labels: ["Leaved", "New", "Waiting", "In Process", "Authenticated", "Unauthenticated"],
+  labels: [
+    "Leaved",
+    "New",
+    "Waiting",
+    "In Process",
+    "Authenticated",
+    "Unauthenticated",
+  ],
 
   datasets: [
     {
@@ -187,8 +209,15 @@ const pieChartOptions = {
 
 // Polar Area Chart Data
 const polarAreaChartData = {
-  labels: ["Leaved", "New", "Waiting", "In Process", "Authenticated", "Unauthenticated"],
-  
+  labels: [
+    "Leaved",
+    "New",
+    "Waiting",
+    "In Process",
+    "Authenticated",
+    "Unauthenticated",
+  ],
+
   datasets: [
     {
       label: "My Dataset",
@@ -272,40 +301,42 @@ const Dashboard = () => {
   return (
     <section className={`bg-green-200 dark:bg-slate-900`}>
       <header
-        className={`bg-green-500/10 p-4 text-gray-700 font-semibold dark:text-slate-50`}
+        className={`bg-green-500/10 p-4 font-semibold text-gray-700 dark:text-slate-50`}
       >
-        <div className="flex justify-between items-center">
-          <h1 className="text-xl">Welcome To Your Dashboard!</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl">
+            <Translate>Welcome To Your Dashboard!</Translate>
+          </h1>
         </div>
       </header>
 
       <main className={`p-4`}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 min-h-screen">
+        <div className="grid min-h-screen grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {/* Bar Chart */}
-          <div className="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-green-500 font-semibold mb-4`}>Bar Chart</h2>
+          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
+            <h2 className={`mb-4 font-semibold text-green-500`}>Bar Chart</h2>
             <Bar data={barChartData} options={barChartOptions} />
           </div>
           {/* Doughnut Chart */}
-          <div className="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-green-500 font-semibold mb-4`}>
+          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
+            <h2 className={`mb-4 font-semibold text-green-500`}>
               Doughnut Chart
             </h2>
             <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
           </div>
           {/* Line Chart */}
-          <div className="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-green-500 font-semibold mb-4`}>Line Chart</h2>
+          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
+            <h2 className={`mb-4 font-semibold text-green-500`}>Line Chart</h2>
             <Line data={lineChartData} options={lineChartOptions} />
           </div>
           {/* Pie Chart */}
-          <div className="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-green-500 font-semibold mb-4`}>Pie Chart</h2>
+          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
+            <h2 className={`mb-4 font-semibold text-green-500`}>Pie Chart</h2>
             <Pie data={pieChartData} options={pieChartOptions} />
           </div>
           {/* Polar Area Chart */}
-          <div className="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-green-500 font-semibold mb-4`}>
+          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
+            <h2 className={`mb-4 font-semibold text-green-500`}>
               Polar Area Chart
             </h2>
             <PolarArea
@@ -314,8 +345,8 @@ const Dashboard = () => {
             />
           </div>
           {/* Radar Chart */}
-          <div className="bg-slate-100 dark:bg-slate-800 rounded-lg shadow-md p-4">
-            <h2 className={`text-green-500 font-semibold mb-4`}>Radar Chart</h2>
+          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
+            <h2 className={`mb-4 font-semibold text-green-500`}>Radar Chart</h2>
             <Radar data={radarChartData} options={radarChartOptions} />
           </div>
         </div>
