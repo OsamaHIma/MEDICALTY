@@ -48,10 +48,10 @@ const Translate = ({
 
   return (
     <>
-      {translatedText}
+      {translatedText.toString()}
       {error ? children : null}
     </>
   );
 };
 
-export default Translate
+export default Translate;

@@ -27,7 +27,7 @@ const ToggleThemeBtn = () => {
       </button>
 
       <ul
-        className={`${showThemeMenu} menuTransition flex w-[9rem] absolute right-0 z-10 flex-col m-8 shadow-lg select-none`}
+        className={`${showThemeMenu} menuTransition flex w-[9rem] absolute right-0 rtl:left-0 z-10 flex-col m-8 shadow-lg select-none`}
       >
         <li
           className="bg-green-500 py-2 pt-4 rounded-t-md px-8 cursor-pointer text-slate-100 hover:text-gray-300"

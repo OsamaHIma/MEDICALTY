@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { MdOutlineFilterAlt } from "react-icons/md";
-import PropTypes from "prop-types";
+import Translate from "@/components/Translate";
 
 import Button from "@/components/Button";
 import DataGridComponent from "@/components/DataGrid";
@@ -247,18 +247,19 @@ const PagesDataGrid = ({ params }) => {
       <div className="my-3 flex flex-wrap items-center justify-between">
         <div>
           <h1 className="mb-2 text-2xl font-semibold capitalize dark:text-slate-100">
-            {endpointUrl}
+            <Translate>{endpointUrl}</Translate>
           </h1>
           <div className="flex items-center justify-start gap-3">
-            <Button
+            {/* <Button
               content="Filter"
               filled
               bgColor="!bg-gray-300"
               fontColor="text-[#4a4a4a]"
               icon={<MdOutlineFilterAlt size={25} />}
-            />
+            /> */}
             <p className="text-sm text-gray-400">
-              Total Number Of {endpointUrl} ({rows.length})
+              <Translate>Total Number Of </Translate>{" "}
+              <Translate>{endpointUrl}</Translate> ({rows.length})
             </p>
           </div>
         </div>
@@ -280,9 +281,5 @@ const PagesDataGrid = ({ params }) => {
     </section>
   );
 };
-
-// PagesDataGrid.propTypes = {
-//   apiUrl: PropTypes.string.isRequired,
-// };
 
 export default PagesDataGrid;

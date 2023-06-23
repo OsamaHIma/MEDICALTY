@@ -1,4 +1,5 @@
 import Providers from "@/components/Providers";
+import { Cairo } from "next/font/google";
 import "./globals.css";
 
 export const metadata = {
@@ -33,12 +34,15 @@ export const metadata = {
     },
   ],
 };
-
+const cairo = Cairo({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body
-        className={`bg-[#e1f5e8] dark:bg-slate-900 dark:text-slate-100 transition-all`}
+        className={`${cairo.className} bg-[#e1f5e8] transition-all dark:bg-slate-900 dark:text-slate-100`}
       >
         <Providers>{children}</Providers>
       </body>

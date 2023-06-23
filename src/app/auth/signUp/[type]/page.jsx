@@ -26,11 +26,11 @@ const SignUpPage = ({ params }) => {
     signIn("facebook");
   };
   // Set up state variables
+  const { selectedLanguage } = useLanguage();
   const { countries, isCountriesLoading } = useCountries();
   const [token, setToken] = useState("");
   const { data: session } = useSession();
   const [password_confirmation, setPassword_confirmation] = useState("");
-  const { selectedLanguage } = useLanguage();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -129,7 +129,7 @@ const SignUpPage = ({ params }) => {
     <section className="relative mt-20 flex flex-col gap-8 px-4">
       <div>
         <h1 className="mb-4 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-3xl font-bold text-transparent">
-          Welcome to Medicality!
+          <Translate>Welcome to</Translate> Medicality!
           <MdWavingHand className="mx-2 text-3xl text-yellow-500" />
         </h1>
         <h3 className="mt-4 text-sm text-gray-500 dark:text-gray-300">
@@ -144,7 +144,9 @@ const SignUpPage = ({ params }) => {
         </h1>
       </div>
       <div>
-        <h1 className="mb-4 text-3xl  font-bold">Sign up</h1>
+        <h1 className="mb-4 text-3xl  font-bold">
+          <Translate>Sign up now!</Translate>
+        </h1>
         <form onSubmit={handleSubmit} noValidate>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col">
@@ -158,7 +160,7 @@ const SignUpPage = ({ params }) => {
                 name="full_name"
                 value={formData.full_name}
                 onChange={handleInputChange}
-                className="w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200"
+                className="w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-[#284062] dark:placeholder:text-slate-200"
               />
             </div>
 
@@ -173,45 +175,45 @@ const SignUpPage = ({ params }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
+                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-600 dark:placeholder:text-slate-200 ${
                   error && "border-red-500"
                 }`}
               />
             </div>
-            <div className="relative flex flex-col">
-              <label htmlFor="password" className=" font-medium">
+            <div className="flex flex-col">
+              <label htmlFor="password" className="text-md mb-4 font-bold">
                 <Translate>Password</Translate>
               </label>
-              <input
-                type={passwordIcon ? "text" : "password"}
-                name="password"
-                id="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-                placeholder="at least 8 characters"
-                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
-                  error && "border-red-500"
-                }`}
-              />
-
-              <button
-                type="button"
-                className={`absolute ${
-                  selectedLanguage === "ar" ? "left-2" : "right-2"
-                } top-[65%] translate-y-[-50%] cursor-pointer`}
-                onClick={togglePasswordIcon}
-              >
-                {passwordIcon ? (
-                  <MdVisibility size={20} className="text-gray-500" />
-                ) : (
-                  <MdVisibilityOff size={20} className="text-gray-500" />
-                )}
-              </button>
+              <div className="relative w-full">
+                <input
+                  onChange={handleInputChange}
+                  type={passwordIcon ? "text" : "password"}
+                  value={formData.password}
+                  placeholder="Enter Your Password"
+                  id="password"
+                  autoComplete="current-password"
+                  className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-[#284062] dark:placeholder:text-slate-200 ${
+                    error && "border-red-500"
+                  }`}
+                />
+                <button
+                  type="button"
+                  className={`absolute ${
+                    selectedLanguage === "ar" ? "left-2" : "right-2"
+                  } top-[50%] translate-y-[-50%] cursor-pointer`}
+                  onClick={togglePasswordIcon}
+                >
+                  {passwordIcon ? (
+                    <MdVisibility size={20} className="text-gray-500" />
+                  ) : (
+                    <MdVisibilityOff size={20} className="text-gray-500" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="password_confirmation" className=" font-medium">
+              <label htmlFor="password_confirmation" className="text-md mb-4 font-bold">
                 <Translate>Confirm Password</Translate>
               </label>
               <input
@@ -220,18 +222,19 @@ const SignUpPage = ({ params }) => {
                 id="password_confirmation"
                 placeholder="confirm your password"
                 value={password_confirmation}
+                autoComplete="current-password"
                 onChange={(event) =>
                   setPassword_confirmation(event.target.value)
                 }
                 required
-                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
+                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-[#284062] dark:placeholder:text-slate-200 ${
                   error && "border-red-500"
                 }`}
               />
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="country" className=" font-medium">
+              <label htmlFor="country" className="text-md mb-4 font-bold">
                 <Translate>Select Your Country</Translate>
               </label>
               <div>
@@ -252,7 +255,7 @@ const SignUpPage = ({ params }) => {
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="subscription_type" className=" font-medium">
+              <label htmlFor="subscription_type" className="text-md mb-4 font-bold">
                 <Translate>Subscription Type</Translate>
               </label>
               <div>
@@ -275,7 +278,7 @@ const SignUpPage = ({ params }) => {
               </div>
             </div>
             <div className="flex flex-col">
-              <label htmlFor="subscription_period" className="font-medium">
+              <label htmlFor="subscription_period" className="text-md mb-4 font-bold">
                 <Translate>Subscription Duration</Translate>
               </label>
               <div>
@@ -302,7 +305,7 @@ const SignUpPage = ({ params }) => {
               </div>
             </div>
             {error && (
-              <div className="mx-4 max-w-xs flex flex-col text-xs text-red-500">
+              <div className="mx-4 flex max-w-xs flex-col text-xs text-red-500">
                 {error.map((err, key) => {
                   return <p key={key}>*{err}</p>;
                 })}

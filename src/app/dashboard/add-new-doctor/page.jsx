@@ -142,7 +142,7 @@ const RegisterDoctorPage = () => {
       <form className={`${isValid}`} onSubmit={handleSubmit} noValidate>
       <div className="mb-6 grid gap-6 lg:grid-cols-2">
             <Input
-              labelText="center_id"
+              labelText="center id"
               name="center_id"
               value={center_id}
               onChange={onChange}

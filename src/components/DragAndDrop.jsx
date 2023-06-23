@@ -3,6 +3,7 @@ import { usePhoto } from "@/context/PhotoContext";
 import Image from "next/image";
 import { useEffect, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
+import Translate from "./Translate";
 
 const styles = {
   focused: {
@@ -44,7 +45,6 @@ const DragAndDrop = () => {
     </li>
   ));
 
-
   useEffect(() => {
     if (acceptedFiles.length > 0) {
       const fileUrl = URL.createObjectURL(acceptedFiles[0]);
@@ -63,7 +63,7 @@ const DragAndDrop = () => {
     <section className="w-64 text-center">
       <div
         {...getRootProps({ className: "dropzone", style })}
-        className="py-5 px-4 border border-dashed border-gray-400 rounded-tr-lg rounded-tl-lg transition-all"
+        className="rounded-tl-lg rounded-tr-lg border border-dashed border-gray-400 px-4 py-5 transition-all"
       >
         <input {...getInputProps()} />
         <Image
@@ -74,21 +74,28 @@ const DragAndDrop = () => {
           alt="image icon"
         />
         <p className="text-gray-400">
-          Drag your image, or select &nbsp;
-          <span className="text-gray-500 font-semibold cursor-pointer">click to browse</span>
+          <Translate> Drag an image, or select</Translate>
+          &nbsp;
+          <span className="cursor-pointer font-semibold text-gray-500">
+            <Translate>click to browse</Translate>
+          </span>
         </p>
       </div>
-      <p className="text-gray-400 mt-2">Attach an image or file</p>
+      <p className="mt-2 text-gray-400">
+        <Translate>Attach an image or file</Translate>
+      </p>
       <aside>
         {files.length > 0 && (
           <>
-            <h4>Files</h4>
+            <h4>
+              <Translate>All Files</Translate>
+            </h4>
             <ul>{files}</ul>
             <button
               onClick={handleRemoveFiles}
-              className="mt-2 bg-red-500 text-white px-4 py-2 rounded"
+              className="mt-2 rounded bg-red-500 px-4 py-2 text-white"
             >
-              Remove Files
+              <Translate>Remove Files</Translate>
             </button>
           </>
         )}

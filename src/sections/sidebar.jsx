@@ -123,11 +123,7 @@ const CustomSidebar = () => {
                 <SubMenu
                   key={index}
                   icon={navItem.icon}
-                  label={
-                    <Translate >
-                      {navItem.name}
-                    </Translate>
-                  }
+                  label={<Translate>{navItem.name}</Translate>}
                   title={navItem.name}
                 >
                   {navItem.children.map((submenuItem, submenuIndex) => (
@@ -165,7 +161,7 @@ const CustomSidebar = () => {
               icon={loading ? <LoadingComponent /> : <FaSignOutAlt />}
               onClick={handleSignOutClick}
             >
-              {loading ? "Signing out..." : "Logout"}
+              <Translate>{loading ? "Signing out..." : "Logout"}</Translate>
             </MenuItem>
           </div>
         </Menu>

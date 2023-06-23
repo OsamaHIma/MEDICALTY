@@ -16,10 +16,7 @@ const layout = ({ children }) => {
   const { selectedLanguage } = useLanguage();
 
   return (
-    <main
-      className={` flex max-w-full`}
- 
-    >
+    <main className={` flex max-w-full`}>
       <CustomSidebar />
       <div className="flex-1">
         <Navbar />

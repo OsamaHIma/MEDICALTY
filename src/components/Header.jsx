@@ -2,6 +2,7 @@ import DragAndDrop from "./DragAndDrop";
 import { SelectInput } from "./Input";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import Translate from "./Translate";
 
 const Header = ({
   headerText = "",
@@ -9,9 +10,6 @@ const Header = ({
   chooseInputText = "",
   imageUploader = false,
 }) => {
- 
-
-  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -78,17 +76,16 @@ const Header = ({
   return (
     <section className="p-10">
       <div
-        className={`items-center flex-wrap g-3 ${
-          !headerText ? "md:flex justify-end" : "justify-between flex"
+        className={`g-3 flex-wrap items-center ${
+          !headerText ? "justify-end md:flex" : "flex justify-between"
         }`}
       >
-        <h1 className="text-xl md:text-3xl capitalize flex-1 text-slate-700 dark:text-slate-50">
-          {headerText}
+        <h1 className="flex-1 text-xl capitalize text-slate-700 dark:text-slate-50 md:text-3xl">
+          <Translate>{headerText}</Translate>
         </h1>
         {chooseInput && (
           <SelectInput
             labelText={chooseInputText}
-            
             placeHolder="select"
             ClassesForTheDiv="flex-1"
             labelBgColor="bg-slate-800"
@@ -97,7 +94,7 @@ const Header = ({
         )}
       </div>
       {imageUploader && (
-        <div className="flex justify-center items-center mt-28 mb-9">
+        <div className="mb-9 mt-28 flex items-center justify-center">
           <DragAndDrop />
         </div>
       )}

@@ -148,7 +148,7 @@ const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter Your Email"
             id="email"
-            className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
+            className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-[#284062] dark:placeholder:text-slate-200 ${
               error && "border-red-500"
             }`}
           />
@@ -165,7 +165,7 @@ const LoginPage = () => {
               placeholder="Enter Your Password"
               id="password"
               autoComplete="current-password"
-              className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-800 dark:placeholder:text-slate-200 ${
+              className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-[#284062] dark:placeholder:text-slate-200 ${
                 error && "border-red-500"
               }`}
             />

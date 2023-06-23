@@ -1,3 +1,5 @@
+import Translate from "./Translate";
+
 type ButtonProps = {
   fontColor?: string;
   fontWeight?: string;
@@ -41,7 +43,7 @@ const Button = ({
   return (
     <button className={buttonClasses.trim()} {...buttonProps}>
       {icon && <span className="px-2">{icon}</span>}
-      {content}
+      <Translate>{content}</Translate>
     </button>
   );
 };

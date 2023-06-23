@@ -13,9 +13,8 @@ type selectProps = {
   inputBgColor?: string;
   labelBgColor?: string;
   labelText: string;
-  placeHolder?: string | any;
+  placeHolder?: string;
   required?: boolean;
-  placeholder?: React.ReactNode;
   ClassesForTheDiv?: string;
   ClassesForTheLabel?: string;
   ClassesForTheInput?: string;
@@ -73,17 +72,7 @@ export const Input = ({
       <textarea
         id="textarea"
         name={name}
-        placeholder={
-          placeHolder
-            ? (
-                <React.Fragment>
-                  <Translate>{placeHolder}</Translate>
-                </React.Fragment>
-              ).props.children
-                .toArray()
-                .join("")
-            : undefined
-        }
+        placeholder={placeHolder}
         className="flex-1 rounded-br-md rounded-tr-md border border-blue-300 bg-green-50 p-2 align-middle focus:outline-blue-600 dark:bg-slate-700"
         rows={3}
         cols={3}
@@ -99,15 +88,10 @@ export const Input = ({
         type={type}
         name={name}
         placeholder={
-          placeHolder
-            ? (
-                <React.Fragment>
-                  <Translate>{placeHolder}</Translate>
-                </React.Fragment>
-              ).props.children
-                .toArray()
-                .join("")
-            : undefined
+          (type === "password" &&
+            "The password should be 8 characters at least") ||
+          placeHolder ||
+          labelText
         }
         required={required}
         onChange={onChange}
@@ -116,7 +100,7 @@ export const Input = ({
 
       {icon && (
         <div
-          className={`mr-3 text-blue-300 dark:text-blue-200 ${ClassesForTheIcon}`}
+          className={`mr-3 rtl:ml-3 text-blue-300 dark:text-blue-200 ${ClassesForTheIcon}`}
         >
           {icon}
         </div>
@@ -149,14 +133,13 @@ export const Input = ({
             collapsed ? null : "!text-[13px]"
           } h-full flex-[0.5] px-3 py-2 text-[13px] md:text-[16px] ${ClassesForTheLabel}`}
         >
-          {labelText}
+          <Translate>{labelText}</Translate>
         </label>
       )}
       {renderInputs()}
     </div>
   );
 };
-
 export const SelectInput = ({
   upperCase = false,
   rounded = "rounded-md",
@@ -188,17 +171,7 @@ export const SelectInput = ({
       </label>
 
       <Select
-        placeholder={
-          placeHolder
-            ? (
-                <React.Fragment>
-                  <Translate>{placeHolder}</Translate>
-                </React.Fragment>
-              ).props.children
-                .toArray()
-                .join("")
-            : undefined
-        }
+        placeholder={placeHolder}
         className={`flex-1 focus:outline-none dark:bg-slate-700 dark:text-slate-700 ${inputBgColor} ${ClassesForTheInput}`}
         options={options}
         required={required}

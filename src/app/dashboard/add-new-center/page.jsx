@@ -264,7 +264,7 @@ const AddNewCenter = () => {
               required
             />
             <SelectInput
-              labelText="subscription period "
+              labelText="subscription duration "
               options={[
                 { value: "Free_trail", label: "Free trail" },
                 { value: "Month", label: "Month" },
