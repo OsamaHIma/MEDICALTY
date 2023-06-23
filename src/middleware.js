@@ -4,6 +4,7 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(req) {
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const pathname = req.nextUrl.pathname;
+  console.log(pathname,session)
   if (!session) {
     if (pathname === "/" || pathname.includes("/dashboard")) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
