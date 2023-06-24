@@ -1,5 +1,4 @@
 "use client";
-import Translate from "@/components/Translate";
 
 interface ConfirmModalProps {
   message: string;
@@ -10,7 +9,7 @@ const ConfirmModal = ({ message, onConfirm, onCancel }: ConfirmModalProps) => {
   return (
     <div className="p-4">
       <div className="mb-4 text-lg font-medium dark:text-slate-200">
-        <Translate>{message}</Translate>
+        {message}
       </div>
       <div className="flex justify-end">
         <button

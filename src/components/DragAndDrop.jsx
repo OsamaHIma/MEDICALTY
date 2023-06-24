@@ -74,7 +74,9 @@ const DragAndDrop = () => {
           alt="image icon"
         />
         <p className="text-gray-400">
-          <Translate> Drag an image, or select</Translate>
+          <Translate>
+            Drag an image, or select from the file explorer,
+          </Translate>
           &nbsp;
           <span className="cursor-pointer font-semibold text-gray-500">
             <Translate>click to browse</Translate>

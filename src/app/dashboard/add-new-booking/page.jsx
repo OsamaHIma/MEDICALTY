@@ -116,7 +116,7 @@ const BookingPage = () => {
           <Input
             id="title"
             name="title"
-            labelText="Disease or illness name"
+            labelText="Disease name"
             value={title}
             onChange={onChange}
             icon={<MdTextFields size={23} />}

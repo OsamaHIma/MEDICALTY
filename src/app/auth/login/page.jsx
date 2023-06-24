@@ -131,7 +131,6 @@ const LoginPage = () => {
               { value: "department", label: "Department" },
               { value: "admin", label: "Admin" },
               { value: "lab", label: "Lab" },
-              { value: "lab", label: "Lab" },
               { value: "pharmacy", label: "Pharmacy" },
             ]}
             value={selectedOption}
