@@ -40,11 +40,12 @@ const allowedPaths = {
   doctor: [
     "/dashboard/add-new-patient",
     "/dashboard/patients/receive-request",
-    "/dashboard/reports",
-    "/dashboard/invoices",
-    "/dashboard/expenses",
-    "/dashboard/patients/new-request",
-    "/dashboard/products",
+    "/dashboard/add-new-report",
+    "/dashboard/add-new-invoice",
+    "/dashboard/add-new-expense",
+    "/dashboard/add-new-request",
+    "/dashboard/add-new-product",
+    "/dashboard/add-new-service",
     "/dashboard/expertise",
     "/dashboard/schedule",
     "/dashboard/messages",
@@ -77,16 +78,18 @@ const allowedPaths = {
     "/dashboard/patient-evaluations",
   ],
   pharmacy: [
-    "/dashboard",
     "/dashboard/add-new-patient",
-    "/dashboard/add-new-booking",
-    "/dashboard/data/invoices",
-    "/dashboard/data/expenses",
-    "/dashboard/data/products",
-    "/dashboard/data/expertise",
-    "/dashboard/data/schedule",
-    "/dashboard/data/messages",
-    "/dashboard/data/insurance-companies",
+    // "/dashboard/patients/receive-request",
+    // "/dashboard/add-new-report",
+    "/dashboard/add-new-invoice",
+    "/dashboard/add-new-expense",
+    "/dashboard/add-new-request",
+    "/dashboard/add-new-product",
+    "/dashboard/add-new-service",
+    "/dashboard/add-new-lab",
+    "/dashboard/schedule",
+    "/dashboard/messages",
+    "/dashboard/add-new-insurance-company",
   ],
   lab: [
     "/dashboard/add-new-patient",
@@ -103,13 +106,12 @@ const allowedPaths = {
   ],
 };
 const checkPermissions = (userRole, pathname) => {
-  if (userRole === "hospital" || "pharmacy" || "admin") {
-    return true;
-  }
   if (!roles[userRole]) {
     return false;
   }
-
+  if (userRole === "hospital" || "pharmacy" || "admin" || "center") {
+    return true;
+  }
   const userPermissions = roles[userRole].permissions;
   if (!userPermissions) {
     return false;

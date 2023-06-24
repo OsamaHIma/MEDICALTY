@@ -3,16 +3,13 @@ import Button from "@/components/Button";
 import Header from "@/components/Header";
 import {Input,SelectInput} from "@/components/Input";
 import { useEffect, useState } from "react";
-import PagesDataGrid from "@/components/PagesDataGrid";
 import { FaCalendarAlt, FaUserAlt } from "react-icons/fa";
 import { MdPayment, MdTextFields } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 
 const Invoices = () => {
- 
 
-  
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
