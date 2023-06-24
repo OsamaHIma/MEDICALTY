@@ -16,7 +16,6 @@ const PagesDataGrid = ({ params }) => {
   const endpointUrl = link.map((param) => `${param}`).join("");
   const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/${endpointUrl}`;
   const apiUrl = "";
-  console.log(endpointUrl);
   const { data: session } = useSession();
   const [token, setToken] = useState("");
   useEffect(() => {
@@ -33,7 +32,7 @@ const PagesDataGrid = ({ params }) => {
       email: "d@1aexample.ccom",
       password: "password123",
       country: "US",
-      userType: "center",
+      userRole: "center",
       subscription_type: "Basic",
       subscription_period: "Month",
       formal_email: "example@example.com",
@@ -59,7 +58,7 @@ const PagesDataGrid = ({ params }) => {
       email: "d@1aexample.ccom",
       password: "password123",
       country: "US",
-      userType: "center",
+      userRole: "center",
       subscription_type: "Basic",
       subscription_period: "Month",
       formal_email: "example@example.com",
@@ -257,7 +256,7 @@ const PagesDataGrid = ({ params }) => {
               fontColor="text-[#4a4a4a]"
               icon={<MdOutlineFilterAlt size={25} />}
             /> */}
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-400 ">
               <Translate>Total Number Of </Translate>{" "}
               <Translate>{endpointUrl}</Translate> ({rows.length})
             </p>

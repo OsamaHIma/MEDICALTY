@@ -54,8 +54,8 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
   }, [selectedLanguage, isRtl]);
 
   useEffect(() => {
-    document.documentElement.dir = isRtl ? 'rtl' : 'auto';
-  }, [isRtl]);
+    document.documentElement.dir = selectedLanguage ==="ar" ? 'rtl' : 'ltr';
+  }, [selectedLanguage]);
 
   const value = useMemo(() => {
     return {

@@ -62,10 +62,10 @@ export const Input = ({
   const renderTextArea = () => (
     <>
       <label
-        htmlFor="your-textarea"
+        htmlFor="textarea"
         className={`text-gray-100 ${labelBgColor} ${
           collapsed ? null : "!text-[13px]"
-        } h-8 rounded-bl-md rounded-tl-md px-3 pt-1 text-[13px] md:text-[16px] ${ClassesForTheLabel}`}
+        } h-8 px-3 pt-1 text-[13px] ltr:rounded-l-md rtl:rounded-r-md md:text-[16px] ${ClassesForTheLabel}`}
       >
         <Translate>{labelText}</Translate>
       </label>
@@ -73,7 +73,7 @@ export const Input = ({
         id="textarea"
         name={name}
         placeholder={placeHolder}
-        className="flex-1 rounded-br-md rounded-tr-md border border-blue-300 bg-green-50 p-2 align-middle focus:outline-blue-600 dark:bg-slate-700"
+        className="flex-1 border border-blue-300 bg-green-50 p-2 align-middle focus:outline-blue-600 ltr:rounded-r-md rtl:rounded-l-md dark:bg-slate-700"
         rows={3}
         cols={3}
         onChange={onChange}
@@ -100,7 +100,7 @@ export const Input = ({
 
       {icon && (
         <div
-          className={`mr-3 rtl:ml-3 text-blue-300 dark:text-blue-200 ${ClassesForTheIcon}`}
+          className={`mr-3 text-blue-300 rtl:ml-3 dark:text-blue-200 ${ClassesForTheIcon}`}
         >
           {icon}
         </div>
@@ -119,12 +119,10 @@ export const Input = ({
 
   return (
     <div
-      className={`flex capitalize ${upperCase && "uppercase"}  flex-nowrap${
+      className={`flex capitalize ${upperCase && "uppercase"} flex-nowrap ${
         type === "textarea"
           ? "bg-transparent"
-          : `needs-validation items-center border-2 border-blue-200 ${rounded} ${
-              type === "select" ? null : "overflow-hidden"
-            } ${inputBgColor}`
+          : `needs-validation items-center border-2 border-blue-200 ${rounded} overflow-hidden ${inputBgColor}`
       } ${ClassesForTheDiv}`}
     >
       {type === "textarea" ? null : (
@@ -158,14 +156,14 @@ export const SelectInput = ({
 
   return (
     <div
-      className={`flex capitalize ${upperCase && "uppercase"}  needs-validation 
-     flex-nowrap items-center !rounded-md ${inputBgColor}
+      className={`flex capitalize ${upperCase && "uppercase"} rounded-md needs-validation 
+     flex-nowrap items-center ${inputBgColor}
      ${ClassesForTheDiv}`}
     >
       <label
         className={`text-gray-100 ${labelBgColor} ${
           collapsed ? null : "!text-[13px]"
-        } flex-[0.5] px-3 py-2 text-[13px] md:text-[16px] ${ClassesForTheLabel}`}
+        } flex-[0.5] px-3 py-2 text-[13px] ltr:rounded-l-md rtl:rounded-r-md md:text-[16px] ${ClassesForTheLabel}`}
       >
         <Translate>{labelText}</Translate>
       </label>

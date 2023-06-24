@@ -16,21 +16,23 @@ import { BsMoonStarsFill } from "react-icons/bs";
 // import { signOut as nextAuthSignOut, useSession } from "next-auth/react";
 import { signOut, useSession } from "next-auth/react";
 import LoadingComponent from "@/components/Loading";
-import ConfirmModal from "@/components/ConfirmModal";
+import ConfirmModal from "@/components/ConfirmModal.tsx";
 import Translate from "@/components/Translate";
 import { toast } from "react-toastify";
+import { useLanguage } from "@/context/LanguageContext";
 
 const CustomSidebar = () => {
   const { collapsed } = useProSidebar();
   const { setTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [userType, setUserType] = useState("admin");
+  const [userRole, setUserRole] = useState("admin");
   const [token, setToken] = useState("");
+  const { selectedLanguage } = useLanguage();
   const { data: session } = useSession();
   useEffect(() => {
     if (session) {
-      setUserType(session.user.userType);
+      setUserRole(session.user.userRole);
       setToken(session.user.token);
     }
   }, [session]);
@@ -52,11 +54,10 @@ const CustomSidebar = () => {
   const handleSignOut = async () => {
     setLoading(true);
     try {
-      // await signOut({ userType,token });
-      await signOut();
+      // await signOut({ userRole,token });
+      await signOut({ redirect: "/auth/login" });
       setLoading(false);
       setShowModal(false);
-      location.reload();
     } catch (error) {
       console.log("Error signing out:", error);
     }
@@ -95,7 +96,11 @@ const CustomSidebar = () => {
   return (
     <div className="relative flex !max-w-[256px]">
       <div className="gradient absolute left-0 -z-[1] h-96 w-96 bg-gradient-to-r from-blue-300/25 to-green-600/25 blur-[100px]" />
-      <Sidebar width="256px" defaultCollapsed>
+      <Sidebar
+        width="256px"
+        defaultCollapsed
+        rtl={selectedLanguage === "ar" ? true : false}
+      >
         {!collapsed && (
           <div className="sidebarHeader flex justify-start px-4 py-5">
             <Link href="/">

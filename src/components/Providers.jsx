@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Providers = ({ children }) => {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <ToastContainer closeOnClick pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer closeOnClick pauseOnFocusLoss draggable pauseOnHover limit={1} toastClassName="dark:bg-slate-800 dark:text-green-100"  />
       <ProSidebarProvider>
         <SessionProvider>
           <LanguageProvider>

@@ -10,7 +10,7 @@ import Link from "next/link";
 import LanguageSelector from "@/components/LanguageSelector";
 import { FaUserCheck } from "react-icons/fa";
 import { useLanguage } from "@/context/LanguageContext";
-import ConfirmModal from "@/components/ConfirmModal";
+import ConfirmModal from "@/components/ConfirmModal.tsx";
 import Translate from "@/components/Translate";
 import Loading from "@/components/Loading";
 import { toast } from "react-toastify";
@@ -68,7 +68,7 @@ const Navbar = () => {
   const handleSignOut = async () => {
     setLoading(true);
     try {
-      // await signOut({ userType,token });
+      // await signOut({ userRole,token });
       await signOut();
       setLoading(false);
       setShowModal(false);
@@ -126,8 +126,8 @@ const Navbar = () => {
         </button>
         <input
           type="search"
-          className={`flex-1 rounded-l-md bg-gray-100
-           px-3 focus:outline-blue-400 rtl:rounded-r-md dark:text-slate-900`}
+          className={`flex-1 bg-gray-100 px-3
+           focus:outline-blue-400 ltr:rounded-l-md rtl:rounded-r-md dark:text-slate-900`}
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => handleSearchChange(e.target.value)}
@@ -156,7 +156,7 @@ const Navbar = () => {
         )}
         <button
           type="button"
-          className={`flex items-center justify-center rounded-r-md bg-green-500 p-2 rtl:rounded-l-md`}
+          className={`flex items-center justify-center bg-green-500 p-2 ltr:rounded-r-md rtl:rounded-l-md`}
           onClick={handleSearch}
         >
           <FiSearch className="text-[35px] text-slate-50" />
@@ -187,7 +187,7 @@ const Navbar = () => {
           <div className="absolute top-[80%] z-10 mt-2 rounded-md bg-gradient-to-tr from-slate-50 to-slate-200 p-2 shadow-md ltr:right-[10%] rtl:left-[10%] dark:text-slate-900">
             <div className="flex w-full items-center gap-3 rounded-md p-1 text-left capitalize hover:bg-green-100">
               <FaUserCheck />
-              <span>{user ? user.userType : "loading..."}</span>
+              <span>{user ? user.userRole : "loading..."}</span>
             </div>
             {/* <Link href="/dashboard/profile">
               <button className="block w-full rounded-md p-1 text-left hover:bg-green-100">

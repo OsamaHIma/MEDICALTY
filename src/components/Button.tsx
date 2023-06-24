@@ -36,7 +36,7 @@ const Button = ({
         ? `${bgColor} ${fontColor} hover:bg-green-500/70`
         : `bg-transparent hover:bg-green-500 border-2 border-solid border-green-400 text-green-400 hover:text-white`
     }
-    px-4 py-2 flex justify-center items-center transition-all
+    px-4 py-2 flex justify-center rtl:flex-row-reverse items-center transition-all disabled:opacity-50 disabled:cursor-not-allowed
     ${additionalClasses}
   `;
 

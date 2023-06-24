@@ -13,15 +13,15 @@ import {
   FaPhone,
   FaEnvelope,
   FaHome,
-  FaKey,
   FaMoneyBillWave,
   FaMoneyCheck,
+  FaRegBuilding,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { usePhoto } from "@/context/PhotoContext";
 import { useSession } from "next-auth/react";
 import { useCountries } from "@/context/CountriesContext";
-const RegisterNursePage = () => {
+const RegisterEmployeePage = () => {
   const { countries, isCountriesLoading } = useCountries();
 
   const { uploadedPhoto } = usePhoto();
@@ -39,12 +39,10 @@ const RegisterNursePage = () => {
   ];
 
   const defaultProps = {
-    center_id: "",
     department_id: "",
     username: "",
     name: "",
     email: "",
-    password: "",
     ssn: "",
     phone: "",
     salary_per_hour: "",
@@ -59,12 +57,10 @@ const RegisterNursePage = () => {
   };
   const [formFields, setFormFields] = useState(defaultProps);
   const {
-    center_id,
     department_id,
     username,
     name,
     email,
-    password,
     ssn,
     phone,
     total_salary,
@@ -75,8 +71,8 @@ const RegisterNursePage = () => {
     gender,
     nationality,
     city,
-    country,
-    province
+    province,
+    country
   } = formFields;
 
   const onChange = (event) => {
@@ -89,7 +85,7 @@ const RegisterNursePage = () => {
   };
   const handlePostRequest = async () => {
     try {
-      const response = await fetch("/api/nurse/save", {
+      const response = await fetch("/api/employee/save", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -134,17 +130,9 @@ const RegisterNursePage = () => {
 
   return (
     <section className="px-10">
-      <Header imageUploader headerText="Add New Nurse" />
+      <Header imageUploader headerText="Add New Employee" />
       <form className={`${isValid}`} onSubmit={handleSubmit} noValidate>
         <div className="mb-6 grid gap-6 lg:grid-cols-2">
-          <Input
-            labelText="center ID"
-            name="center_id"
-            value={center_id}
-            onChange={onChange}
-            icon={<FaUser />}
-            type="number"
-          />
           <Input
             labelText="department ID"
             name="department_id"
@@ -225,13 +213,31 @@ const RegisterNursePage = () => {
             type="number"
           />
           <Input
-            labelText="password"
-            name="password"
-            value={password}
+            labelText="province"
+            name="province"
+            value={province}
             onChange={onChange}
-            icon={<FaKey />}
-            type="password"
-            minLength={8}
+            icon={<FaUserTie />}
+          />
+          <SelectInput
+            labelText="country"
+            options={countries}
+            name="country"
+            value={[
+              {
+                value: country || "Select your country",
+                label: country || "Select your country",
+              },
+            ]}
+            onChange={onSelectInputChange}
+            isLoading={isCountriesLoading}
+          />
+            <Input
+            labelText="city"
+            name="city"
+            value={city}
+            onChange={onChange}
+            icon={<FaRegBuilding />}
           />
           <SelectInput
             labelText="Nationality"
@@ -272,11 +278,11 @@ const RegisterNursePage = () => {
         </div>
         <div className="my-5 flex items-center justify-center gap-5">
           <Button content="Cancel" type="button" onClick={cancelFormSubmit} />
-          <Button content="Add Nurse" type="submit" filled />
+          <Button content="Add Employee" type="submit" filled />
         </div>
       </form>
     </section>
   );
 };
 
-export default RegisterNursePage;
+export default RegisterEmployeePage;

@@ -299,7 +299,7 @@ const radarChartOptions = {
 
 const Dashboard = () => {
   return (
-    <section className={`bg-green-200 dark:bg-slate-900`}>
+    <section>
       <header
         className={`bg-green-500/10 p-4 font-semibold text-gray-700 dark:text-slate-50`}
       >
@@ -313,31 +313,37 @@ const Dashboard = () => {
       <main className={`p-4`}>
         <div className="grid min-h-screen grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {/* Bar Chart */}
-          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
-            <h2 className={`mb-4 font-semibold text-green-500`}>Bar Chart</h2>
-            <Bar data={barChartData} options={barChartOptions} />
+          <div className="rounded-lg border border-gray-300 p-4 shadow-md backdrop-blur-[120px] dark:border-gray-400">
+              <h2 className={`mb-4 font-semibold text-green-500`}>
+                <Translate>Bar Chart</Translate>
+              </h2>
+              <Bar data={barChartData} options={barChartOptions} />
           </div>
           {/* Doughnut Chart */}
-          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
+          <div className="rounded-lg border border-gray-300 p-4 shadow-md backdrop-blur-[120px] dark:border-gray-400">
             <h2 className={`mb-4 font-semibold text-green-500`}>
-              Doughnut Chart
+              <Translate>Doughnut Chart</Translate>
             </h2>
             <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
           </div>
           {/* Line Chart */}
-          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
-            <h2 className={`mb-4 font-semibold text-green-500`}>Line Chart</h2>
+          <div className="rounded-lg border border-gray-300 p-4 shadow-md backdrop-blur-[120px] dark:border-gray-400">
+            <h2 className={`mb-4 font-semibold text-green-500`}>
+              <Translate>Line Chart</Translate>
+            </h2>
             <Line data={lineChartData} options={lineChartOptions} />
           </div>
           {/* Pie Chart */}
-          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
-            <h2 className={`mb-4 font-semibold text-green-500`}>Pie Chart</h2>
+          <div className="rounded-lg border border-gray-300 p-4 shadow-md backdrop-blur-[120px] dark:border-gray-400">
+            <h2 className={`mb-4 font-semibold text-green-500`}>
+              <Translate>Pie Chart</Translate>
+            </h2>
             <Pie data={pieChartData} options={pieChartOptions} />
           </div>
           {/* Polar Area Chart */}
-          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
+          <div className="rounded-lg border border-gray-300 p-4 shadow-md backdrop-blur-[120px] dark:border-gray-400">
             <h2 className={`mb-4 font-semibold text-green-500`}>
-              Polar Area Chart
+              <Translate>Polar Area Chart</Translate>
             </h2>
             <PolarArea
               data={polarAreaChartData}
@@ -345,8 +351,10 @@ const Dashboard = () => {
             />
           </div>
           {/* Radar Chart */}
-          <div className="rounded-lg bg-slate-100 p-4 shadow-md dark:bg-slate-800">
-            <h2 className={`mb-4 font-semibold text-green-500`}>Radar Chart</h2>
+          <div className="rounded-lg border border-gray-300 p-4 shadow-md backdrop-blur-[120px] dark:border-gray-400">
+            <h2 className={`mb-4 font-semibold text-green-500`}>
+              <Translate>Radar Chart</Translate>
+            </h2>
             <Radar data={radarChartData} options={radarChartOptions} />
           </div>
         </div>

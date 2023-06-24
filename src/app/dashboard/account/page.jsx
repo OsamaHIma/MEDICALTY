@@ -47,7 +47,7 @@ const MyAccount = () => {
     email: "d@1aexample.ccom",
     password: "password123",
     country: "US",
-    userType: "center",
+    userRole: "center",
     subscription_type: "Basic",
     subscription_period: "Month",
     formal_email: "example@example.com",
@@ -88,9 +88,9 @@ const MyAccount = () => {
   const handleSaveChanges = () => {
     console.log(user);
     fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/${user.userType}/${user.id}`,
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/${user.userRole}/${user.id}`,
       {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           token: token,
@@ -178,7 +178,7 @@ const MyAccount = () => {
               size={24}
               className="mr-2 inline-block text-green-500"
             />
-            {user.userType}
+            {user.userRole}
           </p>
         </div>
       </div>

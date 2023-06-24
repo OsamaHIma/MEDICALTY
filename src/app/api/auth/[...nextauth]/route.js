@@ -11,12 +11,12 @@ const authOptions = {
       async authorize(credentials) {
         const email = credentials.email;
         const password = credentials.password;
-        const userType = credentials.userType;
-        const data = await SignIn(email, password, userType);
+        const userRole = credentials.userRole;
+        const data = await SignIn(email, password, userRole);
         if (!data.token) {
           throw new Error(data);
         }
-        return { token: data.token, ...data, userType, email };
+        return { token: data.token, ...data, userRole, email };
       },
     }),
     GoogleProvider({
@@ -59,17 +59,18 @@ const authOptions = {
   },
 };
 
-const SignIn = async (email, password, userType) => {
+const SignIn = async (email, password, userRole) => {
   try {
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/${
-        userType === "admin" ? "center/admin" : userType
+        userRole === "admin" ? "center/admin" : userRole
       }/login`,
       { email, password }
     );
     return data;
-  } catch (resp) {
-    return resp.response.msg;
+  } catch (error) {
+    console.log("error signing in" + error)
+    return error;
   }
 };
 

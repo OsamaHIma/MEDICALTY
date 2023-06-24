@@ -21,7 +21,7 @@ import { useLanguage } from "@/context/LanguageContext";
 const LoginPage = () => {
   // Define state variables
   const [email, setEmail] = useState("");
-  const [userType, setUserType] = useState("");
+  const [userRole, setUserRole] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isRememberedUser, setIsRememberedUser] = useState(false);
@@ -53,7 +53,7 @@ const LoginPage = () => {
         {
           email: email,
           password: password,
-          user_type: userType,
+          user_type: userRole,
         },
 
         { abortEarly: false }
@@ -67,13 +67,14 @@ const LoginPage = () => {
       redirect: false,
       email,
       password,
-      userType,
+      userRole,
     });
     if (!user.error) {
       handleRememberUser();
       router.push(`/dashboard`);
     } else {
       setError([user.error]);
+      console.log(user);
       setIsLoading(false);
     }
   };
@@ -81,14 +82,14 @@ const LoginPage = () => {
     if (isRememberedUser) {
       localStorage.setItem(
         "user",
-        JSON.stringify({ email, password, userType, selectedOption })
+        JSON.stringify({ email, password, userRole, selectedOption })
       );
     } else {
       localStorage.removeItem("user");
     }
   };
   const handelSelectedOption = (option) => {
-    setUserType(option.value);
+    setUserRole(option.value);
     setSelectedOption(option);
   };
   useEffect(() => {
@@ -99,7 +100,7 @@ const LoginPage = () => {
     setIsRememberedUser(true);
     setEmail(user.email);
     setPassword(user.password);
-    setUserType(user.userType);
+    setUserRole(user.userRole);
     setSelectedOption(user.selectedOption);
   }, []);
   // Render the component
@@ -118,7 +119,7 @@ const LoginPage = () => {
       <form className="flex flex-col gap-8" autoComplete="on">
         <div className="mb-2 flex flex-col">
           <label htmlFor="select" className="text-md mb-4 font-bold ">
-            <Translate>Select your Specialty:</Translate>
+            <Translate>Select your Role:</Translate>
           </label>
           <SelectInputNoLabel
             id="select"
@@ -187,7 +188,16 @@ const LoginPage = () => {
         {error && (
           <div className="mx-4  flex flex-col text-xs text-red-500">
             {error.map((err, key) => {
-              return <p key={key}>*{err}</p>;
+              return (
+                <p key={key}>
+                  *
+                  <Translate>
+                    {err === "[object Object]"
+                      ? "Error while signing in please try again."
+                      : err}
+                  </Translate>
+                </p>
+              );
             })}
           </div>
         )}
@@ -219,14 +229,20 @@ const LoginPage = () => {
         <div className="flex flex-col gap-5 text-center">
           <Button
             onClick={handleLogin}
-            content={loading ? <Loading /> : "Login"}
+            disabled={loading}
+            icon={loading ? <Loading /> : null}
+            content={loading ? "Loading..." : "Login"}
           />
-          <p className="text-xl">OR</p>
+
+          <p className="text-xl">
+            <Translate>OR</Translate>
+          </p>
           <Button
             onClick={handleGoogleLogin}
             content={"Sign In with Google"}
             type="button"
             filled
+            disabled={loading}
             icon={<FcGoogle size={27} />}
           />
           <Button
@@ -234,6 +250,7 @@ const LoginPage = () => {
             content={"Sign Up with Facebook"}
             type="button"
             filled
+            disabled={loading}
             icon={<FaFacebook size={27} />}
           />
         </div>

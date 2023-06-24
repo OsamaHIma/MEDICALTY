@@ -36,15 +36,17 @@ export const metadata = {
 };
 const cairo = Cairo({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body
-        className={`${cairo.className} bg-[#e1f5e8] transition-all dark:bg-slate-900 dark:text-slate-100`}
+        className={`${cairo.className} relative bg-[#e1f5e8] transition-all dark:bg-slate-900 dark:text-slate-100`}
       >
+        <div className="gradient absolute right-[100px] -z-[1] h-96 w-[80%] bg-gradient-to-r from-indigo-500/30 to-violet-600/25 blur-[100px]" />
         <Providers>{children}</Providers>
+        <div className="gradient absolute bottom-0 right-[100px] -z-[1] h-96 w-[80%] bg-gradient-to-r from-cyan-500/30 to-green-600/25 blur-[100px]" />
       </body>
     </html>
   );

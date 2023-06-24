@@ -190,7 +190,7 @@ const SignUpPage = ({ params }) => {
                   type={passwordIcon ? "text" : "password"}
                   value={formData.password}
                   placeholder="Enter Your Password"
-                  id="password"
+                  name="password"
                   autoComplete="current-password"
                   className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-[#284062] dark:placeholder:text-slate-200 ${
                     error && "border-red-500"
@@ -213,7 +213,10 @@ const SignUpPage = ({ params }) => {
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="password_confirmation" className="text-md mb-4 font-bold">
+              <label
+                htmlFor="password_confirmation"
+                className="text-md mb-4 font-bold"
+              >
                 <Translate>Confirm Password</Translate>
               </label>
               <input
@@ -255,7 +258,10 @@ const SignUpPage = ({ params }) => {
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="subscription_type" className="text-md mb-4 font-bold">
+              <label
+                htmlFor="subscription_type"
+                className="text-md mb-4 font-bold"
+              >
                 <Translate>Subscription Type</Translate>
               </label>
               <div>
@@ -278,7 +284,10 @@ const SignUpPage = ({ params }) => {
               </div>
             </div>
             <div className="flex flex-col">
-              <label htmlFor="subscription_period" className="text-md mb-4 font-bold">
+              <label
+                htmlFor="subscription_period"
+                className="text-md mb-4 font-bold"
+              >
                 <Translate>Subscription Duration</Translate>
               </label>
               <div>
@@ -307,7 +316,16 @@ const SignUpPage = ({ params }) => {
             {error && (
               <div className="mx-4 flex max-w-xs flex-col text-xs text-red-500">
                 {error.map((err, key) => {
-                  return <p key={key}>*{err}</p>;
+                  return (
+                    <p key={key}>
+                      *
+                      <Translate>
+                        {err === "[object Object]"
+                          ? "Error while signing in please try again."
+                          : err}
+                      </Translate>
+                    </p>
+                  );
                 })}
               </div>
             )}
@@ -316,16 +334,14 @@ const SignUpPage = ({ params }) => {
             <Button
               type="submit"
               disabled={loading}
-              content={
+              icon={
                 loading ? (
                   <LoadingComponent />
                 ) : (
-                  <div className="flex items-center">
-                    <FaUserPlus size={20} className="mr-2" />
-                    <Translate>Sign Up</Translate>
-                  </div>
+                  <FaUserPlus size={20} className="mr-2" />
                 )
               }
+              content="Sign Up"
             />
             <p className="text-xl">OR</p>
             <Button
@@ -334,11 +350,13 @@ const SignUpPage = ({ params }) => {
               type="button"
               filled
               icon={<FcGoogle size={27} />}
+              disabled={loading}
             />
             <Button
               onClick={handleFacebookSignIn}
               content={"Sign Up with Facebook"}
               type="button"
+              disabled={loading}
               filled
               icon={<FaFacebook size={27} />}
             />
