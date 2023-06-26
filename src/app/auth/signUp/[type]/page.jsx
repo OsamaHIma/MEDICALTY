@@ -12,8 +12,10 @@ import SelectInputNoLabel from "@/components/SelectInputNoLabel";
 import { signIn, useSession } from "next-auth/react";
 import Translate from "@/components/Translate";
 import { FcGoogle } from "react-icons/fc";
+import getStripe from "@/lib/getStripe";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCountries } from "@/context/CountriesContext";
+
 // Define the SignUpPage component
 const SignUpPage = ({ params }) => {
   // Extract the type parameter from the props
@@ -30,6 +32,13 @@ const SignUpPage = ({ params }) => {
   const { countries, isCountriesLoading } = useCountries();
   const [token, setToken] = useState("");
   const { data: session } = useSession();
+  // Set the token when the session changes
+  useEffect(() => {
+    if (session) {
+      setToken(session.user.token);
+    }
+  }, [session]);
+
   const [password_confirmation, setPassword_confirmation] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -44,6 +53,16 @@ const SignUpPage = ({ params }) => {
   };
   const [formData, setFormData] = useState(defaultProps);
   const [passwordIcon, setPasswordIcon] = useState(false);
+  const success_url = typeof window !== "undefined" && window.location.href;
+
+  const item = [
+    {
+      name: formData.subscription_period,
+      email: formData.email,
+      duration: formData.subscription_period,
+      success_url,
+    },
+  ];
   // Define functions for handling changes to the form data
   const togglePasswordIcon = () => {
     setPasswordIcon(!passwordIcon);
@@ -66,11 +85,7 @@ const SignUpPage = ({ params }) => {
   // Define function for handling form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Check if passwords match
-    if (formData.password !== password_confirmation) {
-      toast.error("Passwords do not match.");
-      return;
-    }
+
     setError(null);
     try {
       // Validate the form data
@@ -89,40 +104,67 @@ const SignUpPage = ({ params }) => {
       setError(error.errors);
       return;
     }
+    // Check if passwords match
+    if (formData.password !== password_confirmation) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+    setLoading(true);
+    localStorage.setItem("redirectUrl", window.location.href);
     try {
-      setLoading(true);
-      // Send a request to the server to register the user
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/${
-          type === "admin" ? "center/admin" : type
-        }/save`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            token: token,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Error registering user.");
-      }
+      const stripe = await getStripe();
+      const stripeResponse = await fetch("/api/stripe", {
+        method: "POST",
+        body: JSON.stringify(item),
+      });
+      const stripeCheckoutSession = await stripeResponse.json();
+
+      // Redirect to Stripe Checkout
+      window.open(stripeCheckoutSession.url, "_blank")
+      // stripe
+      //   .redirectToCheckout({
+      //     sessionId: stripeCheckoutSession.id,
+      //   })
+        .then(async (result) => {
+          if (result.error) {
+            console.log(result.error);
+            throw new Error("Payment failed.");
+          }
+          // Payment succeeded, continue with user registration
+          setLoading(false);
+          toast.success("Payment successful, registering user...");
+          console.log(formData);
+          try {
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_BASE_API_URL}/${
+                type === "admin" ? "center/admin" : type
+              }/save`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  token: token,
+                },
+                body: JSON.stringify(formData),
+              }
+            );
+            if (!response.ok) {
+              throw new Error("Error registering user.");
+            }
+            toast.success("Registered successfully.");
+            router.push("/dashboard");
+          } catch (error) {
+            console.error(error);
+            toast.error(error.message);
+          }
+        });
+    } catch (err) {
       setLoading(false);
-      toast.success("Registered successfully.");
-      router.push("/dashboard");
-    } catch (error) {
-      setLoading(false);
-      console.error(error);
-      toast.error(error.message);
+      console.log(err);
+      toast.error("Payment failed.");
     }
   };
-  // Set the token when the session changes
-  useEffect(() => {
-    if (session) {
-      setToken(session.user.token);
-    }
-  }, [session]);
+
   // Render the component
 
   return (
@@ -132,15 +174,11 @@ const SignUpPage = ({ params }) => {
           <Translate>Welcome to</Translate> Medicality!
           <MdWavingHand className="mx-2 text-3xl text-yellow-500" />
         </h1>
-        <h3 className="mt-4 text-sm text-gray-500 dark:text-gray-300">
-          <Translate> Start managing your hospital better.</Translate>
-        </h3>
-        <h1 className="mt-4 text-sm text-gray-500 dark:text-gray-300">
+        <h1 className="mt-4 text-gray-500 dark:text-gray-300">
           <Translate>You are signing up as a</Translate>{" "}
           <span className="text-xl font-semibold capitalize text-green-500">
             <Translate>{type}</Translate>
           </span>
-          .
         </h1>
       </div>
       <div>
@@ -175,7 +213,7 @@ const SignUpPage = ({ params }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-slate-600 dark:placeholder:text-slate-200 ${
+                className={`w-full rounded-md px-4 py-2 focus:outline-gray-200 dark:bg-[#284062] dark:placeholder:text-slate-200 ${
                   error && "border-red-500"
                 }`}
               />
@@ -293,9 +331,9 @@ const SignUpPage = ({ params }) => {
               <div>
                 <SelectInputNoLabel
                   options={[
-                    { value: "Free_trial", label: "Free trial" },
-                    { value: "Month", label: "Month" },
-                    { value: "Year", label: "Year" },
+                    // { value: "Free_trial", label: "Free trial" },
+                    { value: "month", label: "Month $30" },
+                    { value: "year", label: "Year $70" },
                   ]}
                   name="subscription_period"
                   value={[
@@ -312,9 +350,12 @@ const SignUpPage = ({ params }) => {
                   placeholder="Select subscription period"
                 />
               </div>
+              <p className="mt-3 text-sm text-gray-200">
+                All includes free week trail
+              </p>
             </div>
             {error && (
-              <div className="mx-4 flex max-w-xs flex-col text-xs text-red-500">
+              <div className="mx-4 flex max-w-xs flex-col text-red-500">
                 {error.map((err, key) => {
                   return (
                     <p key={key}>
@@ -344,6 +385,7 @@ const SignUpPage = ({ params }) => {
               content="Sign Up"
             />
             <p className="text-xl">OR</p>
+
             <Button
               onClick={handleGoogleSignIn}
               content={"Sign Up with Google"}

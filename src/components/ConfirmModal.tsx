@@ -1,5 +1,3 @@
-"use client";
-
 interface ConfirmModalProps {
   message: string;
   onConfirm: () => void;

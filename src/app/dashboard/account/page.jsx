@@ -5,9 +5,11 @@ import { useSession } from "next-auth/react";
 import { useDropzone } from "react-dropzone";
 import { MdSupervisorAccount, MdMailOutline } from "react-icons/md";
 import Button from "@/components/Button";
+import Translate from "@/components/Translate";
 import { useCountries } from "@/context/CountriesContext";
 import SelectInputNoLabel from "@/components/SelectInputNoLabel";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaUserCheck } from "react-icons/fa";
+
 // Input component
 const InputField = ({
   label,
@@ -40,33 +42,47 @@ const MyAccount = () => {
   const { countries, isCountriesLoading } = useCountries();
   const { data: session } = useSession();
   const [token, setToken] = useState("");
-  const [user, setUser] = useState({
-    // "logo": "data:image/https://example.com/logo.png",
-    name: "Example Center",
-    username: "example_center",
-    email: "d@1aexample.ccom",
-    password: "password123",
-    country: "US",
-    userRole: "center",
-    subscription_type: "Basic",
-    subscription_period: "Month",
-    formal_email: "example@example.com",
-    phone: "555-1234",
-    formal_phone: "555-5678",
-    website: "https://example.com",
-    address1: "123 Main St",
-    address2: "Apt 4",
-    state: "CA",
-    province: "California",
-    zip_code: "90210",
-    facebook: "https://www.facebook.com/example",
-    instagram: "https://www.instagram.com/example",
-    twitter: "https://www.twitter.com/example",
-    snapchat: "https://www.snapchat.com/example",
-    youtube: "https://www.youtube.com/channel/example",
-  });
+  const [userRole, setUserRole] = useState("");
+  const [user, setUser] = useState();
   const [isEditing, setIsEditing] = useState(false);
 
+  // Set token and user on session change
+  useEffect(() => {
+    if (session) {
+      setUserRole(session.user.userRole);
+      setToken(session.user.token);
+      // console.log(token, userRole);
+    }
+  }, [session]);
+
+  const fetchData = async () => {
+    console.log(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/${userRole}/myData` ===
+        "http://medicalty.space/api/pharmacy/myData"
+    );
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/${userRole}/myData`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token }),
+        }
+      );
+
+      const { data } = await response.json();
+      setUser(data);
+
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, [token]);
   const onChangeInput = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -76,28 +92,17 @@ const MyAccount = () => {
       [name]: value,
     }));
   };
-
-  // Set token and user on session change
-  useEffect(() => {
-    if (session) {
-      setToken(session.user.token);
-    }
-  }, [session]);
-
   // Save changes to user data
   const handleSaveChanges = () => {
     console.log(user);
-    fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/${user.userRole}/${user.id}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token: token,
-        },
-        body: JSON.stringify(user),
-      }
-    )
+    fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/${user.userRole}/edit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+      body: JSON.stringify({ ...user, token }),
+    })
       .then((res) => res.json())
       .then((data) => {
         setUser(data.user);
@@ -142,22 +147,22 @@ const MyAccount = () => {
           title="Upload your photo"
         >
           <input {...getInputProps()} />
-          {user.image ? (
+          {/* {user.image ? (
             <img
               src={user.image}
               alt={user.name}
               className="h-full w-full rounded-full object-cover"
             />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
-              {user?.name && (
-                <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
-                  {user.name.charAt(0).toUpperCase()}
-                </div>
-              )}
-            </div>
-          )}
-          {!isEditing && (
+          ) : ( */}
+          <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
+            {user?.name && (
+              <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-200 text-xl font-bold text-gray-500">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
+          {/* // )} */}
+          {isEditing && (
             <FaPlus
               size={30}
               className="absolute bottom-0 right-0 z-10 cursor-pointer rounded-full bg-green-500 p-1"
@@ -165,20 +170,20 @@ const MyAccount = () => {
           )}
         </div>
         <div className="flex-1">
-          <h2 className="mb-2 text-2xl font-bold">{user.name}</h2>
+          <h2 className="mb-2 text-2xl font-bold">{user && user.name}</h2>
           <p className="w-full rounded-tl-md rounded-tr-md bg-green-50 px-4 py-2 text-gray-500 focus:outline-gray-200 dark:bg-slate-800 dark:text-slate-200">
             <MdMailOutline
               size={24}
-              className="mr-2 inline-block text-green-500"
+              className="inline-block text-green-500  ltr:mr-2 rtl:ml-2"
             />
-            {user.email}
+            {user && user.email}
           </p>
           <p className="w-full bg-green-50 px-4 py-2 text-gray-500 focus:outline-gray-200 dark:bg-slate-800 dark:text-slate-200">
-            <MdSupervisorAccount
+            <FaUserCheck
               size={24}
-              className="mr-2 inline-block text-green-500"
+              className="inline-block text-green-500 ltr:mr-2 rtl:ml-2"
             />
-            {user.userRole}
+            {userRole && userRole}
           </p>
         </div>
       </div>
@@ -186,28 +191,37 @@ const MyAccount = () => {
         Personal Information:
       </h3>
       <div className="grid gap-8 lg:grid-cols-2">
-        {Object.entries(user)
-          .filter(
-            ([fieldKey]) =>
-              !["country", "nationality", "image", "gender"].includes(fieldKey)
-          )
-          .map(([fieldKey, value], index) => {
-            const label = fieldKey.replace(/_/g, " ");
-            const placeholder = `Enter your ${fieldKey.replace(/_/g, " ")}`;
-            return (
-              <InputField
-                key={index}
-                label={label}
-                placeholder={placeholder}
-                value={user[fieldKey]}
-                onChange={onChangeInput}
-                disabled={!isEditing}
-                name={fieldKey}
-              />
-            );
-          })}
+        {user &&
+          Object.entries(user)
+            .filter(
+              ([fieldKey]) =>
+                ![
+                  "country",
+                  "nationality",
+                  "image",
+                  "gender",
+                  "updated_at",
+                  "created_at",
+                  "logo_path",
+                ].includes(fieldKey)
+            )
+            .map(([fieldKey, value], index) => {
+              const label = fieldKey.replace(/_/g, " ");
+              const placeholder = `Enter your ${fieldKey.replace(/_/g, " ")}`;
+              return (
+                <InputField
+                  key={index}
+                  label={label}
+                  placeholder={placeholder}
+                  value={user[fieldKey]}
+                  onChange={onChangeInput}
+                  disabled={!isEditing}
+                  name={fieldKey}
+                />
+              );
+            })}
 
-        <div className="mb-6 ">
+        {/* <div className="mb-6 ">
           <label htmlFor="blood_type" className="mb-2 block">
             Blood type
           </label>
@@ -269,13 +283,13 @@ const MyAccount = () => {
               },
             ]}
           />
-        </div>
+        </div> */}
       </div>
       <div className="flex justify-end">
         {isEditing ? (
           <>
             <Button
-              additionalClasses="!mr-4"
+              additionalClasses="ltr:!mr-4 rtl:!mr-4"
               onClick={() => setIsEditing(false)}
               content="Cancel"
             />

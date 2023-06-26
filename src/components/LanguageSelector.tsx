@@ -5,7 +5,7 @@ import { FixedSizeList } from "react-window";
 import Translate from "./Translate";
 
 interface LanguageSelectorProps {
-  languages?: { code: string; name: string; isRtl?: boolean }[];
+  languages?: { code: string; name: string }[];
   className?: string;
   style?: React.CSSProperties;
   buttonBgColor?: string;
@@ -20,7 +20,7 @@ interface LanguageSelectorProps {
 
 const LanguageSelector = ({
   languages = [
-    { code: "ar", name: "Arabic", isRtl: true },
+    { code: "ar", name: "Arabic" },
     { code: "en", name: "English" },
     { code: "fr", name: "French" },
     { code: "es", name: "Spanish" },
@@ -33,18 +33,17 @@ const LanguageSelector = ({
   ],
   className = "",
   style = {},
-  buttonBgColor = "bg-gray-200 dark:bg-slate-800",
+  buttonBgColor = "bg-green-500/30 backdrop-blur-xl",
   buttonTextColor = "",
   buttonFontSize = "",
   buttonPadding = "p-2 px-3",
-  dropdownBgColor = "bg-blue-100 dark:bg-slate-700",
+  dropdownBgColor = "bg-blue-100 dark:bg-slate-800",
   dropdownTextColor = "",
   dropdownFontSize = "",
   dropdownPadding = "py-2",
 }: LanguageSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedLanguage, handleLanguageChange, isRtl, setIsRtl } =
-    useLanguage();
+  const { selectedLanguage, handleLanguageChange } = useLanguage();
 
   let name;
   const matchedLanguage = languages.find((l) => l.code === selectedLanguage);
@@ -57,25 +56,23 @@ const LanguageSelector = ({
   const DropdownItem = ({
     index,
     style,
-    setIsRtl,
   }: {
     index: number;
     style: React.CSSProperties;
-    setIsRtl: (value: boolean) => void;
   }) => {
     const language = languages[index];
     return (
       <button
         type="button"
-        className={`block w-full px-4 py-2 text-left transition-all hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-500 ${
-          selectedLanguage === language.code ? "!text-green-600" : ""
+        className={`block w-full px-4 py-2 text-left  transition-all hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-green-500 ${
+          selectedLanguage === language.code
+            ? "border border-dashed border-gray-400 dark:border-gray-300 rounded-md" 
+            : ""
         } ${dropdownTextColor} ${dropdownFontSize}`}
         onClick={() => {
           handleLanguageChange(language.code);
-          setIsRtl(language.isRtl || false);
         }}
         style={style}
-        dir={language.isRtl ? "rtl" : "auto"}
       >
         {language.name}
       </button>
@@ -83,20 +80,23 @@ const LanguageSelector = ({
   };
 
   return (
-    <div className={`relative ml-4 inline-block ${className}`} style={style}>
+    <div
+      className={`relative inline-block ltr:ml-4 rtl:mr-4 ${className}`}
+      style={style}
+    >
       <button
         className={`${buttonBgColor} rounded-full ${buttonPadding} flex items-center gap-3 ${buttonTextColor} ${buttonFontSize}`}
         onClick={() => setIsOpen(!isOpen)}
         type="button"
       >
-        <span className="mr-2">
+        <span className="ltr:mr-2 rtl:ml-2">
           <Translate translations={{ ar: "العربية" }}>{name}</Translate>
         </span>
         <FaChevronDown />
       </button>
       {isOpen && (
         <div
-          className={`absolute right-0 z-10 mt-2 w-48 ${dropdownBgColor} rounded-md shadow-xl ${dropdownPadding}`}
+          className={`absolute right-0 z-10 mt-2 overflow-hidden w-48 ${dropdownBgColor} rounded-md shadow-xl ${dropdownPadding}`}
         >
           <FixedSizeList
             height={200}
@@ -104,7 +104,7 @@ const LanguageSelector = ({
             itemSize={40}
             width={200}
           >
-            {(props) => <DropdownItem {...props} setIsRtl={setIsRtl} />}
+            {(props) => <DropdownItem {...props} />}
           </FixedSizeList>
         </div>
       )}

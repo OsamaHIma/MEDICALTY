@@ -2,13 +2,13 @@
 import { Circles } from "react-loader-spinner";
 import PropTypes from "prop-types";
 
-function Loading({ ...props }) {
-  const {
-    type = "Circles",
-    height = "24",
-    width = "24",
-    ariaLabel = "circles-loading",
-  } = props;
+function Loading({
+  type = "Circles",
+  height = "24",
+  width = "24",
+  ariaLabel = "circles-loading",
+  color = "#60a5fa",
+}) {
   return (
     // <div className="">
     <Circles
@@ -16,7 +16,7 @@ function Loading({ ...props }) {
       height={height}
       width={width}
       ariaLabel={ariaLabel}
-      color="#60a5fa"
+      color={color}
     />
     // </div>
   );

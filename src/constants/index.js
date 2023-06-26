@@ -28,6 +28,7 @@ import {
   FaUserNurse,
 } from "react-icons/fa";
 import { FcComboChart } from "react-icons/fc";
+import { FiUserPlus } from "react-icons/fi";
 import { GiTestTubes } from "react-icons/gi";
 import { IoMdAdd } from "react-icons/io";
 import { MdLocalPharmacy } from "react-icons/md";
@@ -234,6 +235,11 @@ export const navLinks = [
     access: ["admin", "center"],
   },
   {
+    name: "Client",
+    link:"dashboard/add-new-client",
+    icon: <FiUserPlus size={20} />,
+  },
+  {
     name: "Dashboard",
     link: "/dashboard",
     icon: <FaChartLine size={20} />,
@@ -243,11 +249,11 @@ export const navLinks = [
     children: departmentLinks,
     icon: <FaClipboardList size={20} />,
   },
-  {
-    name: "Departures",
-    link: "dashboard/departures",
-    icon: <FaPlaneDeparture size={20} />,
-  },
+  // {
+  //   name: "Departures",
+  //   link: "dashboard/departures",
+  //   icon: <FaPlaneDeparture size={20} />,
+  // },
   {
     name: "Diseases",
     children: diseaseLinks,
@@ -256,13 +262,13 @@ export const navLinks = [
   {
     name: "Doctors",
     children: doctorLinks,
-    icon: <FaUserMd size={20} />, // changed the icon to FaUserMd
+    icon: <FaUserMd size={20} />,
   },
-  // {
-  //   name: "Experience",
-  //   children: expenseLinks,
-  //   icon: <FaBriefcase size={20} />,
-  // },
+  {
+    name: "employee",
+    children: employeeLinks,
+    icon: <FaUserPlus size={20} />,
+  },
   {
     name: "Expense",
     children: expenseLinks,

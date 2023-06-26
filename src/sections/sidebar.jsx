@@ -173,9 +173,7 @@ const CustomSidebar = () => {
       </Sidebar>
 
       {loading &&
-        toast.loading("Signing out...", {
-          className: "dark:bg-slate-800",
-        })}
+        toast.loading("Signing out...")}
     </div>
   );
 };

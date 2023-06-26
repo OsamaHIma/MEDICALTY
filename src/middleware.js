@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-
+// import { parseISO } from "date-fns";
 const roles = {
   hospital: { permissions: ["hospital"] },
   medical_center: { permissions: ["medical_center"] },
@@ -79,8 +79,8 @@ const allowedPaths = {
   ],
   pharmacy: [
     "/dashboard/add-new-patient",
-    // "/dashboard/patients/receive-request",
-    // "/dashboard/add-new-report",
+    "/dashboard/patients/receive-request",
+    "/dashboard/add-new-report",
     "/dashboard/add-new-invoice",
     "/dashboard/add-new-expense",
     "/dashboard/add-new-request",
@@ -148,6 +148,40 @@ export async function middleware(req) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
     }
   }
+
+  // Check if the token is about to expire and send a refresh request if needed
+  // if (session) {
+  //   const userRole = session.user.userRole;
+  //   const expires = session.expires;
+  //   const expirationDate = parseISO(expires);
+  //   const currentTime = new Date();
+  //   const timeDiff = expirationDate.getTime() - currentTime.getTime();
+  //   const refreshThreshold = 5 * 60 * 1000; // 5 minutes in milliseconds
+  //   if (timeDiff < refreshThreshold) {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BASE_API_URL}/${userRole}/refresh`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           token: session.user.token,
+  //         }),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (data.token) {
+  //       session.user.token = data.token;
+  //       session.expires = data.expires;
+  //     } else {
+  //       // Handle the refresh error
+  //       console.error("Refresh error:", data.error);
+  //     }
+  //   }
+  // }
 
   // Redirect the user if they do not have access to the requested resource
   if (session) {

@@ -30,6 +30,7 @@ const LoginPage = () => {
   const [selectedOption, setSelectedOption] = useState({});
   const { selectedLanguage } = useLanguage();
   const router = useRouter();
+
   // Define functions
   const togglePasswordIcon = () => {
     setIsShowPassword(!isShowPassword);
@@ -111,9 +112,9 @@ const LoginPage = () => {
           <Translate>Welcome Back!</Translate>
           <WavingHandIcon className="mx-2 text-3xl text-yellow-500" />
         </h1>
-        <h3 className="mt-4 text-sm text-gray-500 dark:text-gray-300">
+        {/* <h3 className="mt-4 text-sm text-gray-500 dark:text-gray-300">
           <Translate>Start managing your hospital better.</Translate>
-        </h3>
+        </h3> */}
       </div>
 
       <form className="flex flex-col gap-8" autoComplete="on">
@@ -185,7 +186,7 @@ const LoginPage = () => {
           </div>
         </div>
         {error && (
-          <div className="mx-4  flex flex-col text-xs text-red-500">
+          <div className="mx-4  flex flex-col text-red-500">
             {error.map((err, key) => {
               return (
                 <p key={key}>

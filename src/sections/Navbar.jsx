@@ -9,10 +9,8 @@ import { navLinks } from "@/constants";
 import Link from "next/link";
 import LanguageSelector from "@/components/LanguageSelector";
 import { FaUserCheck } from "react-icons/fa";
-import { useLanguage } from "@/context/LanguageContext";
 import ConfirmModal from "@/components/ConfirmModal.tsx";
 import Translate from "@/components/Translate";
-import Loading from "@/components/Loading";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
@@ -21,7 +19,6 @@ const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
   const { data: session } = useSession();
   const [user, setUser] = useState({ name: "loading...", email: "loading..." });
-  const { isRtl } = useLanguage();
   useEffect(() => {
     if (session) {
       setUser(session.user);
@@ -68,7 +65,6 @@ const Navbar = () => {
   const handleSignOut = async () => {
     setLoading(true);
     try {
-      // await signOut({ userRole,token });
       await signOut();
       setLoading(false);
       setShowModal(false);
@@ -96,13 +92,11 @@ const Navbar = () => {
       message="Are you sure you want to sign out?"
       onConfirm={handleConfirm}
       onCancel={handleCancel}
-      // loading={loading}
     />
   );
   useEffect(() => {
     if (showModal) {
       toast.warning(confirmModal, {
-        // loading:loading,
         className: "dark:bg-slate-800",
         onClose: () => setShowModal(false), // close the modal when the toast is closed
       });
@@ -184,26 +178,22 @@ const Navbar = () => {
           <p className="text-sm">{user ? user.email : "loading..."}</p>
         </div>
         {showMenu && (
-          <div className="absolute top-[80%] z-10 mt-2 rounded-md bg-gradient-to-tr from-slate-50 to-slate-200 p-2 shadow-md ltr:right-[10%] rtl:left-[10%] dark:text-slate-900">
-            <div className="flex w-full items-center gap-3 rounded-md p-1 text-left capitalize hover:bg-green-100">
+          <div className="absolute top-[80%] z-10 mt-2 rounded-md bg-gradient-to-tr from-slate-50 to-slate-200 p-2 shadow-md transition-all ease-in-out ltr:right-[10%] rtl:left-[10%] dark:text-slate-900">
+            <div className="flex w-full items-center gap-3 rounded-md p-1 text-left capitalize hover:bg-green-200">
               <FaUserCheck />
               <span>{user ? user.userRole : "loading..."}</span>
             </div>
-            {/* <Link href="/dashboard/profile">
-              <button className="block w-full rounded-md p-1 text-left hover:bg-green-100">
-                Profile
-              </button>
-            </Link> */}
             <Link href="/dashboard/account">
-              <button className="block w-full rounded-md p-1 text-left hover:bg-green-100">
+              <button className="block w-full rounded-md p-1 text-left hover:bg-green-200">
                 <Translate>My account</Translate>
               </button>
             </Link>
             <button
-              className="block w-full rounded-md p-1 text-left hover:bg-green-100"
+              className="block w-full rounded-md p-1 text-left hover:bg-green-200 disabled:opacity-50"
               onClick={handleSignOutClick}
+              disabled={loading}
             >
-              <Translate> {loading ? <Loading /> : "Logout"}</Translate>
+              <Translate>Logout</Translate>
             </button>
           </div>
         )}

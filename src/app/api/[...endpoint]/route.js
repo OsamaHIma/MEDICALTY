@@ -11,14 +11,15 @@ export async function POST(req, { params }) {
   const token = req.headers.get("token");
 
   const headers = {
-    authorization: `Bearer ${token}`,
+    token: token,
   };
 
   try {
-    const { data } = await axios.post(url, request, { headers });
+    const data = await axios.post(url, request && request, { headers });
     console.log(data);
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(error);
   }
 }
+

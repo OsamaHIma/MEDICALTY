@@ -30,7 +30,7 @@ body {
 
 .validated .needs-validation,
 .validated textarea {
-  outline: #00cea8;
+  outline: #22c55e;;
   @apply border border-green-500
 }
 .not-validated .needs-validation,

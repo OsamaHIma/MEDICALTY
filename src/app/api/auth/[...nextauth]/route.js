@@ -13,10 +13,10 @@ const authOptions = {
         const password = credentials.password;
         const userRole = credentials.userRole;
         const data = await SignIn(email, password, userRole);
-        if (!data.token) {
+        if (!data.data["Your Data"].token) {
           throw new Error(data);
         }
-        return { token: data.token, ...data, userRole, email };
+        return { token: data.data["Your Data"].token, ...data.data["Your Data"], userRole, email };
       },
     }),
     GoogleProvider({
@@ -60,8 +60,15 @@ const authOptions = {
 };
 
 const SignIn = async (email, password, userRole) => {
+  console.log(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/${
+      userRole === "admin" ? "center/admin" : userRole
+    }/login`,
+    email,
+    password
+  );
   try {
-    const { data } = await axios.post(
+    const data = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_API_URL}/${
         userRole === "admin" ? "center/admin" : userRole
       }/login`,
@@ -69,7 +76,7 @@ const SignIn = async (email, password, userRole) => {
     );
     return data;
   } catch (error) {
-    console.log("error signing in" + error)
+    console.log("error signing in" + error);
     return error;
   }
 };
