@@ -1,6 +1,11 @@
+"use client";
 import Link from "next/link";
 
-export default function Custom404() {
+export default function NotFound() {
+  // "use server";
+  const handleGoBack = () => {
+    window.history.back();
+  };
   return (
     <section class="bg-white dark:bg-gray-900 ">
       <div class="container mx-auto min-h-screen px-6 py-12 lg:flex lg:items-center lg:gap-12">
@@ -17,7 +22,10 @@ export default function Custom404() {
           </p>
 
           <div class="mt-6 flex items-center gap-x-3">
-            <Link href="/" class="flex w-1/2 items-center justify-center gap-x-2 rounded-lg border bg-white px-5 py-2 text-sm text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 sm:w-auto">
+            <button
+              onClick={handleGoBack}
+              class="flex w-1/2 items-center justify-center gap-x-2 rounded-lg border bg-white px-5 py-2 text-sm text-gray-700 transition-colors duration-200 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 sm:w-auto"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -34,7 +42,7 @@ export default function Custom404() {
               </svg>
 
               <span>Go back</span>
-            </Link>
+            </button>
 
             <Link
               href="/"

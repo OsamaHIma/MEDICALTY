@@ -13,10 +13,10 @@ import { loginUserSchema } from "@/schema/userSchema";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import Loading from "@/components/Loading";
-import Translate from "@/components/Translate.tsx";
+// import Translate from "@/components/Translate";
+import {Translate} from "translate-easy";
 import SelectInputNoLabel from "@/components/SelectInputNoLabel";
 import { FaFacebook } from "react-icons/fa";
-import { useLanguage } from "@/context/LanguageContext";
 
 const LoginPage = () => {
   // Define state variables
@@ -28,7 +28,6 @@ const LoginPage = () => {
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedOption, setSelectedOption] = useState({});
-  const { selectedLanguage } = useLanguage();
   const router = useRouter();
 
   // Define functions
@@ -106,7 +105,7 @@ const LoginPage = () => {
   }, []);
   // Render the component
   return (
-    <div className="mt-32 flex flex-col gap-8 px-4">
+    <section className="mt-32 w-[80%] flex flex-col gap-8 px-4">
       <div className="">
         <h1 className="mb-4 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-3xl font-bold text-transparent">
           <Translate>Welcome Back!</Translate>
@@ -127,12 +126,15 @@ const LoginPage = () => {
             options={[
               { value: "patient", label: "Patient" },
               { value: "doctor", label: "Doctor" },
+              { value: "physiotherapist", label: "Physiotherapist" },
+              { value: "socialResearcher", label: "Social Researcher" },
               { value: "nurse", label: "Nurse" },
               { value: "center", label: "Center" },
               { value: "department", label: "Department" },
               { value: "admin", label: "Admin" },
               { value: "lab", label: "Lab" },
               { value: "pharmacy", label: "Pharmacy" },
+              { value: "insuranceCompany", label: "Insurance Company" },
             ]}
             value={selectedOption}
             placeholder="select"
@@ -172,9 +174,7 @@ const LoginPage = () => {
             />
             <button
               type="button"
-              className={`absolute ${
-                selectedLanguage === "ar" ? "left-2" : "right-2"
-              } top-[50%] translate-y-[-50%] cursor-pointer`}
+              className={`absolute ltr:right-2 rtl:left-2 top-[50%] translate-y-[-50%] cursor-pointer`}
               onClick={togglePasswordIcon}
             >
               {isShowPassword ? (
@@ -264,7 +264,7 @@ const LoginPage = () => {
           <Translate>Sign Up Now!</Translate>
         </Link>
       </p>
-    </div>
+    </section>
   );
 };
 export default LoginPage;

@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-import { MdOutlineFilterAlt } from "react-icons/md";
 import Translate from "@/components/Translate";
-
 import Button from "@/components/Button";
 import DataGridComponent from "@/components/DataGrid";
 import Link from "next/link";
@@ -13,68 +11,30 @@ import { useSession } from "next-auth/react";
 
 const PagesDataGrid = ({ params }) => {
   const { link } = params;
-  const endpointUrl = link.map((param) => `${param}`).join("");
+  console.log(link[0]);
+  const endpointUrl = link.map((param) => `${param}`).join("/");
   const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}/${endpointUrl}`;
-  const apiUrl = "";
   const { data: session } = useSession();
-  const [token, setToken] = useState("");
-  useEffect(() => {
-    if (session) {
-      setToken(session.user.token);
-    }
-  }, [session]);
+  const [token, setToken] = useState(
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbWVkaWNhbHR5LnNwYWNlL2FwaS9jZW50ZXIvc2F2ZSIsImlhdCI6MTY4NzgwODgzMSwibmJmIjoxNjg3ODA4ODMxLCJqdGkiOiJoU3hpTXFiaDhhRzJBZjlaIiwic3ViIjoiMTciLCJwcnYiOiJkZjg4M2RiOTdiZDA1ZWY4ZmY4NTA4MmQ2ODZjNDVlODMyZTU5M2E5In0.IsTsOugmpOZzuF0CwyelwU4k-3kj-ss6BOt863oqfIc"
+  );
   const [rows, setRows] = useState([
     {
-      // "logo": "data:image/https://example.com/logo.png",
       id: 1,
-      name: "Example Center",
-      username: "example_center",
-      email: "d@1aexample.ccom",
-      password: "password123",
-      country: "US",
-      userRole: "center",
-      subscription_type: "Basic",
-      subscription_period: "Month",
-      formal_email: "example@example.com",
-      phone: "555-1234",
-      formal_phone: "555-5678",
-      website: "https://example.com",
-      address1: "123 Main St",
-      address2: "Apt 4",
-      state: "CA",
-      province: "California",
-      zip_code: "90210",
-      facebook: "https://www.facebook.com/example",
-      instagram: "https://www.instagram.com/example",
-      twitter: "https://www.twitter.com/example",
-      snapchat: "https://www.snapchat.com/example",
-      youtube: "https://www.youtube.com/channel/example",
-    },
-    {
-      // "logo": "data:image/https://example.com/logo.png",
-      id: 2,
-      name: "Example Center",
-      username: "example_center",
-      email: "d@1aexample.ccom",
-      password: "password123",
-      country: "US",
-      userRole: "center",
-      subscription_type: "Basic",
-      subscription_period: "Month",
-      formal_email: "example@example.com",
-      phone: "555-1234",
-      formal_phone: "555-5678",
-      website: "https://example.com",
-      address1: "123 Main St",
-      address2: "Apt 4",
-      state: "CA",
-      province: "California",
-      zip_code: "90210",
-      facebook: "https://www.facebook.com/example",
-      instagram: "https://www.instagram.com/example",
-      twitter: "https://www.twitter.com/example",
-      snapchat: "https://www.snapchat.com/example",
-      youtube: "https://www.youtube.com/channel/example",
+      name: "Loading...",
+      username: "Loading...",
+      email: "Loading...",
+      password: "Loading...",
+      country: "Loading...",
+      userRole: "Loading...",
+      subscription_type: "Loading...",
+      subscription_period: "Loading...",
+      formal_email: "Loading...",
+      phone: "Loading...",
+      formal_phone: "Loading...",
+      website: "Loading...",
+      address1: "Loading...",
+      address2: "Loading...",
     },
   ]);
 
@@ -94,13 +54,6 @@ const PagesDataGrid = ({ params }) => {
     "province",
     "address1",
     "address2",
-    "zip_code",
-    "facebook",
-    "instagram",
-    "snapchat",
-    "youtube",
-    "password",
-    "twitter",
   ]);
 
   const [columns, setColumns] = useState([
@@ -113,47 +66,57 @@ const PagesDataGrid = ({ params }) => {
     },
   ]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(apiUrl, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            token: token,
-          },
-        });
+  const fetchData = async () => {
+    // setLoading(false);
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: token,
+        }),
+      });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
-
-        const { data } = await response.json();
-
-        // Set the keys based on the first item of the data array
-        setKeys(Object.keys(data[0]));
-
-        // Set the rows based on the data array
-        setRows(data.map((item) => ({ ...item, id: item.id })));
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
       }
-    };
 
+      const { data } = await response.json();
+
+      // Set the keys based on the first item of the data array
+      setKeys(Object.keys(data[0]));
+
+      // Set the rows based on the data array
+      setRows(data.map((item) => ({ ...item, id: item.id })));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      // setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (session) {
+      setToken(session.user.token);
+    }
+  }, [session]);
+
+  useEffect(() => {
     fetchData();
-  }, [apiUrl, token]);
+  }, [token]);
 
   const handleDataGridUpdate = async (updatedData, id) => {
     try {
-      const response = await axios.put(
-        `${apiUrl}/${id}`,
+      const response = await axios.post(
+        `${url}/${id}`,
         JSON.stringify(updatedData),
         {
           headers: {
             "Content-Type": "application/json",
-            token: token,
           },
-        }
+        },
+        { token: token }
       );
     } catch (error) {
       toast.error(`Error updating the data: ${error}`);
@@ -182,14 +145,14 @@ const PagesDataGrid = ({ params }) => {
     handleDataGridUpdate(updatedData, id);
 
     toast.success(
-      `The field: "${headerName}" with the value: "${value}" updated to "${newValue}" successfully`
+      `The field: "${headerName}" with the value of: "${value}" updated to "${newValue}" successfully`
     );
   };
 
   const onRowDelete = async (e, row) => {
     e.stopPropagation();
     try {
-      const response = await axios.delete(`${apiUrl}/${row.id}`, {
+      const response = await axios.delete(`${url}/${row.id}`, {
         headers: {
           "Content-Type": "application/json",
           token: token,
@@ -246,26 +209,19 @@ const PagesDataGrid = ({ params }) => {
       <div className="my-3 flex flex-wrap items-center justify-between">
         <div>
           <h1 className="mb-2 text-2xl font-semibold capitalize dark:text-slate-100">
-            <Translate>{endpointUrl}</Translate>
+            <Translate>{link[0]}</Translate>
           </h1>
           <div className="flex items-center justify-start gap-3">
-            {/* <Button
-              content="Filter"
-              filled
-              bgColor="!bg-gray-300"
-              fontColor="text-[#4a4a4a]"
-              icon={<MdOutlineFilterAlt size={25} />}
-            /> */}
             <p className="text-sm text-gray-400 ">
               <Translate>Total Number Of </Translate>{" "}
-              <Translate>{endpointUrl}</Translate> ({rows.length})
+              <Translate >{link[0]}</Translate> ({rows.length})
             </p>
           </div>
         </div>
-        <Link href={`/dashboard/add-new-${endpointUrl}`}>
+        <Link href={`/dashboard/add-new-${link[0]}`}>
           <Button
             icon={<IoMdAdd />}
-            content={`Add new ${endpointUrl}`}
+            content={`Add new ${link[0]}`}
             filled
             additionalClasses="mt-3 md:mt-0 w-full md:w-auto"
           />

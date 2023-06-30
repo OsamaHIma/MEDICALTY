@@ -13,13 +13,14 @@ import {
 import { useTheme } from "next-themes";
 import { FiMonitor, FiMoon, FiSun } from "react-icons/fi";
 import { BsMoonStarsFill } from "react-icons/bs";
-// import { signOut as nextAuthSignOut, useSession } from "next-auth/react";
 import { signOut, useSession } from "next-auth/react";
 import LoadingComponent from "@/components/Loading";
 import ConfirmModal from "@/components/ConfirmModal.tsx";
-import Translate from "@/components/Translate";
+// import { useLanguage } from "@/context/LanguageContext";
+// import Translate from "@/components/Translate";
+import { useLanguage } from "translate-easy";
+import {Translate} from "translate-easy";
 import { toast } from "react-toastify";
-import { useLanguage } from "@/context/LanguageContext";
 
 const CustomSidebar = () => {
   const { collapsed } = useProSidebar();
@@ -36,25 +37,10 @@ const CustomSidebar = () => {
       setToken(session.user.token);
     }
   }, [session]);
-  // const signOut = async (data) => {
-  //   const response = await fetch("/api/auth/signout", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       token:token,
-  //     },
-  //     body: JSON.stringify(data),
-  //   });
-  //   if (response.ok) {
-  //     await nextAuthSignOut();
-  //   } else {
-  //     throw new Error("Failed to sign out");
-  //   }
-  // };
+
   const handleSignOut = async () => {
     setLoading(true);
     try {
-      // await signOut({ userRole,token });
       await signOut({ redirect: "/auth/login" });
       setLoading(false);
       setShowModal(false);
@@ -122,39 +108,48 @@ const CustomSidebar = () => {
               System
             </MenuItem>
           </SubMenu>
-          {navLinks.map((navItem, index) => {
-            if (navItem.children) {
+          {navLinks
+            .filter((navItem) => {
               return (
-                <SubMenu
-                  key={index}
-                  icon={navItem.icon}
-                  label={<Translate>{navItem.name}</Translate>}
-                  title={navItem.name}
-                >
-                  {navItem.children.map((submenuItem, submenuIndex) => (
-                    <MenuItem
-                      key={submenuIndex}
-                      component={<Link href={submenuItem.link} />}
-                      icon={submenuItem.icon}
-                    >
-                      <Translate>{submenuItem.name}</Translate>
-                    </MenuItem>
-                  ))}
-                </SubMenu>
+                navItem.access?.includes(userRole) ||
+                userRole === "admin" ||
+                userRole === "hospital" ||
+                userRole === "medical_center"
               );
-            } else {
-              return (
-                <MenuItem
-                  key={index}
-                  component={<Link href={navItem.link} />}
-                  icon={navItem.icon}
-                  title={navItem.name}
-                >
-                  <Translate>{navItem.name}</Translate>
-                </MenuItem>
-              );
-            }
-          })}
+            })
+            .map((navItem, index) => {
+              if (navItem.children) {
+                return (
+                  <SubMenu
+                    key={index}
+                    icon={navItem.icon}
+                    label={<Translate>{navItem.name}</Translate>}
+                    title={navItem.name}
+                  >
+                    {navItem.children.map((submenuItem, submenuIndex) => (
+                      <MenuItem
+                        key={submenuIndex}
+                        component={<Link href={submenuItem.link} />}
+                        icon={submenuItem.icon}
+                      >
+                        <Translate>{submenuItem.name}</Translate>
+                      </MenuItem>
+                    ))}
+                  </SubMenu>
+                );
+              } else {
+                return (
+                  <MenuItem
+                    key={index}
+                    component={<Link href={navItem.link} />}
+                    icon={navItem.icon}
+                    title={navItem.name}
+                  >
+                    <Translate>{navItem.name}</Translate>
+                  </MenuItem>
+                );
+              }
+            })}
           <div className="mt-7">
             <MenuItem
               component={<Link href="dashboard/settings" />}
@@ -172,8 +167,7 @@ const CustomSidebar = () => {
         </Menu>
       </Sidebar>
 
-      {loading &&
-        toast.loading("Signing out...")}
+      {loading && toast.loading("Signing out...")}
     </div>
   );
 };

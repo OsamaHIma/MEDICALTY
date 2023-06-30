@@ -1,9 +1,8 @@
 "use client";
 import { usePhoto } from "@/context/PhotoContext";
-import Image from "next/image";
 import { useEffect, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
-import Translate from "./Translate";
+import Translate from "@/components/Translate";
 
 const styles = {
   focused: {
@@ -66,11 +65,9 @@ const DragAndDrop = () => {
         className="rounded-tl-lg rounded-tr-lg border border-dashed border-gray-400 px-4 py-5 transition-all"
       >
         <input {...getInputProps()} />
-        <Image
-          src="/assets/image icon.svg"
-          className="inline"
-          width={19}
-          height={19}
+        <img
+          src="/assets/image.svg"
+          className="inline w-5"
           alt="image icon"
         />
         <p className="text-gray-400">

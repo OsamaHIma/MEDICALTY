@@ -10,10 +10,10 @@ import { signUpSchema } from "@/schema/userSchema";
 import LoadingComponent from "@/components/Loading";
 import SelectInputNoLabel from "@/components/SelectInputNoLabel";
 import { signIn, useSession } from "next-auth/react";
-import Translate from "@/components/Translate";
+import { Translate } from "translate-easy";
+// import Translate from "@/components/Translate";
 import { FcGoogle } from "react-icons/fc";
 import getStripe from "@/lib/getStripe";
-import { useLanguage } from "@/context/LanguageContext";
 import { useCountries } from "@/context/CountriesContext";
 
 // Define the SignUpPage component
@@ -28,7 +28,6 @@ const SignUpPage = ({ params }) => {
     signIn("facebook");
   };
   // Set up state variables
-  const { selectedLanguage } = useLanguage();
   const { countries, isCountriesLoading } = useCountries();
   const [token, setToken] = useState("");
   const { data: session } = useSession();
@@ -120,11 +119,12 @@ const SignUpPage = ({ params }) => {
       const stripeCheckoutSession = await stripeResponse.json();
 
       // Redirect to Stripe Checkout
-      window.open(stripeCheckoutSession.url, "_blank")
-      // stripe
-      //   .redirectToCheckout({
-      //     sessionId: stripeCheckoutSession.id,
-      //   })
+      window
+        .open(stripeCheckoutSession.url, "_blank")
+        // stripe
+        //   .redirectToCheckout({
+        //     sessionId: stripeCheckoutSession.id,
+        //   })
         .then(async (result) => {
           if (result.error) {
             console.log(result.error);
@@ -168,7 +168,7 @@ const SignUpPage = ({ params }) => {
   // Render the component
 
   return (
-    <section className="relative mt-20 flex flex-col gap-8 px-4">
+    <section className="relative mt-20 flex w-[80%] flex-col gap-8 px-4">
       <div>
         <h1 className="mb-4 bg-gradient-to-r from-blue-400 to-green-500 bg-clip-text text-3xl font-bold text-transparent">
           <Translate>Welcome to</Translate> Medicality!
@@ -236,9 +236,7 @@ const SignUpPage = ({ params }) => {
                 />
                 <button
                   type="button"
-                  className={`absolute ${
-                    selectedLanguage === "ar" ? "left-2" : "right-2"
-                  } top-[50%] translate-y-[-50%] cursor-pointer`}
+                  className={`absolute top-[50%] translate-y-[-50%] cursor-pointer ltr:right-2 rtl:left-2`}
                   onClick={togglePasswordIcon}
                 >
                   {passwordIcon ? (

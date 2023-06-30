@@ -7,10 +7,10 @@ import { BiChevronLeft } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { navLinks } from "@/constants";
 import Link from "next/link";
-import LanguageSelector from "@/components/LanguageSelector";
+import { LanguageSelector } from "translate-easy/dist";
+import {Translate} from "translate-easy/dist";
 import { FaUserCheck } from "react-icons/fa";
 import ConfirmModal from "@/components/ConfirmModal.tsx";
-import Translate from "@/components/Translate";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
@@ -150,14 +150,14 @@ const Navbar = () => {
         )}
         <button
           type="button"
-          className={`flex items-center justify-center bg-green-500 p-2 ltr:rounded-r-md rtl:rounded-l-md`}
+          className={`flex items-center justify-center bg-green-500 p-2 hover:opacity-70 ltr:rounded-r-md rtl:rounded-l-md`}
           onClick={handleSearch}
         >
           <FiSearch className="text-[35px] text-slate-50" />
         </button>
       </div>
       {/* Icons */}
-      <LanguageSelector />
+      <LanguageSelector buttonBgColor="bg-green-400" />
 
       <div className="flex w-full justify-end gap-4 md:w-auto md:justify-normal">
         <button className="relative">

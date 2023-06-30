@@ -19,8 +19,8 @@ import {
   Legend,
   Tooltip,
 } from "chart.js";
-import Translate from "@/components/Translate";
-
+// import Translate from "@/components/Translate";
+import {Translate} from "translate-easy";
 Chart.register(
   CategoryScale,
   LinearScale,
@@ -54,7 +54,7 @@ const barChartData = {
   datasets: [
     {
       label: "Needs attintion",
-      data: [12, 19, 3, 5, 2, 3],
+      data: [12, 19, 17, 5, 13, 57],
       backgroundColor: [
         "rgba(255, 99, 132, 0.2)",
         "rgba(54, 162, 235, 0.2)",
@@ -122,9 +122,12 @@ const lineChartData = {
   datasets: [
     {
       label: "Sales",
-      data: [65, 59, 80, 81, 56, 55, 40],
+      data: [65, 59, 80, 91, 56, 55, 60],
       fill: false,
       borderColor: "rgb(75, 192, 192)",
+      backgroundColor: [
+        "rgba(54, 162, 235, 0.2)",
+      ],
       tension: 0.1,
     },
   ],

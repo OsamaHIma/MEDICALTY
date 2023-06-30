@@ -2,7 +2,7 @@ import DragAndDrop from "./DragAndDrop";
 import { SelectInput } from "./Input";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import Translate from "./Translate";
+import Translate from "@/components/Translate";
 
 const Header = ({
   headerText = "",
@@ -18,61 +18,61 @@ const Header = ({
     }
   }, [session]);
   const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchDoctorsData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/doctors/all`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              token:  token,
-            },
-          }
-        );
+  // useEffect(() => {
+  //   const fetchDoctorsData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${process.env.NEXT_PUBLIC_BASE_API_URL}/doctors/all`,
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             token:  token,
+  //           },
+  //         }
+  //       );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error ${response.status}`);
+  //       }
 
-        const { doctors } = await response.json();
-        setData(doctors.map((doctor) => doctor.name));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    // const fetchEmployeesData = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user`,
-    //       {
-    //         method: "GET",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //           token:  token,
-    //         },
-    //       }
-    //     );
+  //       const { doctors } = await response.json();
+  //       setData(doctors.map((doctor) => doctor.name));
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  //   // const fetchEmployeesData = async () => {
+  //   //   try {
+  //   //     const response = await fetch(
+  //   //       `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/user`,
+  //   //       {
+  //   //         method: "GET",
+  //   //         headers: {
+  //   //           "Content-Type": "application/json",
+  //   //           token:  token,
+  //   //         },
+  //   //       }
+  //   //     );
 
-    //     if (!response.ok) {
-    //       throw new Error(`HTTP error ${response.status}`);
-    //     }
+  //   //     if (!response.ok) {
+  //   //       throw new Error(`HTTP error ${response.status}`);
+  //   //     }
 
-    //     const { user } = await response.json();
-    //     setData(user.map((user) => user.name));
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // };
-    if (chooseInputText === "Choose Employee") {
-      fetchEmployeesData();
-      console.log(data);
-    } else {
-      fetchDoctorsData();
-      console.log(data);
-    }
-  }, [token]);
+  //   //     const { user } = await response.json();
+  //   //     setData(user.map((user) => user.name));
+  //   //   } catch (error) {
+  //   //     console.error("Error fetching data:", error);
+  //   //   }
+  //   // };
+  //   if (chooseInputText === "Choose Employee") {
+  //     fetchEmployeesData();
+  //     console.log(data);
+  //   } else {
+  //     fetchDoctorsData();
+  //     console.log(data);
+  //   }
+  // }, [token]);
   return (
     <section className="p-10">
       <div

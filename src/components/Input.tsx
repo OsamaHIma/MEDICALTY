@@ -1,7 +1,7 @@
 import React from "react";
 import { useProSidebar } from "react-pro-sidebar";
 import Select, { GroupBase } from "react-select";
-import Translate from "./Translate";
+import { Translate } from "translate-easy";
 
 type Option = {
   label: string;
@@ -156,8 +156,10 @@ export const SelectInput = ({
 
   return (
     <div
-      className={`flex capitalize ${upperCase && "uppercase"} rounded-md needs-validation 
-     flex-nowrap items-center ${inputBgColor}
+      className={`flex capitalize ${
+        upperCase && "uppercase"
+      } needs-validation flex-nowrap 
+     items-center rounded-md ${inputBgColor}
      ${ClassesForTheDiv}`}
     >
       <label

@@ -2,20 +2,11 @@ import { BsHospital } from "react-icons/bs";
 import {
   FaCalendarAlt,
   FaMoneyBillWave,
-  FaUserFriends,
   FaFileInvoice,
-  FaBuilding,
-  FaUserTie,
-  FaCubes,
-  FaRegChartBar,
-  FaMoneyBillAlt,
   FaShoppingCart,
   FaHryvnia,
   FaBook,
   FaFileMedical,
-  FaAirbnb,
-  FaBriefcase,
-  FaAmbulance,
   FaHospital,
   FaPlaneDeparture,
   FaClipboardList,
@@ -52,7 +43,7 @@ const pharmacyLinks = [
     icon: <FcComboChart size={20} />,
   },
   {
-    name: "Create new price offer",
+    name: "Create new pharmacy",
     link: "dashboard/add-new-pharmacy",
     icon: <IoMdAdd size={20} />,
   },
@@ -64,7 +55,7 @@ const departmentLinks = [
     icon: <FcComboChart size={20} />,
   },
   {
-    name: "Create new specialization",
+    name: "Create new department",
     link: "dashboard/add-new-department",
     icon: <IoMdAdd size={20} />,
   },
@@ -101,7 +92,7 @@ const appointmentLinks = [
     icon: <FcComboChart size={20} />,
   },
   {
-    name: "Create new holiday",
+    name: "Create new appointment",
     link: "dashboard/add-new-appointment",
     icon: <IoMdAdd size={20} />,
   },
@@ -119,18 +110,7 @@ const patientLinks = [
     icon: <IoMdAdd size={20} />,
   },
 ];
-const salariesLinks = [
-  {
-    name: "Show all",
-    link: "dashboard/salaries",
-    icon: <FcComboChart size={20} />,
-  },
-  {
-    name: "Create new salaries",
-    link: "dashboard/add-new-salaries",
-    icon: <IoMdAdd size={20} />,
-  },
-];
+
 const invoicesLinks = [
   {
     name: "Show all",
@@ -139,22 +119,11 @@ const invoicesLinks = [
   },
   {
     name: "Create new invoices",
-    link: "dashboard/add-new-invoices",
+    link: "dashboard/add-new-invoice",
     icon: <IoMdAdd size={20} />,
   },
 ];
-const tasksLinks = [
-  {
-    name: "Show all",
-    link: "dashboard/task",
-    icon: <FcComboChart size={23} />,
-  },
-  {
-    name: "Create new task",
-    link: "dashboard/add-new-task",
-    icon: <IoMdAdd size={23} />,
-  },
-];
+
 const diseaseLinks = [
   {
     name: "Show all",
@@ -162,7 +131,7 @@ const diseaseLinks = [
     icon: <FcComboChart size={23} />,
   },
   {
-    name: "Create new task",
+    name: "Add new disease",
     link: "dashboard/add-new-disease",
     icon: <IoMdAdd size={23} />,
   },
@@ -174,7 +143,7 @@ const doctorLinks = [
     icon: <FcComboChart size={23} />,
   },
   {
-    name: "Create new task",
+    name: "Create new doctor",
     link: "dashboard/add-new-doctor",
     icon: <IoMdAdd size={23} />,
   },
@@ -186,7 +155,7 @@ const insuranceLinks = [
     icon: <FcComboChart size={23} />,
   },
   {
-    name: "Create new task",
+    name: "Create new insurance company",
     link: "dashboard/add-new-insurance-company",
     icon: <IoMdAdd size={23} />,
   },
@@ -194,60 +163,74 @@ const insuranceLinks = [
 const centersLinks = [
   {
     name: "Show all",
-    link: "dashboard/data/center",
+    link: "dashboard/data/medical_center",
     icon: <FcComboChart size={23} />,
   },
   {
-    name: "Create new task",
-    link: "dashboard/add-new-center",
+    name: "Create new medical_center",
+    link: "dashboard/add-new-medical_center",
     icon: <IoMdAdd size={23} />,
   },
 ];
 
 export const navLinks = [
   {
-    name: "Add product",
-    children: tasksLinks,
-    icon: <FaShoppingCart size={23} />,
-    access: ["pharmacy", "insurance_company", "center"],
-  },
-  {
     name: "Appointments",
     children: appointmentLinks,
     icon: <FaRegCalendarAlt size={23} />,
-    access: ["pharmacy", "insurance_company", "center"],
+    access: ["pharmacy", "medical_center"],
   },
   {
     name: "Booking",
     link: "dashboard/add-new-booking",
     icon: <FaPlus size={20} />,
-    access: ["doctor", "patient", "center"],
+    access: ["doctor", "patient", "medical_center"],
   },
   {
     name: "Calendar",
     link: "dashboard/calendar",
     icon: <FaCalendarAlt size={20} />,
+    access: [
+      "doctor",
+      "pharmacy",
+      "lab",
+      "insuranceCompany",
+      "admin",
+      "medical_center",
+      "hospital",
+    ],
   },
   {
     name: "Centers",
     children: centersLinks,
     icon: <BsHospital size={20} />,
-    access: ["admin", "center"],
+    access: ["admin", "medical_center"],
   },
   {
     name: "Client",
-    link:"dashboard/add-new-client",
+    link: "dashboard/add-new-client",
     icon: <FiUserPlus size={20} />,
+    access: ["insuranceCompany"],
   },
   {
     name: "Dashboard",
     link: "/dashboard",
     icon: <FaChartLine size={20} />,
+    access: [
+      "doctor",
+      "pharmacy",
+      "lab",
+      "insuranceCompany",
+      "admin",
+      "medical_center",
+      "hospital",
+    ],
   },
   {
     name: "Department",
     children: departmentLinks,
     icon: <FaClipboardList size={20} />,
+    access: ["admin"],
   },
   // {
   //   name: "Departures",
@@ -258,65 +241,118 @@ export const navLinks = [
     name: "Diseases",
     children: diseaseLinks,
     icon: <FaHospitalUser size={20} />,
+    access: [
+      "doctor",
+      "pharmacy",
+      "lab",
+      "insuranceCompany",
+      "admin",
+      "medical_center",
+      "hospital",
+    ],
   },
   {
     name: "Doctors",
     children: doctorLinks,
     icon: <FaUserMd size={20} />,
+    access: ["admin"],
   },
   {
     name: "employee",
     children: employeeLinks,
     icon: <FaUserPlus size={20} />,
+    access: ["insuranceCompany"],
   },
   {
     name: "Expense",
     children: expenseLinks,
     icon: <FaMoneyBillWave size={20} />,
+    access: [
+      "doctor",
+      "pharmacy",
+      "lab",
+      "insuranceCompany",
+      "admin",
+      "medical_center",
+      "hospital",
+    ],
   },
   {
     name: "Invoices",
     children: invoicesLinks,
     icon: <FaFileInvoice size={20} />,
+    access: ["doctor", "pharmacy", "insuranceCompany"],
   },
   {
     name: "Insurance",
     children: insuranceLinks,
     icon: <FaFileMedical size={20} />,
+    access: ["insuranceCompany"],
   },
   {
     name: "New Lab",
     link: "dashboard/add-new-lab",
     icon: <GiTestTubes size={20} />,
+    access: ["lab"],
   },
   {
     name: "Nurse",
     link: "dashboard/add-new-nurse",
     icon: <FaUserNurse size={20} />,
+    access: ["admin"],
   },
   {
     name: "Patient",
     children: patientLinks,
     icon: <FaUserPlus size={20} />,
+    access: [
+      "doctor",
+      "pharmacy",
+      "lab",
+      "insuranceCompany",
+      "admin",
+      "medical_center",
+      "hospital",
+    ],
   },
   {
     name: "Pharmacy",
     children: pharmacyLinks,
     icon: <MdLocalPharmacy size={20} />,
+    access: ["pharmacy", "medical_center"],
   },
   {
     name: "Products",
     children: productLinks,
     icon: <FaShoppingCart size={20} />,
+    access: [
+      "doctor",
+      "pharmacy",
+      "lab",
+      "insuranceCompany",
+      "admin",
+      "medical_center",
+      "hospital",
+    ],
   },
   {
     name: "New request",
     link: "dashboard/add-new-request",
     icon: <FaBook size={20} />,
+    access: [
+      "doctor",
+      "pharmacy",
+      "lab",
+      "insuranceCompany",
+      "admin",
+      "medical_center",
+      "hospital",
+    ],
   },
   {
     name: "Section",
     link: "dashboard/add-new-section",
     icon: <FaHospital size={20} />,
+    access: ["insuranceCompany"],
   },
 ];
