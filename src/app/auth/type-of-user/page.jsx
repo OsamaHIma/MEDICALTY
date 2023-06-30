@@ -1,4 +1,4 @@
-import Translate from "@/components/Translate";
+import {Translate} from "translate-easy";
 import Image from "next/image";
 import Link from "next/link";
 

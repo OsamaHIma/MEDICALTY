@@ -2,7 +2,7 @@ import DragAndDrop from "./DragAndDrop";
 import { SelectInput } from "./Input";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import Translate from "@/components/Translate";
+import { Translate } from "translate-easy";
 
 const Header = ({
   headerText = "",

@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 function Error() {
-  "use server";
+  // "use server";
   const handleGoBack = () => {
     window.history.back();
   };

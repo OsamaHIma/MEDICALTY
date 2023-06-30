@@ -1,4 +1,4 @@
-import Translate from "@/components/Translate";
+import {Translate} from "translate-easy";
 
 type ButtonProps = {
   fontColor?: string;

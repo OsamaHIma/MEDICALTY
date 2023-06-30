@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useDropzone } from "react-dropzone";
 import { MdSupervisorAccount, MdMailOutline } from "react-icons/md";
 import Button from "@/components/Button";
-import Translate from "@/components/Translate";
+import {Translate} from "translate-easy";
 import { useCountries } from "@/context/CountriesContext";
 import SelectInputNoLabel from "@/components/SelectInputNoLabel";
 import { FaPlus, FaUserCheck } from "react-icons/fa";

@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
-import Translate from "@/components/Translate";
 import Button from "@/components/Button";
 import DataGridComponent from "@/components/DataGrid";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
+import { Translate } from "translate-easy";
 
 const PagesDataGrid = ({ params }) => {
   const { link } = params;

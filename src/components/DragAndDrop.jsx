@@ -2,7 +2,7 @@
 import { usePhoto } from "@/context/PhotoContext";
 import { useEffect, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
-import Translate from "@/components/Translate";
+import {Translate} from "translate-easy";
 
 const styles = {
   focused: {
