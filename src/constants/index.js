@@ -23,6 +23,7 @@ import { FiUserPlus } from "react-icons/fi";
 import { GiTestTubes } from "react-icons/gi";
 import { IoMdAdd } from "react-icons/io";
 import { MdLocalPharmacy } from "react-icons/md";
+import { BiMessage, BiMessageDots, BiMessageSquare, BiSolidMessageDetail } from "react-icons/bi";
 
 const productLinks = [
   {
@@ -289,6 +290,14 @@ export const navLinks = [
     icon: <FaFileMedical size={20} />,
     access: ["insuranceCompany"],
   },
+  {
+    name: "Messages",
+   link:"dashboard/messages",
+    // icon: <BiMessage size={20} />,
+    icon: <BiMessageDots size={20} />,
+    access: ["pharmacy"],
+  },
+
   {
     name: "New Lab",
     link: "dashboard/add-new-lab",
