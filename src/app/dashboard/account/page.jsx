@@ -42,47 +42,43 @@ const MyAccount = () => {
   const { countries, isCountriesLoading } = useCountries();
   const { data: session } = useSession();
   const [token, setToken] = useState("");
-  const [userRole, setUserRole] = useState("");
   const [user, setUser] = useState();
   const [isEditing, setIsEditing] = useState(false);
 
   // Set token and user on session change
   useEffect(() => {
     if (session) {
-      setUserRole(session.user.userRole);
+      // setUserRole(session.user.userRole);
       setToken(session.user.token);
+      setUser(session.user);
       // console.log(token, userRole);
     }
   }, [session]);
 
-  const fetchData = async () => {
-    console.log(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/${userRole}/myData` ===
-        "http://medicalty.space/api/pharmacy/myData"
-    );
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/${userRole}/myData`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token }),
-        }
-      );
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BASE_API_URL}/${userRole}/myData`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ token }),
+  //       }
+  //     );
 
-      const { data } = await response.json();
-      setUser(data);
+  //     const { data } = await response.json();
+  //     setUser(data);
 
-      console.log(data);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, [token]);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchData();
+  // }, [token]);
   const onChangeInput = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -94,18 +90,18 @@ const MyAccount = () => {
   };
   // Save changes to user data
   const handleSaveChanges = () => {
-    console.log(user);
+    console.log({...user,token});
     fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/${user.userRole}/edit`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: token,
+        // token: token,
       },
-      body: JSON.stringify({ ...user, token }),
+      body: JSON.stringify(user),
     })
       .then((res) => res.json())
       .then((data) => {
-        setUser(data.user);
+        setUser(data.data["Your Data"]);
         setIsEditing(false);
         toast.success(data.massage);
       })
@@ -183,7 +179,7 @@ const MyAccount = () => {
               size={24}
               className="inline-block text-green-500 ltr:mr-2 rtl:ml-2"
             />
-            {userRole && userRole}
+            {user && user.userRole}
           </p>
         </div>
       </div>
@@ -203,6 +199,8 @@ const MyAccount = () => {
                   "updated_at",
                   "created_at",
                   "logo_path",
+                  "token",
+                  "userRole",
                 ].includes(fieldKey)
             )
             .map(([fieldKey, value], index) => {

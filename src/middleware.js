@@ -28,6 +28,7 @@ const allowedPaths = {
   doctor: [
     "/dashboard/add-new-report",
     "/dashboard",
+    "/dashboard/account",
     "/dashboard/add-new-patient",
     "/dashboard/add-new-invoice",
     "/dashboard/add-new-expense",
@@ -45,6 +46,7 @@ const allowedPaths = {
     "/dashboard/add-new-patient",
     "/dashboard/data/labs/all",
     "/dashboard",
+    "/dashboard/account",
     "/dashboard/calendar",
     "/dashboard/add-new-invoice",
     "/dashboard/add-new-expense",
@@ -59,6 +61,7 @@ const allowedPaths = {
   lab: [
     "/dashboard/add-new-patient",
     "/dashboard",
+    "/dashboard/account",
     "/dashboard/calendar",
     "/dashboard/reports",
     "/dashboard/invoices",
@@ -73,6 +76,7 @@ const allowedPaths = {
   insuranceCompany: [
     "/dashboard/add-new-employee",
     "/dashboard",
+    "/dashboard/account",
     "/dashboard/calendar",
     "/dashboard/add-new-patient",
     "/dashboard/add-new-client",
